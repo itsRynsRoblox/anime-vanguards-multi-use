@@ -1,0 +1,457 @@
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [19h.36m.11s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [19h.36m.42s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [19h.37m.18s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [19h.44m.48s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.10m.12s]
+Selected Planet Greenie - Act 1 00:07
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:07
+Moving to position for Planet Greenie 00:09
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.10m.30s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.11m.23s]
+Selected Planet Greenie - Act 1 00:05
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:05
+Moving to position for Planet Greenie 00:06
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.11m.45s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.15m.36s]
+Selected Planet Greenie - Act 1 00:04
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:04
+Moving to position for Planet Greenie 00:07
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.15m.58s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.17m.21s]
+Please select a gamemode before starting the macro! 00:01
+Selected Planet Greenie - Act 1 00:06
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:06
+Moving to position for Planet Greenie 00:07
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.17m.54s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.19m.08s]
+Selected Planet Greenie - Act 1 00:02
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:02
+Moving to position for Planet Greenie 00:04
+Starting Planet Greenie - Act 1 00:13
+Determining Movement Necessity on Map... 00:21
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.19m.32s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.24m.06s]
+Selected Planet Greenie - Act 1 00:04
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:04
+Moving to position for Planet Greenie 00:05
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.24m.22s]
+Selected Planet Greenie - Act 1 00:05
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:05
+Moving to position for Planet Greenie 00:15
+Starting Planet Greenie - Act 1 00:34
+Determining Movement Necessity on Map... 00:41
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.25m.07s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.25m.55s]
+Selected Planet Greenie - Act 1 00:03
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:04
+Moving to position for Planet Greenie 00:05
+Starting Planet Greenie - Act 1 00:15
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.26m.18s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.27m.51s]
+Please select a gamemode before starting the macro! 00:00
+Selected Planet Greenie - Act 1 00:12
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:13
+Moving to position for Planet Greenie 00:15
+Starting Planet Greenie - Act 1 00:24
+Determining Movement Necessity on Map... 00:30
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.28m.55s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.32m.12s]
+Selected Planet Greenie - Act 1 00:03
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:03
+Moving to position for Planet Greenie 00:05
+Starting Planet Greenie - Act 1 00:14
+Determining Movement Necessity on Map... 00:19
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.33m.28s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.36m.14s]
+Selected Planet Greenie - Act 1 00:07
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:07
+Moving to position for Planet Greenie 00:08
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.36m.31s]
+Selected Planet Greenie - Act 1 01:02
+Don't forget to enable Click to Move! (I forget sometimes too!) 01:02
+Moving to position for Planet Greenie 01:03
+Starting Planet Greenie - Act 1 01:13
+Determining Movement Necessity on Map... 01:18
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.38m.38s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.39m.24s]
+Selected Planet Greenie - Act 1 00:12
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:12
+Moving to position for Planet Greenie 00:21
+Starting Planet Greenie - Act 1 00:31
+Determining Movement Necessity on Map... 00:36
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.40m.23s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.41m.47s]
+Selected Planet Greenie - Act 1 00:03
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:03
+Moving to position for Planet Greenie 00:18
+Starting Planet Greenie - Act 1 00:27
+Determining Movement Necessity on Map... 00:33
+Images\Game\UnitManager.png 00:33
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.43m.06s]
+Please select a gamemode before starting the macro! 00:17
+Selected Planet Greenie - Act 1 00:24
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:24
+Moving to position for Planet Greenie 00:26
+Starting Planet Greenie - Act 1 00:45
+Determining Movement Necessity on Map... 00:50
+Images\Game\unit_manager.png 00:50
+Images\Game\unit_manager.png 00:52
+Images\Game\unit_manager.png 00:53
+Images\Game\unit_manager.png 00:54
+Images\Game\unit_manager.png 00:55
+Images\Game\unit_manager.png 00:56
+Images\Game\unit_manager.png 00:57
+Images\Game\unit_manager.png 00:58
+Images\Game\unit_manager.png 00:59
+Images\Game\unit_manager.png 01:00
+Images\Game\unit_manager.png 01:01
+Images\Game\unit_manager.png 01:02
+Images\Game\unit_manager.png 01:03
+Images\Game\unit_manager.png 01:04
+Images\Game\unit_manager.png 01:06
+Images\Game\unit_manager.png 01:07
+Images\Game\unit_manager.png 01:08
+Images\Game\unit_manager.png 01:09
+Images\Game\unit_manager.png 01:10
+Images\Game\unit_manager.png 01:11
+Images\Game\unit_manager.png 01:12
+Images\Game\unit_manager.png 01:13
+Images\Game\unit_manager.png 01:14
+Images\Game\unit_manager.png 01:15
+Images\Game\unit_manager.png 01:16
+Images\Game\unit_manager.png 01:18
+Images\Game\unit_manager.png 01:19
+Images\Game\unit_manager.png 01:20
+Images\Game\unit_manager.png 01:21
+Images\Game\unit_manager.png 01:22
+Images\Game\unit_manager.png 01:23
+Images\Game\unit_manager.png 01:24
+Images\Game\unit_manager.png 01:25
+Images\Game\unit_manager.png 01:26
+Images\Game\unit_manager.png 01:27
+Images\Game\unit_manager.png 01:28
+Images\Game\unit_manager.png 01:29
+Images\Game\unit_manager.png 01:31
+Images\Game\unit_manager.png 01:32
+Images\Game\unit_manager.png 01:33
+Images\Game\unit_manager.png 01:34
+Images\Game\unit_manager.png 01:35
+Images\Game\unit_manager.png 01:36
+Images\Game\unit_manager.png 01:37
+Images\Game\unit_manager.png 01:38
+Images\Game\unit_manager.png 01:39
+Images\Game\unit_manager.png 01:40
+Images\Game\unit_manager.png 01:41
+Images\Game\unit_manager.png 01:42
+Images\Game\unit_manager.png 01:44
+Images\Game\unit_manager.png 01:45
+Images\Game\unit_manager.png 01:46
+Images\Game\unit_manager.png 01:47
+Images\Game\unit_manager.png 01:48
+Images\Game\unit_manager.png 01:49
+Images\Game\unit_manager.png 01:50
+Images\Game\unit_manager.png 01:51
+Images\Game\unit_manager.png 01:52
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.45m.01s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.47m.49s]
+Selected Planet Greenie - Act 1 00:04
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:04
+Moving to position for Planet Greenie 00:47
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.48m.44s]
+Selected Planet Greenie - Act 1 00:09
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:09
+Moving to position for Planet Greenie 00:13
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.49m.03s]
+Selected Planet Greenie - Act 1 00:12
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:12
+Moving to position for Planet Greenie 00:18
+Starting Planet Greenie - Act 1 00:27
+Determining Movement Necessity on Map... 00:33
+Images\Game\unit_manager.png 00:33
+Images\Game\unit_manager.png 00:34
+Images\Game\unit_manager.png 00:35
+Images\Game\unit_manager.png 00:36
+Images\Game\unit_manager.png 00:37
+Images\Game\unit_manager.png 00:38
+Images\Game\unit_manager.png 00:39
+Images\Game\unit_manager.png 00:41
+Images\Game\unit_manager.png 00:42
+Images\Game\unit_manager.png 00:43
+Images\Game\unit_manager.png 00:44
+Images\Game\unit_manager.png 00:45
+Images\Game\unit_manager.png 00:46
+Images\Game\unit_manager.png 00:47
+Images\Game\unit_manager.png 00:48
+Images\Game\unit_manager.png 00:49
+Images\Game\unit_manager.png 00:50
+Images\Game\unit_manager.png 00:51
+Images\Game\unit_manager.png 00:53
+Images\Game\unit_manager.png 00:54
+Images\Game\unit_manager.png 00:55
+Images\Game\unit_manager.png 00:56
+Images\Game\unit_manager.png 00:57
+Images\Game\unit_manager.png 00:58
+Images\Game\unit_manager.png 00:59
+Images\Game\unit_manager.png 01:00
+Images\Game\unit_manager.png 01:01
+Images\Game\unit_manager.png 01:02
+Images\Game\unit_manager.png 01:04
+Images\Game\unit_manager.png 01:05
+Images\Game\unit_manager.png 01:06
+Images\Game\unit_manager.png 01:07
+Images\Game\unit_manager.png 01:08
+Images\Game\unit_manager.png 01:09
+Images\Game\unit_manager.png 01:10
+Images\Game\unit_manager.png 01:11
+Images\Game\unit_manager.png 01:12
+Images\Game\unit_manager.png 01:13
+Images\Game\unit_manager.png 01:15
+Images\Game\unit_manager.png 01:16
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.50m.21s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.50m.47s]
+
+==Ryn's Anime Last Stand Macrov1.0==
+  Start Time: [20h.54m.15s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [11h.57m.13s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [11h.58m.15s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.07m.35s]
+Selected Planet Greenie - Act 1 00:06
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:06
+Moving to position for Planet Greenie 00:09
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.07m.57s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.10m.38s]
+Selected Planet Greenie - Act 1 00:08
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:08
+Moving to position for Planet Greenie 00:11
+Starting Planet Greenie - Act 1 00:16
+Determining Movement Necessity on Map... 00:24
+Images\Game\unit_manager.png 00:24
+Images\Game\unit_manager.png 00:25
+Images\Game\unit_manager.png 00:26
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.11m.06s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.18m.38s]
+
+==Ryn's Anime Guardians Macrov1.0==
+  Start Time: [12h.19m.22s]
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [18h.41m.49s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [18h.42m.37s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [18h.51m.19s]
+Configuration settings loaded successfully 00:00
+Configuration settings saved successfully 00:31
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [18h.51m.55s]
+Configuration settings loaded successfully 00:00
+Configuration settings saved successfully 00:04
+Selected Large Village - Infinity 00:40
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:40
+Moving to position for Large Village 00:42
+Starting Large Village - Infinity 00:47
+Determining Movement Necessity on Map... 00:57
+Map detected: Large Village 00:57
+Successfully Loaded In 01:05
+Found Vote Screen 01:13
+Executing Movement for: Large Village 01:14
+Game started 01:22
+Placing Unit 1 (0/1) 01:22
+Unit Placed Successfully 01:35
+Placed Unit 1 (1/1) 01:35
+Placing Unit 2 (0/1) 01:36
+Unit Placed Successfully 01:49
+Placed Unit 2 (1/1) 01:50
+Placing Unit 3 (0/1) 01:50
+Unit Placed Successfully 02:09
+Placed Unit 3 (1/1) 02:09
+Placing Unit 4 (0/1) 02:10
+Unit Placed Successfully 02:28
+Placed Unit 4 (1/1) 02:29
+Placing Unit 5 (0/1) 02:29
+Unit Placed Successfully 02:48
+Placed Unit 5 (1/1) 02:48
+Placing Unit 6 (0/1) 02:49
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [18h.55m.23s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [10h.13m.45s]
+Configuration settings loaded successfully 00:00
+Selected Temple - Act 1 00:07
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:08
+Moving to position for Temple 00:09
+Starting Temple - Act 1 00:15
+Determining Movement Necessity on Map... 00:23
+Map detected: Temple 00:23
+Successfully Loaded In 00:31
+Executing Movement for: Temple 00:40
+Game started 00:47
+Placing Unit 1 (0/1) 00:48
+Unit Placed Successfully 00:56
+Placed Unit 1 (1/1) 00:56
+Placing Unit 2 (0/1) 00:57
+Unit Placed Successfully 00:59
+Placed Unit 2 (1/1) 01:00
+Placing Unit 3 (0/1) 01:01
+Unit Placed Successfully 01:03
+Placed Unit 3 (1/1) 01:04
+Placing Unit 4 (0/1) 01:05
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [10h.14m.55s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [10h.26m.20s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [11h.49m.49s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [11h.53m.49s]
+Configuration settings loaded successfully 00:00
+Selected Large Village - Act 1 00:03
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:03
+Moving to position for Large Village 00:05
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [11h.54m.02s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.02m.40s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.04m.09s]
+Configuration settings loaded successfully 00:00
+Selected Challenge mode 00:08
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:08
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.04m.31s]
+Configuration settings loaded successfully 00:00
+Selected Challenge mode 00:02
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:02
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.04m.44s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.05m.18s]
+Configuration settings loaded successfully 00:00
+Selected Challenge mode 00:01
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:01
+Starting Challenge Mode 00:03
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.05m.30s]
+Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.06m.16s]
+Configuration settings loaded successfully 00:00
+Selected Challenge mode 00:01
+Don't forget to enable Click to Move! (I forget sometimes too!) 00:01
+Starting Challenge Mode 00:03
+
+==Ryn's Anime Guardians Macro v1.0==
+  Start Time: [12h.06m.30s]
+Configuration settings loaded successfully 00:00
