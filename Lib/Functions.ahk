@@ -62,16 +62,28 @@ OpenDiscordLink() {
     RaidActDropdown.Visible := false
     
     if (selected = "Story") {
+        if (!storyEnabled) {
+            AddToLog("⚠️ Story isn't ready yet, Custom is available for now.")
+            return
+        }
         StoryDropdown.Visible := true
         StoryActDropdown.Visible := true
         mode := "Story"
     } else if (selected = "Raid") {
+        if (!raidEnabled) {
+            AddToLog("⚠️ Raid isn't ready yet, Custom is available for now.")
+            return
+        }
         RaidDropdown.Visible := true
         RaidActDropdown.Visible := true
         mode := "Raid"
-    } else if (selected = "Valentine's Event") {
-        MatchMaking.Visible := true
-        mode := "Valentine's Event"
+    } else if (ModeDropdown.Text = "Custom") {
+        global savedCoords
+        if (!IsSet(savedCoords) || savedCoords.Length = 0) {
+            AddToLog("❌ No saved coordinates! Please capture some points first.")
+            return
+        }
+        AddToLog("Selected Custom")
     }
 }
 

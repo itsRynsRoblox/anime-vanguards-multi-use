@@ -18,7 +18,8 @@ readInSettings() {
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
-    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle
+    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, PriorityUpgrade, AutoAbilityBox
+    global savedCoords
 
     try {
         settingsFile := setupFilePath()
@@ -28,13 +29,39 @@ readInSettings() {
 
         content := FileRead(settingsFile)
         lines := StrSplit(content, "`n")
+
+        savedCoords := []  ; Ensure it's initialized
+        isReadingCoords := false  ; Track if we are in the [SavedCoordinates] section
         
         for line in lines {
             if line = "" {
                 continue
             }
-            
+        
             parts := StrSplit(line, "=")
+        
+            ; Check if we're entering the [SavedCoordinates] section
+            if (line = "[SavedCoordinates]") {
+                isReadingCoords := true
+                continue  ; Skip this line
+            }
+        
+            ; If in [SavedCoordinates] section, parse coordinates
+            if (isReadingCoords) {
+                if (line = "NoCoordinatesSaved") {
+                    savedCoords := []  ; Clear the list if no coordinates were saved
+                    continue
+                }
+        
+                ; Extract X and Y values from "X=val, Y=val" format
+                coordParts := StrSplit(line, ", ")
+                x := StrReplace(coordParts[1], "X=")  ; Remove "X="
+                y := StrReplace(coordParts[2], "Y=")  ; Remove "Y="
+                
+                savedCoords.Push({x: x, y: y})  ; Store as an object
+                continue
+            }
+
             switch parts[1] {
                 case "Mode": mode := parts[2]
                 case "Enabled1": enabled1.Value := parts[2]
@@ -60,9 +87,11 @@ readInSettings() {
                 case "Matchmake": MatchMaking.Value := parts[2] ; Set the checkbox value
                 case "Lobby": ReturnLobbyBox.Value := parts[2] ; Set the checkbox value
                 case "Navigate": UINavToggle.Value := parts[2] ; Set the checkbox value
+                case "Upgrade": PriorityUpgrade.Value := parts[2] ; Set the checkbox value
+                case "Ability": AutoAbilityBox.Value := parts[2] ; Set the checkbox value
             }
         }
-        AddToLog("Configuration settings loaded successfully")
+        AddToLog("✅ Configuration settings loaded successfully!")
     } 
 }
 
@@ -72,7 +101,8 @@ SaveSettings(*) {
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
-    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle
+    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, AutoAbilityBox, PriorityUpgrade
+    global savedCoords
 
     try {
         settingsFile := A_ScriptDir "\Settings\Configuration.txt"
@@ -124,9 +154,25 @@ SaveSettings(*) {
 
         content .= "`n`n[UINavigation]"
         content .= "`nNavigate=" UINavToggle.Value "`n"
+
+        content .= "`n[AutoAbility]"
+        content .= "`nAbility=" AutoAbilityBox.Value "`n"
+
+        content .= "`n[PriorityUpgrade]"
+        content .= "`nUpgrade=" PriorityUpgrade.Value "`n"
+
+        ; Save the stored coordinates
+        content .= "`n[SavedCoordinates]`n"
+        if (IsSet(savedCoords) && savedCoords.Length > 0) {
+            for coord in savedCoords {
+                content .= Format("X={1}, Y={2}`n", coord.x, coord.y)
+            }
+        } else {
+            content .= "NoCoordinatesSaved`n"
+        }
         
         FileAppend(content, settingsFile)
-        AddToLog("Configuration settings saved successfully")
+        AddToLog("✅ Configuration settings saved successfully!")
     }
 }
 

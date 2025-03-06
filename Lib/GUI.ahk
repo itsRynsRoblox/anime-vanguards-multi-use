@@ -4,8 +4,8 @@
 #Include Functions.ahk
 
 ; Basic Application Info
-global aaTitle := "Ryn's Anime Guardians Macro "
-global version := "v1.4.2"
+global aaTitle := "Ryn's Anime Vanguard Macro "
+global version := "v0.1"
 global rblxID := "ahk_exe RobloxPlayerBeta.exe"
 ;Coordinate and Positioning Variables
 global targetWidth := 816
@@ -31,6 +31,9 @@ global loss := 0
 global mode := ""
 global StartTime := A_TickCount
 global currentTime := GetCurrentTime()
+;Custom Unit Placement
+global waitingForClick := false
+global savedCoords := []  ; Initialize an empty array to hold the coordinates
 ;Gui creation
 global uiBorders := []
 global uiBackgrounds := []
@@ -92,7 +95,7 @@ global windowTitle := aaMainUI.Add("Text", "x10 y3 w1200 h29 +BackgroundTrans", 
 aaMainUI.Add("Text", "x805 y501 w558 h25 +Center +BackgroundTrans", "Process") ;Process header
 uiBorders.Push(aaMainUI.Add("Text", "x803 y499 w560 h1 +Background" uiTheme[3])) ;Process Top
 aaMainUI.SetFont("norm s11 c" uiTheme[1]) ;Font
-global process1 := aaMainUI.Add("Text", "x810 y536 w538 h18 +BackgroundTrans c" uiTheme[7], "➤ Original Creator: Ryn (@TheRealTension)") ;Processes
+global process1 := aaMainUI.Add("Text", "x810 y536 w538 h18 +BackgroundTrans c" uiTheme[7], "➤ Original Creator: Ryn") ;Processes
 global process2 := aaMainUI.Add("Text", "xp yp+22 w538 h18 +BackgroundTrans", "") ;Processes 
 global process3 := aaMainUI.Add("Text", "xp yp+22 w538 h18 +BackgroundTrans", "") 
 global process4 := aaMainUI.Add("Text", "xp yp+22 w538 h18 +BackgroundTrans", "") 
@@ -190,7 +193,7 @@ ShowSettingsGUI(*) {
 OpenGuide(*) {
     GuideGUI := Gui("+AlwaysOnTop")
     GuideGUI.SetFont("s10 bold", "Segoe UI")
-    GuideGUI.Title := "Anime Guardians Guide"
+    GuideGUI.Title := "Anime Vanguards Guide"
 
     GuideGUI.BackColor := "0c000a"
     GuideGUI.MarginX := 20
@@ -214,14 +217,15 @@ guideBtn.OnEvent("Click", OpenGuide)
 placementSaveBtn := aaMainUI.Add("Button", "x807 y471 w80 h20", "Save")
 placementSaveBtn.OnEvent("Click", SaveSettings)
 aaMainUI.SetFont("s9")
-global MatchMaking := aaMainUI.Add("Checkbox", "x1143 y476 cffffff Hidden Checked", "Matchmaking")
+global MatchMaking := aaMainUI.Add("Checkbox", "x1143 y476 cffffff Checked", "Matchmaking")
 global NextLevelBox := aaMainUI.Add("Checkbox", "x900 y451 cffffff Checked", "Next Level")
 global ReturnLobbyBox := aaMainUI.Add("Checkbox", "x1015 y451 cffffff Checked", "Return To Lobby")
-;global AutoAbilityBox := aaMainUI.Add("CheckBox", "x900 y476 cffffff Checked", "Auto Ability")
+global AutoAbilityBox := aaMainUI.Add("CheckBox", "x1150 y476 cffffff Checked", "Auto Ability")
+global UpgradeDuringPlacementBox := aaMainUI.Add("Checkbox", "x1150 y451 cffffff Checked", "Upgrade During Placement")
 global UINavToggle := aaMainUI.Add("CheckBox", "x900 y476 cffffff Checked", "UI Navigation")
 global PriorityUpgrade := aaMainUI.Add("CheckBox", "x1015 y476 cffffff", "Priority Upgrade")
 PlacementPatternText := aaMainUI.Add("Text", "x1032 y390 w115 h20", "Placement Type")
-global PlacementPatternDropdown := aaMainUI.Add("DropDownList", "x1035 y410 w100 h180 Choose2 +Center", ["Circle", "Grid", "Random"])
+global PlacementPatternDropdown := aaMainUI.Add("DropDownList", "x1035 y410 w100 h180 Choose2 +Center", ["Circle", "Custom", "Grid", "Random"])
 PlaceSpeedText := aaMainUI.Add("Text", "x1193 y390 w115 h20", "Placement Speed")
 global PlaceSpeed := aaMainUI.Add("DropDownList", "x1205 y410 w100 h180 Choose1 +Center", ["Super Fast (1s)", "Fast (1.5s)", "Default (2s)", "Slow (2.5s)", "Very Slow (3s)", "Toaster (4s)"])
 ;PlaceSpeed.OnEvent('Change', (*) => changePlacementSpeed())
@@ -235,6 +239,18 @@ Hotkeytext2 := aaMainUI.Add("Text", "x807 y50 w530 h30", "F1:Reposition roblox w
 GithubButton := aaMainUI.Add("Picture", "x30 y640 w40 h40 +BackgroundTrans cffffff", GithubImage)
 DiscordButton := aaMainUI.Add("Picture", "x112 y645 w60 h34 +BackgroundTrans cffffff", DiscordImage)
 
+customPlacementText := aaMainUI.Add("Text", "x200 y642 w120 h20 +Left", "Set Placements")
+customPlacementButton := aaMainUI.Add("Button", "x210 y662 w80 h20", "Set")
+customPlacementButton.OnEvent("Click", (*) => StartCoordCapture())
+
+customPlacementClearText := aaMainUI.Add("Text", "x345 y642 w120 h20 +Left", "Clear Placements")
+customPlacementClearButton := aaMainUI.Add("Button", "x360 y662 w80 h20", "Clear")
+customPlacementClearButton.OnEvent("Click", (*) => DeleteSavedCoords())
+
+fixCameraText := aaMainUI.Add("Text", "x520 y642 w120 h20 +Left", "Fix Setup")
+fixCameraButton := aaMainUI.Add("Button", "x510 y662 w80 h20", "Setup")
+fixCameraButton.OnEvent("Click", (*) => BasicSetup())
+
 GithubButton.OnEvent("Click", (*) => OpenGithub())
 DiscordButton.OnEvent("Click", (*) => OpenDiscord())
 
@@ -242,11 +258,11 @@ DiscordButton.OnEvent("Click", (*) => OpenDiscord())
 ;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT
 global modeSelectionGroup := aaMainUI.Add("GroupBox", "x808 y38 w500 h45 Background" uiTheme[2], "Mode Select")
 aaMainUI.SetFont("s10 c" uiTheme[6])
-global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Raid", "Challenge", "Valentine's Event"])
-global StoryDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Large Village", "Hollow Land", "Monster City", "Academy Demon"])
-global StoryActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6", "Infinity"])
-global RaidDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Lawless City", "Temple", "Orc Castle"])
-global RaidActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1"])
+global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Raid", "Custom"])
+global StoryDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Planet Namak", "Sand Village", "Double Dungeon", "Shibuya Station", "Underground Church", "Spirit Society"])
+global StoryActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6", "Infinity", "Paragon"])
+global RaidDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Spider Forest", "Edge of The World"])
+global RaidActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5"])
 global ConfirmButton := aaMainUI.Add("Button", "x1218 y53 w80 h25", "Confirm")
 
 StoryDropdown.Visible := false
@@ -484,5 +500,59 @@ checkSizeTimer() {
             AddToLog("Fixing Roblox window size")
             moveRobloxWindow()
         }
+    }
+}
+
+StartCoordCapture() {
+    global waitingForClick
+    waitingForClick := true
+    SetTimer UpdateTooltip, 50  ; Update tooltip position every 50ms
+}
+
+UpdateTooltip() {
+    global waitingForClick
+    if waitingForClick {
+        MouseGetPos &x, &y
+        ToolTip "Press shift anywhere to save coordinates...", x + 10, y + 10  ; Offset tooltip slightly
+    } else {
+        ToolTip()  ; Hide tooltip when not waiting
+        SetTimer UpdateTooltip, 0  ; Stop the timer
+    }
+}
+
+~LShift:: 
+{
+    global waitingForClick, savedCoords  
+    if waitingForClick {
+        MouseGetPos &x, &y
+        waitingForClick := false
+        SetTimer UpdateTooltip, 0  ; Stop updating tooltip immediately
+
+        if !IsSet(savedCoords)  ; Ensure savedCoords is initialized
+            savedCoords := []
+        savedCoords.Push({x: x, y: y})  ; Store as an object
+
+        ToolTip("Coordinates added: " x ", " y, x + 10, y + 10)  ; Show tooltip
+        AddToLog("📌 Saved Coordinates → X: " x ", Y: " y)
+
+        ; Ensure tooltip disappears properly by resetting and manually clearing it
+        SetTimer ClearToolTip, -2000
+    }
+}
+
+ClearToolTip() {
+    ToolTip()  ; Properly clear tooltip
+    Sleep 100  ; Small delay to ensure clearing happens across all systems
+    ToolTip()  ; Redundant clear to catch edge cases
+}
+
+DeleteSavedCoords() {
+    global savedCoords
+
+    if (IsSet(savedCoords) && savedCoords.Length > 0) {
+        savedCoords := []  ; Clear the saved coordinates list
+        AddToLog("🗑️ All saved coordinates have been cleared.")
+    } else {
+        AddToLog("⚠️ No saved coordinates to clear.")
     }
 }
