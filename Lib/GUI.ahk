@@ -3,9 +3,13 @@
 #Include Image.ahk
 #Include Functions.ahk
 
+;Update Checker
+global repoOwner := "itsRynsRoblox"
+global repoName := "anime-vanguards-multi-use"
+global currentVersion := "0.1"
 ; Basic Application Info
-global aaTitle := "Ryn's Anime Vanguard Macro "
-global version := "v0.1"
+global aaTitle := "Ryn's Anime Royale Macro "
+global version := "v" . currentVersion
 global rblxID := "ahk_exe RobloxPlayerBeta.exe"
 ;Coordinate and Positioning Variables
 global targetWidth := 816

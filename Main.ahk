@@ -10,3 +10,4 @@ SendMode "Event"
 #Include %A_ScriptDir%\lib/webhooksettings.ahk
 #Include %A_ScriptDir%\Lib\FindText.ahk
 #Include %A_ScriptDir%\Lib\Toggles.ahk
+#Include %A_ScriptDir%\Lib\UpdateChecker.ahk

@@ -4,11 +4,11 @@ global macroStartTime := A_TickCount
 global stageStartTime := A_TickCount
 
 LoadKeybindSettings()  ; Load saved keybinds
+CheckForUpdates()
 Hotkey(F1Key, (*) => moveRobloxWindow())
 Hotkey(F2Key, (*) => StartMacro())
 Hotkey(F3Key, (*) => Reload())
-Hotkey(F4Key, (*) => MonitorStage())
-;Hotkey(F4Key, (*) => TogglePause())
+Hotkey(F4Key, (*) => TogglePause())
 
 
 StartMacro(*) {
