@@ -202,9 +202,15 @@ OpenGuide(*) {
     ; Add Guide content
     GuideGUI.SetFont("s16 bold", "Segoe UI")
 
-    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "1 - In your ROBLOX settings, make sure your keyboard is set to click to move and your graphics are set to 1 and enable UI navigation")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "- Roblox Settings -")
     GuideGUI.Add("Picture", "x50 w700   cWhite +Center", "Images\Clicktomove.png")
     GuideGUI.Add("Picture", "x50 w700   cWhite +Center", "Images\graphics1.png")
+
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "- Anime Vanguard Settings -")
+    GuideGUI.Add("Picture", "x50 w700 h50   cWhite +Center", "Images\unit_placement.png")
+    GuideGUI.Add("Picture", "x50 w700 h50   cWhite +Center", "Images\ui_scale.png")
+
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Load into your desired map, setup unit placements, and start the macro")
     GuideGUI.Show("w800")
 }
 

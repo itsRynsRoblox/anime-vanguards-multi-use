@@ -819,15 +819,18 @@ GetRaidActClickCoords(RaidActDropdown) {
 
 GetRaidDownArrows(map) {
     switch map {
-        case "Lawless City": return 0
-        case "Temple": return 1
-        case "Orc Castle": return 2
+        case "Spider Forest": return 0
+        case "Edge of The World": return 1
     }
 }
 
 GetRaidActDownArrows(RaidActDropdown) {
     switch RaidActDropdown {
         case "Act 1": return 0
+        case "Act 2": return 1
+        case "Act 3": return 2
+        case "Act 4": return 3
+        case "Act 5": return 4
     }
 }
 
@@ -858,11 +861,11 @@ Zoom() {
 
 TpSpawn() {
     FixClick(22, 576) ;click settings
-    Sleep 300
-    FixClick(400, 215) ; Click Teleport To Spawn
-    Sleep 300
+    Sleep 500
+    FixClick(517, 210) ; Click Teleport To Spawn
+    Sleep 500
     FixClick(22, 576) ;click settings to close
-    Sleep 300
+    Sleep 500
 }
 
 CloseChat() {
@@ -929,16 +932,10 @@ DetectMap() {
         )
 
         for mapName, pattern in mapPatterns { ;Shibuya : 294, 250, 331, 265
-            if (ok := FindText(&X, &Y, 14, 494, 329, 552, 0, 0, pattern)) {
+            if (ok := FindText(&X, &Y, 294, 250, 331, 265, 0, 0, pattern)) {
                 AddToLog("Detected map: " mapName)
                 return mapName
             }
-        }
-
-        ; Check for Modifier Cards
-        if (ok := FindText(&X, &Y, 681, 381, 778, 434, 0, 0, ModifierCard)) {
-            AddToLog("No Map Found or Movement Unnecessary")
-            return "no map found"
         }
 
         Sleep 1000

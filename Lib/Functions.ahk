@@ -128,10 +128,13 @@ OnConfirmClick(*) {
         AddToLog("Selected " RaidDropdown.Text " - " RaidActDropdown.Text)
         ReturnLobbyBox.Visible := true
     }
-    else if (ModeDropdown.Text = "Valentine's Event") {
+    else if (ModeDropdown.Text = "Custom") {
         AddToLog("Selected " ModeDropdown.Text)
-        MatchMaking.Visible := true
-        ReturnLobbyBox.Visible := true
+        global savedCoords
+        if (!IsSet(savedCoords) || savedCoords.Length = 0) {
+            AddToLog("❌ No saved coordinates! Please capture some points first.")
+            return
+        }
     } else {
         AddToLog("Selected " ModeDropdown.Text " mode")
         MatchMaking.Visible := false
