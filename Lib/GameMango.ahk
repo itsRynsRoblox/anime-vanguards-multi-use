@@ -558,6 +558,11 @@ MonitorStage() {
             }
         }
 
+        while !(CheckForRewards()) {  
+            ClickThroughDrops()
+            Sleep(100)  ; Small delay to prevent high CPU usage while clicking
+        }
+
         AddToLog("Checking win/loss status")
         stageEndTime := A_TickCount
         stageLength := FormatStageTime(stageEndTime - stageStartTime)
@@ -580,6 +585,19 @@ MonitorStage() {
         }
 
         Reconnect()
+    }
+}
+
+ClickThroughDrops() {
+    if (debugMessages) {
+        AddToLog("Clicking through item drops...")
+    }
+    Loop 10 {
+        FixClick(400, 495)
+        Sleep(500)
+        if CheckForRewards() {
+            return
+        }
     }
 }
 
