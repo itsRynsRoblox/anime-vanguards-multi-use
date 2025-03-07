@@ -6,7 +6,7 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "0.3"
+global currentVersion := "1.0"
 ; Basic Application Info
 global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion
@@ -36,6 +36,16 @@ global loss := 0
 global mode := ""
 global StartTime := A_TickCount
 global currentTime := GetCurrentTime()
+;Cards
+global CardPriority1 := ""
+global CardPriority2 := ""
+global CardPriority3 := ""
+global CardPriority4 := ""
+global settingsPri1 := ""
+global settingsPri2 := ""
+global settingsPri3 := ""
+global settingsPri4 := ""
+global cardSettingsGUI := ""
 ;Custom Unit Placement
 global waitingForClick := false
 global savedCoords := []  ; Initialize an empty array to hold the coordinates
@@ -58,6 +68,8 @@ uiTheme.Push("00ffb3") ; HighLight
 ;Logs/Save settings
 global settingsGuiOpen := false
 global SettingsGUI := ""
+global cardSettingsGuiOpen := false
+global CardSettingsGUI := ""
 global currentOutputFile := A_ScriptDir "\Logs\LogFile.txt"
 global WebhookURLFile := "Settings\WebhookURL.txt"
 global DiscordUserIDFile := "Settings\DiscordUSERID.txt"
@@ -195,6 +207,104 @@ ShowSettingsGUI(*) {
     Webhookdiverter.Focus()
 }
 
+;--------------CARDS;--------------CARDS;--------------CARDS;--------------CARDS;--------------CARDS
+
+ShowCardSettingsGUI(*) {
+    global CardSettingsGUI, cardSettingsGuiOpen
+    global settingsPri1, settingsPri2, settingsPri3, settingsPri4
+    
+    ; Check if settings window already exists
+    if (CardSettingsGUI && WinExist("ahk_id " . CardSettingsGUI.Hwnd)) {
+        WinActivate("ahk_id " . CardSettingsGUI.Hwnd)
+        return
+    }
+    
+    if (cardSettingsGuiOpen) {
+        return
+    }
+    
+    cardSettingsGuiOpen := true
+    CardSettingsGUI := Gui("-MinimizeBox +Owner" aaMainUIHwnd)
+    CardSettingsGUI.Title := "Legend Card Settings"
+    CardSettingsGUI.OnEvent("Close", OnCardSettingsClose)
+    CardSettingsGUI.BackColor := uiTheme[2]
+    
+    ; Add border styling
+    CardSettingsGUI.Add("Text", "x0 y0 w1 h220 +Background" uiTheme[3])     ; Left
+    CardSettingsGUI.Add("Text", "x389 y0 w1 h220 +Background" uiTheme[3])   ; Right
+    CardSettingsGUI.Add("Text", "x0 y219 w390 h1 +Background" uiTheme[3])   ; Bottom
+    
+    ; Add title and explanation
+    CardSettingsGUI.SetFont("s12 Bold c" uiTheme[1], "Verdana")
+    CardSettingsGUI.Add("Text", "x20 y10 w350 c" uiTheme[1], "Legend Card Priority Settings")
+    
+    CardSettingsGUI.SetFont("s9 c" uiTheme[1], "Verdana")
+    CardSettingsGUI.Add("Text", "x20 y40 w350 c" uiTheme[1], "Select starter cards in order of preference.")
+    CardSettingsGUI.Add("Text", "x20 y60 w350 c" uiTheme[1], "Macro will pick the highest priority card available.")
+    
+    ; Card priority selections
+    CardSettingsGUI.Add("GroupBox", "x20 y85 w330 h120 c" uiTheme[1], "Card Priority Order")
+    
+    ; Create dropdown lists 
+    CardSettingsGUI.Add("Text", "x40 y110 w30 h20 c" uiTheme[1], "1st:")
+    settingsPri1 := CardSettingsGUI.Add("DropDownList", "x70 y107 w100 h180", 
+        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    
+    CardSettingsGUI.Add("Text", "x205 y110 w30 h20 c" uiTheme[1], "2nd:")
+    settingsPri2 := CardSettingsGUI.Add("DropDownList", "x235 y107 w100 h180", 
+        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    
+    CardSettingsGUI.Add("Text", "x40 y145 w30 h20 c" uiTheme[1], "3rd:")
+    settingsPri3 := CardSettingsGUI.Add("DropDownList", "x70 y142 w100 h180", 
+        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    
+    CardSettingsGUI.Add("Text", "x205 y145 w30 h20 c" uiTheme[1], "4th:")
+    settingsPri4 := CardSettingsGUI.Add("DropDownList", "x235 y142 w100 h180", 
+        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    
+    ; Load saved priorities from file
+    savedPriorities := ["Thrice", "Champion", "Revitalize", "Exploding"]  ; Default values
+    
+    if FileExist("Settings\CardPriorities.txt") {
+        fileContent := FileRead("Settings\CardPriorities.txt", "UTF-8")
+        lines := StrSplit(fileContent, "`n")
+        
+        if (lines.Length >= 1 && lines[1] != "")
+            savedPriorities[1] := lines[1]
+        if (lines.Length >= 2 && lines[2] != "")
+            savedPriorities[2] := lines[2]
+        if (lines.Length >= 3 && lines[3] != "")
+            savedPriorities[3] := lines[3]
+        if (lines.Length >= 4 && lines[4] != "")
+            savedPriorities[4] := lines[4]
+    }
+    
+    ; Set the values in the dropdowns
+    try {
+        settingsPri1.Text := savedPriorities[1]
+        settingsPri2.Text := savedPriorities[2]
+        settingsPri3.Text := savedPriorities[3]
+        settingsPri4.Text := savedPriorities[4]
+    } catch {
+        AddToLog("Warning: Failed to set dropdown values from saved priorities")
+        
+        ; Fallback to Choose
+        settingsPri1.Choose(GetIndexForValue(settingsPri1, savedPriorities[1]))
+        settingsPri2.Choose(GetIndexForValue(settingsPri2, savedPriorities[2]))
+        settingsPri3.Choose(GetIndexForValue(settingsPri3, savedPriorities[3]))
+        settingsPri4.Choose(GetIndexForValue(settingsPri4, savedPriorities[4]))
+    }
+    
+    ; Save button with dedicated function - smaller size
+    SaveBtn := CardSettingsGUI.Add("Button", "x150 y175 w90 h25", "Save")
+    SaveBtn.OnEvent("Click", SaveCardPriorities)
+    
+    ; Show the GUI - smaller size
+    CardSettingsGUI.Show("w390 h240")
+}
+
+aaMainUI.SetFont("s10 c" uiTheme[1])
+
 OpenGuide(*) {
     GuideGUI := Gui("+AlwaysOnTop")
     GuideGUI.SetFont("s10 bold", "Segoe UI")
@@ -212,9 +322,19 @@ OpenGuide(*) {
     GuideGUI.Add("Picture", "x50 w700   cWhite +Center", "Images\graphics1.png")
 
     GuideGUI.Add("Text", "x0 w800 cWhite +Center", "- Anime Vanguard Settings -")
-    GuideGUI.Add("Picture", "x50 w700 h50   cWhite +Center", "Images\unit_placement.png")
-    GuideGUI.Add("Picture", "x50 w700 h50   cWhite +Center", "Images\ui_scale.png")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Auto Skip Waves: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Show Max Range On Placement: Off")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Show Multipliers On Hover: Off")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Select Units On Placement: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Low Detail: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Disable Visual Effects: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Disable Damage Indicators: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Disable Enemy Tag: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Disable Camera Shake: On")
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "UI Scale: 1.0")
+    
 
+    GuideGUI.Add("Text", "x0 w800 cWhite +Center", "- Custom Mode + Placement -")
     GuideGUI.Add("Text", "x0 w800 cWhite +Center", "Load into your desired map, setup unit placements, and start the macro")
     GuideGUI.Show("w800")
 }
@@ -262,6 +382,10 @@ fixCameraText := aaMainUI.Add("Text", "x520 y642 w120 h20 +Left", "Fix Setup")
 fixCameraButton := aaMainUI.Add("Button", "x510 y662 w80 h20", "Setup")
 fixCameraButton.OnEvent("Click", (*) => BasicSetup())
 
+CardSettingsText := aaMainUI.Add("Text", "x682 y642 w100 h20 +Left", "Starter Cards")
+global CardSettingsBtn := aaMainUI.Add("Button", "x685 y662 w80 h20", "Edit Cards")
+CardSettingsBtn.OnEvent("Click", ShowCardSettingsGUI)
+
 GithubButton.OnEvent("Click", (*) => OpenGithub())
 DiscordButton.OnEvent("Click", (*) => OpenDiscord())
 
@@ -269,15 +393,19 @@ DiscordButton.OnEvent("Click", (*) => OpenDiscord())
 ;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT
 global modeSelectionGroup := aaMainUI.Add("GroupBox", "x808 y38 w500 h45 Background" uiTheme[2], "Mode Select")
 aaMainUI.SetFont("s10 c" uiTheme[6])
-global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Raid", "Custom"])
-global StoryDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Planet Namak", "Sand Village", "Double Dungeon", "Shibuya Station", "Underground Church", "Spirit Society"])
+global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Legend", "Raid", "Custom"])
+global StoryDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Planet Namek", "Sand Village", "Double Dungeon", "Shibuya Station", "Underground Church", "Spirit Society"])
 global StoryActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6", "Infinity", "Paragon"])
-global RaidDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Spider Forest", "Edge of The World"])
+global LegendDropDown := aaMainUI.Add("DropDownlist", "x968 y53 w150 h180 Choose0 +Center", ["Sand Village", "Double Dungeon", "Shibuya Aftermath", "Golden Castle", "Kuinshi Palace"])
+global LegendActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3"])
+global RaidDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Spider Forest", "Track Of World"])
 global RaidActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5"])
 global ConfirmButton := aaMainUI.Add("Button", "x1218 y53 w80 h25", "Confirm")
 
 StoryDropdown.Visible := false
 StoryActDropdown.Visible := false
+LegendDropDown.Visible := false
+LegendActDropdown.Visible := false
 RaidDropdown.Visible := false
 RaidActDropdown.Visible := false
 MatchMaking.Visible := false
@@ -287,6 +415,7 @@ Hotkeytext.Visible := false
 Hotkeytext2.Visible := false
 ModeDropdown.OnEvent("Change", OnModeChange)
 StoryDropdown.OnEvent("Change", OnStoryChange)
+LegendDropDown.OnEvent("Change", OnLegendChange)
 RaidDropdown.OnEvent("Change", OnRaidChange)
 ConfirmButton.OnEvent("Click", OnConfirmClick)
 ;------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI------MAIN UI
@@ -574,5 +703,16 @@ DeleteSavedCoords() {
         AddToLog("🗑️ All saved coordinates have been cleared.")
     } else {
         AddToLog("⚠️ No saved coordinates to clear.")
+    }
+}
+
+; Function to handle the Close event for the card settings GUI
+OnCardSettingsClose(*) {
+    global cardSettingsGuiOpen, CardSettingsGUI
+    
+    cardSettingsGuiOpen := false
+    if CardSettingsGUI {
+        CardSettingsGUI.Destroy()
+        CardSettingsGUI := ""
     }
 }

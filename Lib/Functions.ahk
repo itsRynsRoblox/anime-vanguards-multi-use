@@ -58,6 +58,8 @@ OpenDiscordLink() {
     ; Hide all dropdowns first
     StoryDropdown.Visible := false
     StoryActDropdown.Visible := false
+    LegendDropDown.Visible := false
+    LegendActDropdown.Visible := false
     RaidDropdown.Visible := false
     RaidActDropdown.Visible := false
     
@@ -77,6 +79,10 @@ OpenDiscordLink() {
         RaidDropdown.Visible := true
         RaidActDropdown.Visible := true
         mode := "Raid"
+    } else if (selected = "Legend") {
+        LegendDropDown.Visible := true
+        LegendActDropdown.Visible := true
+        mode := "Legend"
     } else if (ModeDropdown.Text = "Custom") {
         global savedCoords
         if (!IsSet(savedCoords) || savedCoords.Length = 0) {
@@ -92,6 +98,14 @@ OnStoryChange(*) {
         StoryActDropdown.Visible := true
     } else {
         StoryActDropdown.Visible := false
+    }
+}
+
+OnLegendChange(*) {
+    if (LegendDropDown.Text != "") {
+        LegendActDropdown.Visible := true
+    } else {
+        LegendActDropdown.Visible := false
     }
 }
 
@@ -253,4 +267,31 @@ OpenGithub() {
 
 OpenDiscord() {
     Run("https://discord.gg/6DWgB9XMTV")
+}
+
+; Helper function to get dropdown index for a value
+GetIndexForValue(dropDown, value) {
+    try {
+        loop dropDown.Items.Length {
+            if (dropDown.Items[A_Index] = value)
+                return A_Index
+        }
+    } catch {
+        ; If we can't get items, return 1
+    }
+    
+    ; Default to 1 if not found
+    return 1
+}
+
+; Helper function to select dropdown item by text
+ChooseDropdownItemByText(dropDown, text) {
+    items := dropDown.GetCount()
+    Loop items {
+        if (dropDown.GetText(A_Index) = text) {
+            dropDown.Choose(A_Index)
+            return true
+        }
+    }
+    return false
 }

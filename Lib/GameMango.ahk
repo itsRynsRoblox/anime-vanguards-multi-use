@@ -2,6 +2,7 @@
 #Include Image.ahk
 global macroStartTime := A_TickCount
 global stageStartTime := A_TickCount
+global completedMovements := Map()
 
 LoadKeybindSettings()  ; Load saved keybinds
 CheckForUpdates()
@@ -386,8 +387,7 @@ UpgradeUnits() {
                 if CheckForRewards() {
                     AddToLog("Stage ended during upgrades, proceeding to results")
                     successfulCoordinates := []
-                    MonitorStage()
-                    return
+                    return MonitorStage()
                 }
 
                 if MaxUpgrade() {
@@ -417,8 +417,8 @@ ChallengeMode() {
     }
 
     ; Handle play mode selection
-    PlayHere(false)
-    RestartStage(false)
+    PlayHere()
+    RestartStage()
 }
 
 CustomMode() {
@@ -441,18 +441,37 @@ StoryMode() {
     while !(ok:=FindText(&X, &Y, 27, 267, 132, 289, 0, 0, CreateMatch)) {
         StoryMovement()
     }
-
     AddToLog("Starting " currentStoryMap " - " currentStoryAct)
+    StartStory(currentStoryMap, currentStoryAct)
 
-    if (UINavToggle.Value) {
-        StartStory(currentStoryMap, currentStoryAct)
-    } else {
-        StartStoryNoUI(currentStoryMap, currentStoryAct)
+    ; Start Game
+    PlayHere()
+    
+    RestartStage()
+}
+
+LegendMode() {
+    global LegendDropdown, LegendActDropdown
+    
+    ; Get current map and act
+    currentLegendMap := LegendDropdown.Text
+    currentLegendAct := LegendActDropdown.Text
+    
+    ; Execute the movement pattern
+    AddToLog("Moving to position for " currentLegendMap)
+    StoryMovement()
+    
+    ; Start stage
+    while !(ok:=FindText(&X, &Y, 27, 267, 132, 289, 0, 0, CreateMatch)) {
+        StoryMovement()
     }
+    AddToLog("Starting " currentLegendMap " - " currentLegendAct)
+    StartLegend(currentLegendMap, currentLegendAct)
 
-    ; Handle play mode selection
-    PlayHere(true)
-    RestartStage(false)
+    ; Start Game
+    PlayHere()
+
+    RestartStage()
 }
 
 RaidMode() {
@@ -478,8 +497,8 @@ RaidMode() {
         StartRaidNoUI(currentRaidMap, currentRaidAct)
     }
     ; Handle play mode selection
-    PlayHere(true)
-    RestartStage(false)
+    PlayHere()
+    RestartStage()
 }
 
 MonitorEndScreen() {
@@ -510,7 +529,7 @@ MonitorEndScreen() {
                     AddToLog("Story Infinity replay")
                     ClickUntilGone(0, 0, 205, 187, 418, 259, FailedText, -4, 200)
                 }
-                return RestartStage(true)
+                return RestartStage()
             }
             else if (mode = "Raid") {
                 AddToLog("Handling Raid end")
@@ -521,7 +540,7 @@ MonitorEndScreen() {
                 } else {
                     AddToLog("Replay raid")
                     ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, -150, -35)
-                    return RestartStage(true)
+                    return RestartStage()
                 }
             }
             else {
@@ -656,75 +675,63 @@ ChallengeMovement() {
 }
 
 RaidMovement() {
-    ; Click Teleport
-    FixClick(75, 250)
-    sleep (1000)
-
-    ; Click Play/Portals
-    FixClick(280, 280)
-    sleep (1000)
-
-    ; Click search
-    FixClick(300, 178)
-    Sleep(1500)
-        
-    ; Type portal name
-    Send "Raid"
-    Sleep(1500)
-
-    ; Click Portal
-    FixClick(196, 234)
-    Sleep 1000
-
-    ; Click Play
-    FixClick(240, 265)
-    sleep (1000)
+    FixClick(90, 260) ; Click Area
+    Sleep(1000)
+    FixClick(700, 300) ; Click Raid
+    Sleep(2000)
+    SendInput ("{d down}")
+    Sleep(400)
+    SendInput ("{d up}")
+    Sleep(500)
+    SendInput ("{s down}")
+    Sleep(8000)
+    SendInput ("{s up}")
+    Sleep(500)
+    SendInput ("{d down}")
+    Sleep(4000)
+    SendInput ("{d up}")
 }
 
-StartStory(map, StoryActDropdown) {
-    FixClick(640, 70) ; Closes Player leaderboard
-    Sleep(500)
-    navKeys := GetNavKeys()
-    for key in navKeys {
-        SendInput("{" key "}")
-    }
+StartStory(map, act) {
+    AddToLog("Selecting map: " map " and act: " act)
+    
+    ; Navigate to map selection screen
+    FixClick(85, 245) ; Create Match
     Sleep(500)
 
-    leftArrows := 7 ; Go Over To Story
-    Loop leftArrows {
-        SendInput("{Left}")
-        Sleep(200)
+    ; Get Story map 
+    StoryMap := GetStoryMap(map)
+    
+    ; Scroll if needed
+    if (StoryMap.scrolls > 0) {
+        AddToLog("Scrolling down " StoryMap.scrolls " for " map)
+        MouseMove(150, 190)
+        SendInput("{WheelDown}")
+        Sleep(250)
     }
-
-    downArrows := GetStoryDownArrows(map) ; Map selection down arrows
-    Loop downArrows {
-        SendInput("{Down}")
-        Sleep(200)
-    }
-
-    SendInput("{Enter}") ; Select storymode
-    Sleep(500)
-
-    SendInput("{Right}") ; Go to act selection
-    Sleep(1000)
-    SendInput("{Right}")
     Sleep(1000)
     
-    actArrows := GetStoryActDownArrows(StoryActDropdown) ; Act selection down arrows
-    if (mode = "Story" && StoryActDropdown = "Infinity") {
-        FixClick(284,433)
-        Sleep 200
-    }
-    Loop actArrows {
-        SendInput("{Down}")
-        Sleep(200)
-    }
+    ; Click on the map
+    FixClick(StoryMap.x, StoryMap.y)
+    Sleep(1000)
     
-    SendInput("{Enter}") ; Select Act
-    Sleep(500)
-    for key in navKeys {
-        SendInput("{" key "}")
+    ; Get act details
+    StoryAct := GetStoryAct(act)
+    
+    ; Scroll if needed for act
+    if (StoryAct.scrolls > 0) {
+        AddToLog("Scrolling down " StoryAct.scrolls " for " act)
+        MouseMove(300, 240)
+        SendInput("{WheelDown}")
+        Sleep(250)
     }
+    Sleep(1000)
+    
+    ; Click on the act
+    FixClick(StoryAct.x, StoryAct.y)
+    Sleep(1000)
+    
+    return true
 }
 
 StartStoryNoUI(map, StoryActDropdown) {
@@ -759,6 +766,51 @@ StartStoryNoUI(map, StoryActDropdown) {
         FixClick(actClickCoords.x, actClickCoords.y) ; Choose Story Act again
     }
     Sleep 500
+}
+
+StartLegend(map, act) {
+    
+    AddToLog("Selecting map: " map " and act: " act)
+    
+    ; Navigate to map selection screen
+    FixClick(85, 245) ; Create Match
+    Sleep(500)
+    FixClick(500, 500) ; Click On Legend
+    Sleep(500)
+
+    ; Get Story map 
+    LegendMap := GetLegendMap(map)
+    
+    ; Scroll if needed
+    if (LegendMap.scrolls > 0) {
+        AddToLog("Scrolling down " LegendMap.scrolls " for " map)
+        MouseMove(150, 190)
+        SendInput("{WheelDown}")
+        Sleep(250)
+    }
+    Sleep(1000)
+    
+    ; Click on the map
+    FixClick(LegendMap.x, LegendMap.y)
+    Sleep(1000)
+    
+    ; Get act details
+    LegendAct := GetLegendAct(act)
+    
+    ; Scroll if needed for act
+    if (LegendAct.scrolls > 0) {
+        AddToLog("Scrolling down " LegendAct.scrolls " for " act)
+        MouseMove(300, 240)
+        SendInput("{WheelDown}")
+        Sleep(250)
+    }
+    Sleep(1000)
+    
+    ; Click on the act
+    FixClick(LegendAct.x, LegendAct.y)
+    Sleep(1000)
+
+    return true
 }
 
 StartRaidNoUI(map, RaidActDropdown) {
@@ -819,13 +871,76 @@ StartRaid(map, RaidActDropdown) {
     }
 }
 
-PlayHere(clickConfirm := true) {
-    if (clickConfirm) {
-        FixClick(555, 446) ; Click Confirm
-        Sleep (1000)
+PlayHere() {
+    FixClick(555, 444)  ; Click Start
+    Sleep (500)
+    FixClick(90, 435) ; Actually Starting
+    Sleep (500)
+    FixClick(90, 470) ; Actually Starting
+    Sleep (500)
+    FixClick(400, 315) ; Cancel Button
+    Sleep (500)
+    FixClick(90, 435) ; Actually Starting
+    Sleep (500)
+    FixClick(90, 470) ; Actually Starting
+}
+
+GetStoryMap(map) {
+    switch map {
+        case "Planet Namek": return {x: 150, y: 190, scrolls: 0}
+        case "Sand Village": return {x: 150, y: 240, scrolls: 0}
+        case "Double Dungeon": return {x: 150, y: 290, scrolls: 0}
+        case "Shibuya Station": return {x: 150, y: 340, scrolls: 0}
+        case "Underground Church": return {x: 150, y: 390, scrolls: 0}
+        case "Spirit Society": return {x: 150, y: 390, scrolls: 1}
     }
-    FixClick(90, 434) ; Click Start
-    Sleep (300)
+}
+
+GetStoryAct(act) {
+    switch act {
+        case "Act 1": return {x: 300, y: 240, scrolls: 0}
+        case "Act 2": return {x: 300, y: 290, scrolls: 0}
+        case "Act 3": return {x: 300, y: 340, scrolls: 0}
+        case "Act 4": return {x: 300, y: 390, scrolls: 0}
+        case "Act 5": return {x: 300, y: 290, scrolls: 1}
+        case "Act 6": return {x: 300, y: 340, scrolls: 1}
+        case "Infinity": return {x: 300, y: 390, scrolls: 1}
+    }
+}
+
+GetLegendMap(map) {
+    switch map {
+        case "Sand Village": return {x: 150, y: 190, scrolls: 0}
+        case "Double Dungeon": return {x: 150, y: 240, scrolls: 0}
+        case "Shibuya Aftermath": return {x: 150, y: 290, scrolls: 0}
+        case "Golden Castle": return {x: 150, y: 340, scrolls: 0}
+        case "Kuinshi Palace": return {x: 150, y: 390, scrolls: 0}
+    }
+}
+
+GetLegendAct(act) {
+    switch act {
+        case "Act 1": return {x: 300, y: 190, scrolls: 0}
+        case "Act 2": return {x: 300, y: 240, scrolls: 0}
+        case "Act 3": return {x: 300, y: 290, scrolls: 0}
+    }
+}
+
+GetRaidMap(map) {
+    switch map {
+        case "Spider Forest": return {x: 150, y: 190, scrolls: 0}
+        case "Track Of World": return {x: 150, y: 240, scrolls: 0}
+    }
+}
+
+GetRaidAct(act) {
+    switch act {
+        case "Act 1": return {x: 300, y: 190, scrolls: 0}
+        case "Act 2": return {x: 300, y: 240, scrolls: 0}
+        case "Act 3": return {x: 300, y: 290, scrolls: 0}
+        case "Act 4": return {x: 300, y: 340, scrolls: 0}
+        case "Act 5": return {x: 300, y: 390, scrolls: 0}
+    }
 }
 
 GetStoryDownArrows(map) {
@@ -968,7 +1083,6 @@ BasicSetup(replay := false) {
         TpSpawn()
         Sleep (1500)
     }
-    CheckForVoteScreen()
     Sleep 300
 }
 
@@ -991,66 +1105,166 @@ DetectMap() {
             return "no map found"
         }
 
-        if (ModeDropdown.Text = "Story") {
-            AddToLog("Map detected: " StoryDropdown.Text)
-            return StoryDropdown.Text
-        }
-
-        if (ModeDropdown.Text = "Raid") {
-            AddToLog("Map detected: " RaidDropdown.Text)
-            return RaidDropdown.Text
+        ; Check for vote screen
+        if (ok := FindText(&X, &Y, 322, 110, 483, 170, 0, 0, VoteStart) or PixelGetColor(300, 15) = 0x0F9C24 or PixelGetColor(300, 15) = 0x15DE33) {
+            AddToLog("Same Map or No Map Found")
+            return "no map found"
         }
 
         mapPatterns := Map(
-            "Planet Namak", PlanetNamek,
-            "Shibuya", Shibuya
-
+            "Planet Namek", PlanetNamek,
+            "Sand Village", SandVillage,
+            "Double Dungeon", DoubleDungeon, 
+            "Shibuya Station", ShibuyaStation,
+            "Underground Church", UndergroundChurch,
+            "Spirit Society", SpiritSociety,
+            "Blood-Red Chamber", IgrisBoss,
+            "Spider Forest", SpiderForest,
+            "Track Of World", TrackOfWorld,
+            "Shibuya Aftermath", ShibuyaAftermath,
+            "Golden Castle", GoldenCastle,
+            "Kuinshi Palace", KuinshiPalace
         )
 
-        for mapName, pattern in mapPatterns { ;Shibuya : 294, 250, 331, 265
-            if (ok := FindText(&X, &Y, 294, 250, 331, 265, 0, 0, pattern)) {
+        for mapName, pattern in mapPatterns {
+            if (ok := FindText(&X, &Y, 10, 505, 335, 625, 0, 0, pattern)) {
                 AddToLog("Detected map: " mapName)
                 return mapName
             }
         }
-
         Sleep 1000
         Reconnect()
     }
 }
 
 HandleMapMovement(MapName) {
-    AddToLog("Executing Movement for: " MapName)
-    
-    switch MapName {
-        case "Planet Namak":
-            MoveForPlanetNamek()   
+    ; Check if this map needs movement
+    if (RequiresMovement(MapName)) {
+        AddToLog("Executing Movement for: " MapName)
+        
+        switch MapName {
+            case "Sand Village":
+                MoveForSandVillage()
+            case "Double Dungeon":
+                MoveForDoubleDungeon()
+            case "Spirit Society":
+                MoveForGoldenCastle()
+            case "Spider Forest":
+                MoveForSpiderForest()
+            case "Track Of World":
+                MoveForTrackOfWorld()
+            case "Golden Castle":
+                MoveForGoldenCastle()
+            case "Blood-Red Chamber":
+                MoveForBloodRedChamber()
+        }
     }
 }
 
-MoveForPlanetNamek() {
-    Fixclick(586, 545, "Right")
-    Sleep (6000)
+RequiresMovement(MapName) {
+    ; Array of maps that need movement
+    static mapsWithMovement := ["Sand Village", "Double Dungeon", "Spirit Society", "Spider Forest", "Golden Castle", "Track Of World", "Blood-Red Chamber"]
+    
+    ; Check if current map is in the array
+    for map in mapsWithMovement {
+        if (map = MapName)
+            return true
+    }
+    
+    return false
 }
 
-RestartStage(seamless := false) {
+MoveForSandVillage() {
+    SendInput ("{s down}")
+    SendInput ("{d down}")
+    Sleep (5000)
+    SendInput ("{s up}")
+    SendInput ("{d up}")
+    Sleep (1000)
+}
+
+MoveForDoubleDungeon() {
+    SendInput ("{w down}")
+    Sleep (1400)
+    SendInput ("{w up}")
+    Sleep (1000)
+}
+
+MoveForSpiderForest() {
+    SendInput ("{d down}")
+    Sleep (800)
+    SendInput ("{d up}")
+    Sleep (1000)
+    SendInput ("{s down}")
+    Sleep (2300)
+    SendInput ("{s up}")
+    Sleep (1000)
+}
+
+MoveForGoldenCastle() {
+    SendInput ("{a down}")
+    Sleep (1200)
+    SendInput ("{a up}")
+    Sleep (1000)
+}
+
+MoveForTrackOfWorld() {
+    currentRaidAct := RaidActDropdown.Text
+    if (currentRaidAct = "Act 4" || currentRaidAct = "Act 5") {
+        SendInput ("{d down}")
+        Sleep (1700)
+        SendInput ("{d up}")
+        Sleep(1000)
+        SendInput ("{s down}")
+        Sleep(2600)
+        SendInput ("{s up}")
+        Sleep(1000)
+        SendInput ("{a down}")
+        Sleep(300)
+        SendInput ("{a up}")
+        Sleep(1000)
+    } else {
+        Sleep(1000)
+    }
+}
+
+MoveForBloodRedChamber() {
+    SendInput ("{s down}")
+    Sleep (4300)
+    SendInput ("{s up}")
+    Sleep (1000)
+}
+
+RestartStage() {
+    global completedMovements
     currentMap := DetectMap()
+
+     ; Reset movement completion if this is a new map
+    if (!completedMovements.Has(currentMap)) {
+        completedMovements := Map()  ; Clear all previous entries
+        completedMovements[currentMap] := false  ; Set current map to false
+    }
     
     ; Wait for loading
     CheckLoaded()
 
     ; Do initial setup and map-specific movement during vote timer
-    if (!seamless) {
-        BasicSetup(false)
-        if (currentMap != "no map found") {
-            HandleMapMovement(currentMap)
-        }
+    BasicSetup()
+
+    ; Wait for game to actually start to fix camera movement
+    StartedGame()
+
+    ; Fix camera angle 
+    FixMapCameraAngle(currentMap)
+
+    if (currentMap != "no map found" && !completedMovements[currentMap]) {
+        HandleMapMovement(currentMap)
+        completedMovements[currentMap] := true  ; Mark this map as completed
     } else {
-        BasicSetup(true)
-        AddToLog("Game supports seamless replay, skipping most of setup")
+        Sleep(1000)
     }
 
-    ; Wait for game to actually start
+    ; Wait for game to actually start to start placing units
     StartedGame()
 
     ; Begin unit placement and management
@@ -1066,17 +1280,112 @@ RestartStageCustom() {
     
     ; Wait for game to actually start
     StartedGame()
-
-    FixClick(400, 300) ; Click Card If Needed
-    Sleep(500)
-
-    CheckForVoteScreen()
     
     ; Begin unit placement and management
     PlacingUnits(true)
         
     ; Monitor stage progress
     MonitorStage()
+}
+
+FixMapCameraAngle(mapName) {
+    AddToLog("Checking camera angle for " mapName)
+    
+    ; Skip if no mapName or "no map found"
+    if (!mapName or mapName == "no map found")
+        return
+    
+    ; First check if the camera angle is already correct
+    if (IsCorrectAngle(mapName)) {
+        AddToLog("Camera angle is correct for " mapName)
+        RestartMatch()
+        return
+    }
+    
+    ; Try placing one unit with random placement to fix angle
+    PlaceUnitForAngle()
+    AddToLog("Using spectator to fix angle")
+    
+    ; If not fixed with unit placement, try with spectator until fixed
+    loop {
+        ; Try spectator mode
+        SpectatorAngleFix()
+        
+        ; Check for disconnect
+        Reconnect()
+        
+        ; Check for game end
+        if (CheckForRewards()) {
+            AddToLog("Game ended during camera angle fix")
+            return MonitorStage()
+        }
+        
+        ; Check if angle is now fixed
+        if (IsCorrectAngle(mapName)) {
+            AddToLog("Camera angle fixed with spectator")
+            RestartMatch()
+            return
+        }
+    }
+}
+
+IsCorrectAngle(mapName) {
+    currentRaidAct := RaidActDropdown.Text
+    ; Check camera angle for each map
+    switch mapName {
+        case "Planet Namek":
+            return (FindText(&X, &Y, 610, 195, 649, 233, 0.20, 0.20, namekAngle) or 
+                   FindText(&X, &Y, 710, 465, 763, 516, 0.20, 0.20, namekAngle2)) ? true : false
+            
+        case "Sand Village":
+            return FindText(&X, &Y, 360, 170, 425, 220, 0.20, 0.20, SandAngle) ? true : false
+   
+        case "Spirit Society":
+            return FindText(&X, &Y, 580, 540, 625, 582, 0.20, 0.20, SpiritAngle) ? true : false
+            
+        case "Spider Forest":
+            return FindText(&X, &Y, 500, 380, 580, 450, 0.20, 0.20, SpiderAngle) ? true : false
+
+        case "Track Of World":
+            if (currentRaidAct = "Act 4" || currentRaidAct = "Act 5") {
+            return FindText(&X, &Y, 550, 145, 643, 227, 0.20, 0.20, TrackWorldAngle) ? true : false
+        } else {
+            return true  ; Acts 1-3 don't need angle check
+        }
+
+        case "Shibuya Aftermath":
+            return (FindText(&X, &Y, 395, 455, 434, 494, 0.20, 0.20, ShibuyaAngle) or 
+                   FindText(&X, &Y, 60, 380, 119, 415, 0.20, 0.20, ShibuyaAngle2)) ? true : false
+
+        case "Golden Castle":
+            return FindText(&X, &Y, 490, 470, 549, 534, 0.20, 0.20, GoldenAngle) ? true : false
+
+        case "Kuinshi Palace":
+            return FindText(&X, &Y, 340, 80, 414, 145, 0.20, 0.20, KuinshiAngle) ? true : false
+            
+        case "Double Dungeon", "Shibuya Station", "Underground Church", "Blood-Red Chamber":
+            return true
+            
+        default:
+            return true
+    }
+}
+
+RestartMatch() {
+    AddToLog("Restarting match")
+    FixClick(21, 577) ;click settings
+    Sleep (1000)
+    FixClick(515, 280) ;click restart match
+    Sleep (1000)
+    FixClick(345, 310) ;click yes
+    Sleep (1000)
+    if (mode = "Legend") {
+        Sleep(2000)  ; Wait for cards to appear
+        HandleStarterCards()
+    }
+    Sleep (2000)
+    FixClick(400, 300) ;click cancel
+    Sleep (1000)
 }
 
 Reconnect() {   
@@ -1158,6 +1467,15 @@ UnitPlaced() {
     return false
 }
 
+CameraUnitPlaced() {
+    Sleep 2000
+    ; Check for upgrade text
+    if (ok := FindText(&X, &Y, 147, 248, 228, 273, 0, 0, UpgradeText)) {
+        return true
+    }
+    return false
+}
+
 WaitForUpgradeText(timeout := 4500) {
     startTime := A_TickCount
     while (A_TickCount - startTime < timeout) {
@@ -1203,11 +1521,14 @@ CheckLobby() {
 CheckLoaded() {
     loop {
         Sleep(1000)
-    
-        ; Check for stage info
-        if (ok := FindText(&X, &Y, 707, 398, 778, 419, 0, 0, StageInfo)) {
+        
+        ; Check for vote screen
+        if (ok := FindText(&X, &Y, 322, 110, 483, 170, 0, 0, VoteStart) or (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2)) or PixelGetColor(300, 15) = 0x0F9C24 or PixelGetColor(300, 15) = 0x15DE33)) {
             AddToLog("Successfully Loaded In")
             Sleep(1000)
+            if (mode = "Legend") {
+                HandleStarterCards()
+            }
             break
         }
 
@@ -1218,6 +1539,12 @@ CheckLoaded() {
 StartedGame() {
     loop {
         Sleep(1000)
+        if (ok := FindText(&X, &Y, 322, 110, 483, 170, 0, 0, VoteStart)) {
+            ClickUntilGone(0, 0, 322, 110, 483, 170, VoteStart, -21, 0)
+            continue  ; Keep waiting if vote screen is still there
+        }
+        
+        ; If we don't see vote screen anymore the game has started
         AddToLog("Game started")
         global stageStartTime := A_TickCount
         break
@@ -1225,16 +1552,25 @@ StartedGame() {
 }
 
 StartSelectedMode() {
-    FixClick(400,340)
-    FixClick(400,390)
+    FixClick(640, 70) ; Closes Player leaderboard
+    sleep (500)
+    FixClick(640, 73) ; Closes Player leaderboard
+    sleep (500)
+    FixClick(665,143) ; Close Big Red X
+    sleep (500)
+    FixClick(565,200) ; Close Daily
+    sleep (500)
     if (ModeDropdown.Text = "Story") {
         StoryMode()
     }
-    else if (ModeDropdown.Text = "Custom") {
-        CustomMode()
+    else if (ModeDropdown.Text = "Legend") {
+        LegendMode()
     }
     else if (ModeDropdown.Text = "Raid") {
         RaidMode()
+    }
+    else if (ModeDropdown.Text = "Custom") {
+        CustomMode()
     }
 }
 
@@ -1263,17 +1599,6 @@ ValidateMode() {
 
 GetNavKeys() {
     return StrSplit(FileExist("Settings\UINavigation.txt") ? FileRead("Settings\UINavigation.txt", "UTF-8") : "\,#,}", ",")
-}
-
-CheckForVoteScreen() {
-    if (ok:=FindText(&X, &Y, 365, 114, 443, 132, 0, 0, VoteScreen)) {
-          AddToLog("Found Vote Screen")
-          FixClick(365, 125)
-          FixClick(365, 125)
-          FixClick(365, 125)
-          return true
-    }
-    return false
 }
 
 UseCustomPoints() {
@@ -1505,4 +1830,184 @@ PlacementSpeed() {
 
     if speedIndex is number  ; Ensure it's a number
         return speeds[speedIndex]  ; Use the value directly from the array
+}
+
+PlaceUnitForAngle() {
+    ; Try placing a unit using random points
+    AddToLog("Attempting to place a unit for angle fix")
+    
+    ; Generate random placement points
+    placementPoints := GenerateRandomPoints()
+    
+    ; Track placement attempts
+    placementAttempts := 0
+    maxAttempts := 20
+    
+    ; Try to place unit with slot 1
+    for point in placementPoints {
+        SendInput("1")
+        Sleep 50
+        FixClick(point.x, point.y)
+        Sleep 50
+        SendInput("q")
+        Sleep 300
+        
+        ; Increment attempt counter
+        placementAttempts++
+        
+        ; Check if unit was placed
+        if (CameraUnitPlaced()) {
+            AddToLog("Unit placed successfully for angle check")
+            return true
+        }
+
+        ; Check if restart put us back in lobby or game ended
+        if (CheckForRewards() || FindText(&X, &Y, 742, 416, 794, 439, 0, 0, ProfileText)) {
+            AddToLog("Game ended or found lobby.")
+            return false
+        }
+
+        
+        ; Check if we've reached max attempts
+        if (placementAttempts >= maxAttempts) {
+            AddToLog("Failed to place unit after " maxAttempts " attempts. tp spawn to retry.")
+            TpSpawn()
+            Sleep(3000)
+            return PlaceUnitForAngle()  ; Recursive call to try again after restart
+        }
+    }
+}
+
+SpectatorAngleFix() {
+    ; First Teleport to spawn
+    TpSpawn()
+    Sleep(1000)
+
+    ; Enter spectator mode
+    FixClick(229, 411)
+    Sleep(800)
+    
+    ; look left to fix angle
+    FixClick(327, 511)
+    Sleep(800)
+    
+    ; Exit spectator mode
+    FixClick(400, 575)
+    Sleep(2000)
+}
+
+HandleStarterCards() {
+    AddToLog("Checking for starter cards...")
+    
+    ; Read priorities directly from file to ensure we have the latest values
+    priorities := []
+    if FileExist("Settings\CardPriorities.txt") {
+        fileContent := FileRead("Settings\CardPriorities.txt", "UTF-8")
+        lines := StrSplit(fileContent, "`n")
+        
+        ; Use saved priorities
+        for line in lines {
+            if (line != "")
+                priorities.Push(line)
+        }
+    } else {
+        ; If priorities aren't in the dropdowns or file, use defaults
+        try {
+            priorities := [CardPriority1.Text, CardPriority2.Text, CardPriority3.Text, CardPriority4.Text]
+        } catch {
+            priorities := ["Revitalize", "Champion", "Thrice", "Immunity"]
+            AddToLog("Using default card priorities")
+        }
+    }
+    
+    ; Wait for the cards to appear (try for 5 seconds)
+    Loop 5 {
+        ; Look for "Click to vote" text at the bottom of the cards
+        if (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2))) {
+            AddToLog("Found starter cards selection screen")
+            Sleep(1500)  ; Give time for cards to fully appear
+            
+            ; Move mouse over each card before identifying (helps with tooltips)
+            MouseMove(260, 280)
+            Sleep(200)
+            leftCard := IdentifyCard(200, 280, 325, 300)
+            
+            MouseMove(400, 280)
+            Sleep(200)
+            middleCard := IdentifyCard(340, 280, 465, 300)
+            
+            MouseMove(540, 280)
+            Sleep(200)
+            rightCard := IdentifyCard(480, 280, 600, 300)
+            
+            AddToLog("Available cards: Left=" leftCard ", Middle=" middleCard ", Right=" rightCard)
+            
+            ; Go through priorities and select first match
+            selectedCard := false
+            
+            for priority in priorities {
+                ; Skip if priority is empty
+                if (priority = "")
+                    continue
+                    
+                ; Check if any cards match this priority
+                if (leftCard = priority) {
+                    FixClick(260, 280)
+                    AddToLog("Selected priority card: " priority " (left)")
+                    selectedCard := true
+                    break
+                } 
+                else if (middleCard = priority) {
+                    FixClick(400, 280)
+                    AddToLog("Selected priority card: " priority " (middle)")
+                    selectedCard := true
+                    break
+                }
+                else if (rightCard = priority) {
+                    FixClick(540, 280)
+                    AddToLog("Selected priority card: " priority " (right)")
+                    selectedCard := true
+                    break
+                }
+            }
+            
+            ; If no priority card found, default to middle
+            if (!selectedCard) {
+                FixClick(400, 280)
+                AddToLog("No priority card available, selected middle: " middleCard)
+            }
+            
+            Sleep(1000)
+            return true
+        }
+        Sleep(1000)
+    }
+    
+    AddToLog("No starter cards found after 5 seconds, continuing...")
+    return false
+}
+
+; Function to identify a card
+IdentifyCard(x1, y1, x2, y2) {
+    ; Use FindText to identify the card within the given region
+    if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ThriceCard)) {
+        return "Thrice"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ChampionCard)) {
+        return "Champion"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, RevitalizeCard)) {
+        return "Revitalize"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ExplodingCard)) {
+        return "Exploding"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, QuakeCard)) {
+        return "Quake"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ImmunityCard)) {
+        return "Immunity"
+    }
+    
+    return "Unknown"
 }

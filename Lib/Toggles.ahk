@@ -2,6 +2,6 @@
 
 global debugMessages := false
 
-global storyEnabled := false
+global storyEnabled := true
 
-global raidEnabled := false
+global raidEnabled := true

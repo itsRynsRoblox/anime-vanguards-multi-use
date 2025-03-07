@@ -653,3 +653,206 @@ Successfully Loaded In 00:10
   Start Time: [13h.33m.31s]
 ? Configuration settings loaded successfully! 00:00
 You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.22m.17s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.22m.47s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.23m.39s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Saving card priorities... 00:05
+Card priorities saved: Thrice, Champion, Revitalize, Exploding 00:05
+Card priorities saved successfully! 00:05
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.25m.56s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namak - Act 1 00:02
+Don't forget to enable Click to Move and UI Navigation! 00:02
+Moving to position for Planet Namak 00:08
+Starting Planet Namak - Act 1 00:25
+Determining Movement Necessity on Map... 00:29
+Detected map: Planet Namek 00:29
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.26m.36s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.27m.05s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namak - Act 1 00:23
+Don't forget to enable Click to Move and UI Navigation! 00:23
+Moving to position for Planet Namak 00:27
+Starting Planet Namak - Act 1 00:44
+Determining Movement Necessity on Map... 00:49
+Detected map: Planet Namek 00:49
+Successfully Loaded In 01:05
+Found Vote Screen 01:18
+Game started 01:20
+Checking camera angle for Planet Namek 01:20
+Attempting to place a unit for angle fix 01:20
+Unit placed successfully for angle check 01:31
+Using spectator to fix angle 01:31
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.29m.05s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.30m.03s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namak - Act 1 00:02
+Don't forget to enable Click to Move and UI Navigation! 00:02
+Moving to position for Planet Namak 00:06
+Starting Planet Namak - Act 1 00:22
+Determining Movement Necessity on Map... 00:27
+Detected map: Planet Namek 00:27
+Successfully Loaded In 00:46
+Found Vote Screen 00:58
+Game started 01:00
+Checking camera angle for Planet Namek 01:00
+Attempting to place a unit for angle fix 01:00
+Unit placed successfully for angle check 01:06
+Using spectator to fix angle 01:06
+Camera angle fixed with spectator 01:14
+Restarting match 01:14
+Game started 01:22
+No units enabled - skipping to monitoring 01:22
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.31m.33s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.32m.32s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.34m.40s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.35m.18s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.35m.40s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.36m.09s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.36m.19s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.36m.43s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.36m.56s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.37m.08s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.44m.49s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+? Configuration settings saved successfully! 00:15
+Selected Planet Namek - Act 1 00:24
+Don't forget to enable Click to Move and UI Navigation! 00:24
+Moving to position for Planet Namek 00:29
+Starting Planet Namek - Act 1 00:46
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.45m.51s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.46m.39s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.47m.02s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namek - Act 1 00:05
+Don't forget to enable Click to Move and UI Navigation! 00:05
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.47m.51s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namek - Act 1 00:07
+Don't forget to enable Click to Move and UI Navigation! 00:07
+Moving to position for Planet Namek 00:11
+Starting Planet Namek - Act 1 00:27
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.48m.24s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.50m.13s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Planet Namek - Act 1 00:06
+Don't forget to enable Click to Move and UI Navigation! 00:06
+Moving to position for Planet Namek 00:09
+Starting Planet Namek - Act 1 00:26
+Selecting map: Planet Namek and act: Act 1 00:26
+Determining Movement Necessity on Map... 00:36
+Detected map: Planet Namek 00:40
+Successfully Loaded In 00:50
+Found Vote Screen 01:02
+Game started 01:04
+Checking camera angle for Planet Namek 01:04
+Attempting to place a unit for angle fix 01:04
+Unit placed successfully for angle check 01:07
+Using spectator to fix angle 01:07
+Camera angle fixed with spectator 01:15
+Restarting match 01:15
+Game started 01:23
+Placing Unit 1 (0/1) 01:23
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.51m.44s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v0.3==
+  Start Time: [16h.56m.11s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Saving card priorities... 00:22
+Card priorities saved: Thrice, Champion, Revitalize, Exploding 00:22
+Card priorities saved successfully! 00:22
