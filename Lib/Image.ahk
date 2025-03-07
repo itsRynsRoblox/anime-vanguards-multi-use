@@ -67,3 +67,7 @@ ChampionCard:="|<>*9$40.zzzzzzzkXzzzzw0DzzzzlczzzzyDUM00UMy0U001XskE9UX6X10a2A0A
 ImmunityCard:="|<>*33$38.zzzzzzwzzzzzyDzzzzzXzzzzzs040FU60000M0UH1A6384kH90m1A4m0Aqn/AkLDzzzzzy"
 RevitalizeCard:="|<>*20$37.zzzzzzUzzwPzUDzzNzl7TzwTsm2QU40006E2000E8a800QAH438CC8E/a7biADzzzzzzzzzzzzU"
 QuakeCard:="|<>*36$37.zzzzzzzzzzzzwDzzXzs3zzlzwEzzszySFY0G3T8m011bYM810HX840UM0UE08C0MA4Y7zzzzzzU"
+
+;Portals
+SelectOneReward:="|<>*109$83.qDzzzzzzzzzzDzATzzzzzzzzzyTy8zzzzzzzzzzwzs088A7UUaG0212E00E87100Y040IH6300CA1010l4DWA610wM60W1WAD0MC31ssCFU3U034mQ63tkQrUbUVA"
+PlanetNamekPortal:="|<>*79$26.2Tzyk7zzgVU602G40nY10YxWK9U"

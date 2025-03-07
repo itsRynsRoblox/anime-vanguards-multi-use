@@ -9,7 +9,8 @@ CheckForUpdates()
 Hotkey(F1Key, (*) => moveRobloxWindow())
 Hotkey(F2Key, (*) => StartMacro())
 Hotkey(F3Key, (*) => Reload())
-Hotkey(F4Key, (*) => TogglePause())
+Hotkey(F4Key, (*) => TryNamekPortals())
+;Hotkey(F4Key, (*) => TogglePause())
 
 
 StartMacro(*) {
@@ -418,6 +419,12 @@ ChallengeMode() {
 
     ; Handle play mode selection
     PlayHere()
+    RestartStage()
+}
+
+PortalMode() {
+    StartPortal()
+    Sleep(2500)
     RestartStage()
 }
 
@@ -1569,6 +1576,9 @@ StartSelectedMode() {
     else if (ModeDropdown.Text = "Raid") {
         RaidMode()
     }
+    else if (ModeDropdown.Text = "Portal") {
+        PortalMode()
+    }
     else if (ModeDropdown.Text = "Custom") {
         CustomMode()
     }
@@ -2010,4 +2020,35 @@ IdentifyCard(x1, y1, x2, y2) {
     }
     
     return "Unknown"
+}
+
+StartPortal() {
+    selectedPortal := PortalDropdown.Text
+    joinType := PortalJoinDropdown.Text
+
+        ; Click items
+        FixClick(30, 255)
+        Sleep(1500)
+        
+        ; Click search
+        FixClick(507, 200)
+        Sleep(1500)
+        
+        ; Type portal name
+        SendInput(selectedPortal)
+        Sleep(1500)
+
+        TryNamekPortals()
+
+        AddToLog("Creating " selectedPortal)
+       /* FixClick(206, 255)  ; Click On Portal
+        Sleep (1500)
+        FixClick(310, 303)  ; Click On Use
+        Sleep (1500)
+        FixClick(366, 300)  ; Click On Create
+        Sleep (1500)
+        FixClick(366, 300) ; Exit Message
+        Sleep (1500)
+        FixClick(552, 469) ; Start Portal
+        Sleep (1500)*/
 }

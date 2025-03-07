@@ -856,3 +856,324 @@ You are using the latest version. 00:01
 Saving card priorities... 00:22
 Card priorities saved: Thrice, Champion, Revitalize, Exploding 00:22
 Card priorities saved successfully! 00:22
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.31m.39s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.32m.02s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.38m.05s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.38m.28s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.39m.07s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.40m.22s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:04
+Don't forget to enable Click to Move and UI Navigation! 00:04
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.41m.12s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:04
+Creating Winter Portal 00:13
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.41m.30s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:19
+Don't forget to enable Click to Move and UI Navigation! 00:19
+Creating Winter Portal 00:32
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [17h.42m.10s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.14m.50s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:03
+No portal in Namek, going to Shibuya 00:31
+Creating Winter Portal 00:31
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.15m.26s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.16m.40s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:03
+Creating Winter Portal 00:14
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.16m.59s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:08
+Don't forget to enable Click to Move and UI Navigation! 00:08
+Creating Winter Portal 00:18
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.17m.23s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.18m.15s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:06
+Don't forget to enable Click to Move and UI Navigation! 00:06
+Creating Winter Portal 00:17
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.18m.36s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.21m.47s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:04
+Don't forget to enable Click to Move and UI Navigation! 00:04
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.22m.06s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.22m.28s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:05
+Don't forget to enable Click to Move and UI Navigation! 00:05
+Waiting 15 seconds for others to join... 00:17
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.22m.48s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.23m.20s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:09
+Don't forget to enable Click to Move and UI Navigation! 00:09
+Creating Winter Portal 00:20
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.23m.42s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.24m.10s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:04
+Don't forget to enable Click to Move and UI Navigation! 00:04
+Creating Winter Portal 00:14
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.24m.28s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.24m.47s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:05
+Don't forget to enable Click to Move and UI Navigation! 00:06
+Creating Winter Portal 00:16
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.25m.06s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.25m.28s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:03
+Creating Winter Portal 00:13
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.25m.45s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.26m.16s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:02
+Don't forget to enable Click to Move and UI Navigation! 00:02
+Creating Winter Portal 00:13
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.26m.33s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.27m.07s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:02
+Don't forget to enable Click to Move and UI Navigation! 00:02
+Creating Winter Portal 00:13
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.27m.23s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.27m.50s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:02
+Selected Winter Portal - Solo 00:04
+Don't forget to enable Click to Move and UI Navigation! 00:04
+Creating Winter Portal 00:15
+Determining Movement Necessity on Map... 00:17
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.28m.23s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.28m.41s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:04
+Don't forget to enable Click to Move and UI Navigation! 00:04
+Creating Winter Portal 00:14
+Determining Movement Necessity on Map... 00:17
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.29m.03s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:02
+Don't forget to enable Click to Move and UI Navigation! 00:02
+Creating Winter Portal 00:13
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.29m.20s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.29m.37s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:03
+Creating Winter Portal 00:13
+Determining Movement Necessity on Map... 00:16
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.04s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.26s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.31s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.43s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.49s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.30m.57s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.31m.37s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.32m.10s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:03
+Don't forget to enable Click to Move and UI Navigation! 00:03
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.32m.32s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.33m.12s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:02
+Selected Winter Portal - Solo 00:12
+Don't forget to enable Click to Move and UI Navigation! 00:12
+Searching for Namek Portals... 00:22
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.33m.41s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.34m.07s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Selected Winter Portal - Solo 00:08
+Don't forget to enable Click to Move and UI Navigation! 00:08
+Searching for Namak Portals... 00:18
+Found Namak Portal... 00:19
+
+==Ryn's Anime Vanguards Macro v1.0==
+  Start Time: [18h.34m.32s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
