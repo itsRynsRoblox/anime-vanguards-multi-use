@@ -15,6 +15,7 @@ setupFilePath() {
 
 readInSettings() {
     global enabled1, enabled2, enabled3, enabled4, enabled5, enabled6
+    global upgradeEnabled1, upgradeEnabled2, upgradeEnabled3, upgradeEnabled4, upgradeEnabled5, upgradeEnabled6
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
@@ -82,6 +83,12 @@ readInSettings() {
                 case "Priority4": priority4.Text := parts[2]
                 case "Priority5": priority5.Text := parts[2]
                 case "Priority6": priority6.Text := parts[2]
+                case "UpgradeEnabled1": upgradeEnabled1.Value := parts[2]
+                case "UpgradeEnabled2": upgradeEnabled2.Value := parts[2]
+                case "UpgradeEnabled3": upgradeEnabled3.Value := parts[2]
+                case "UpgradeEnabled4": upgradeEnabled4.Value := parts[2]
+                case "UpgradeEnabled5": upgradeEnabled5.Value := parts[2]
+                case "UpgradeEnabled6": upgradeEnabled6.Value := parts[2]
                 case "Speed": PlaceSpeed.Value := parts[2] ; Set the dropdown value
                 case "Logic": PlacementPatternDropdown.Value := parts[2] ; Set the dropdown value
                 case "Matchmake": MatchMaking.Value := parts[2] ; Set the checkbox value
@@ -98,6 +105,7 @@ readInSettings() {
 
 SaveSettings(*) {
     global enabled1, enabled2, enabled3, enabled4, enabled5, enabled6
+    global upgradeEnabled1, upgradeEnabled2, upgradeEnabled3, upgradeEnabled4, upgradeEnabled5, upgradeEnabled6
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
@@ -139,6 +147,13 @@ SaveSettings(*) {
         content .= "`nPriority4=" priority4.Text
         content .= "`nPriority5=" priority5.Text
         content .= "`nPriority6=" priority6.Text
+
+        content .= "`n`nUpgradeEnabled1=" upgradeEnabled1.Value
+        content .= "`nUpgradeEnabled2=" upgradeEnabled2.Value
+        content .= "`nUpgradeEnabled3=" upgradeEnabled3.Value
+        content .= "`nUpgradeEnabled4=" upgradeEnabled4.Value
+        content .= "`nUpgradeEnabled5=" upgradeEnabled5.Value
+        content .= "`nUpgradeEnabled6=" upgradeEnabled6.Value
 
         content .= "`n`n[PlacementLogic]"
         content .= "`nLogic=" PlacementPatternDropdown.Value "`n"

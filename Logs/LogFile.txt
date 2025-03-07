@@ -455,3 +455,201 @@ Starting Challenge Mode 00:03
 ==Ryn's Anime Guardians Macro v1.0==
   Start Time: [12h.06m.30s]
 Configuration settings loaded successfully 00:00
+
+==Ryn's Anime Royale Macro v0.1==
+  Start Time: [16h.34m.53s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.1==
+  Start Time: [16h.36m.03s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.1==
+  Start Time: [16h.38m.16s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.1==
+  Start Time: [16h.44m.04s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [19h.31m.58s]
+? Configuration settings loaded successfully! 00:00
+?? Update available! Current: 0.2 ? Latest: 0.1 00:01
+? Configuration settings saved successfully! 00:16
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [19h.32m.31s]
+? Configuration settings loaded successfully! 00:00
+?? Update available! Current: 0.2 ? Latest: 0.1 00:01
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [12h.58m.01s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+? No saved coordinates! Please capture some points first. 00:16
+Selected Custom 00:22
+? No saved coordinates! Please capture some points first. 00:23
+?? Saved Coordinates ? X: 328, Y: 344 00:45
+?? Saved Coordinates ? X: 536, Y: 415 00:47
+Selected Custom 00:53
+Don't forget to enable Click to Move and UI Navigation! 00:53
+Starting Custom Mode 00:56
+Successfully Loaded In 00:57
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [12h.59m.02s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:02
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [12h.59m.58s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+? No saved coordinates! Please capture some points first. 00:00
+?? Saved Coordinates ? X: 306, Y: 408 00:09
+?? Saved Coordinates ? X: 523, Y: 377 00:11
+Selected Custom 00:13
+Don't forget to enable Click to Move and UI Navigation! 00:13
+Starting Custom Mode 00:14
+Successfully Loaded In 00:15
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.00m.16s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.24m.31s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+? No saved coordinates! Please capture some points first. 00:45
+Checking win/loss status 05:19
+Checking win/loss status 05:20
+Checking win/loss status 05:21
+Checking win/loss status 05:22
+Checking win/loss status 05:23
+Checking win/loss status 05:24
+Checking win/loss status 05:25
+Checking win/loss status 05:27
+Checking win/loss status 05:28
+Checking win/loss status 05:29
+Checking win/loss status 05:30
+Checking win/loss status 05:31
+Checking win/loss status 05:32
+Checking win/loss status 05:33
+Checking win/loss status 05:34
+Checking win/loss status 05:35
+Checking win/loss status 05:36
+Checking win/loss status 05:37
+Checking win/loss status 05:38
+Checking win/loss status 05:39
+Checking win/loss status 05:40
+Checking win/loss status 05:42
+Checking win/loss status 05:43
+Checking win/loss status 05:44
+Checking win/loss status 05:45
+Checking win/loss status 05:46
+Checking win/loss status 05:47
+Checking win/loss status 05:48
+Checking win/loss status 05:49
+Checking win/loss status 05:50
+Checking win/loss status 05:51
+Checking win/loss status 05:52
+Checking win/loss status 05:53
+Checking win/loss status 05:55
+Checking win/loss status 05:56
+Checking win/loss status 05:57
+Checking win/loss status 05:58
+Checking win/loss status 05:59
+Checking win/loss status 06:00
+Checking win/loss status 06:01
+Checking win/loss status 06:02
+Checking win/loss status 06:03
+Checking win/loss status 06:04
+Checking win/loss status 06:05
+Checking win/loss status 06:06
+Checking win/loss status 06:07
+Checking win/loss status 06:08
+Checking win/loss status 06:09
+Checking win/loss status 06:11
+Checking win/loss status 06:12
+Checking win/loss status 06:13
+Checking win/loss status 06:14
+Checking win/loss status 06:15
+Checking win/loss status 06:16
+Checking win/loss status 06:17
+Checking win/loss status 06:18
+Checking win/loss status 06:19
+Checking win/loss status 06:20
+Checking win/loss status 06:21
+Checking win/loss status 06:22
+Checking win/loss status 06:23
+Checking win/loss status 06:25
+Checking win/loss status 06:26
+Checking win/loss status 06:27
+Checking win/loss status 06:28
+Checking win/loss status 06:29
+Checking win/loss status 06:30
+Checking win/loss status 06:31
+Checking win/loss status 06:32
+Checking win/loss status 06:33
+Checking win/loss status 06:34
+Checking win/loss status 06:35
+Checking win/loss status 06:36
+Checking win/loss status 06:37
+Checking win/loss status 06:38
+Checking win/loss status 06:40
+Checking win/loss status 06:41
+Checking win/loss status 06:42
+Checking win/loss status 06:43
+Checking win/loss status 06:44
+Checking win/loss status 06:45
+Checking win/loss status 06:46
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.31m.21s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.32m.11s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+? No saved coordinates! Please capture some points first. 00:01
+Selected Custom 00:02
+? No saved coordinates! Please capture some points first. 00:02
+Checking win/loss status 00:05
+Checking win/loss status 00:06
+Checking win/loss status 00:07
+Checking win/loss status 00:08
+Checking win/loss status 00:09
+Checking win/loss status 00:10
+Checking win/loss status 00:11
+Checking win/loss status 00:13
+Checking win/loss status 00:14
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.32m.27s]
+? Configuration settings loaded successfully! 00:00
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.33m.18s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01
+Checking win/loss status 00:02
+Victory detected - Stage Length: 00:00:02 00:02
+No webhook configured - skipping webhook 00:02
+Found Lobby Text - Current Mode:  00:06
+Handling end case 00:08
+Replaying 00:08
+Successfully Loaded In 00:10
+
+==Ryn's Anime Vanguards Macro v0.2==
+  Start Time: [13h.33m.31s]
+? Configuration settings loaded successfully! 00:00
+You are using the latest version. 00:01

@@ -6,9 +6,9 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "0.1"
+global currentVersion := "0.3"
 ; Basic Application Info
-global aaTitle := "Ryn's Anime Royale Macro "
+global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion
 global rblxID := "ahk_exe RobloxPlayerBeta.exe"
 ;Coordinate and Positioning Variables
@@ -21,6 +21,7 @@ global WM_SIZE := 0x0005
 global centerX := 408
 global centerY := 320
 global successfulCoordinates := []
+global maxedCoordinates := []
 ;State Variables
 global enabledUnits := Map()  
 global placementValues := Map()
@@ -303,6 +304,8 @@ AddUnitCard(aaMainUI, index, x, y) {
     aaMainUI.SetFont("s11 Bold c" uiTheme[1])
     unit.Title := aaMainUI.Add("Text", Format("x{} y{} w60 h25 +BackgroundTrans", x+30, y+18), "Unit " index)
 
+    unit.Title := aaMainUI.Add("Text", Format("x{} y{} w250 h25 +BackgroundTrans", x+285, y+18), "Upgrade During Placement")
+
     aaMainUI.SetFont("s9 c" uiTheme[1])
     unit.PlacementText := aaMainUI.Add("Text", Format("x{} y{} w70 h20 +BackgroundTrans", x+100, y+2), "Placement")
     unit.PriorityText := aaMainUI.Add("Text", Format("x{} y{} w60 h20 BackgroundTrans", x+183, y+2), "Priority")
@@ -324,6 +327,13 @@ enabled3 := aaMainUI.Add("CheckBox", "x818 y205 w15 h15", "")
 enabled4 := aaMainUI.Add("CheckBox", "x818 y255 w15 h15", "")
 enabled5 := aaMainUI.Add("CheckBox", "x818 y305 w15 h15", "")
 enabled6 := aaMainUI.Add("CheckBox", "x818 y355 w15 h15", "")
+
+upgradeEnabled1 := aaMainUI.Add("CheckBox", "x1070 y105 w15 h15", "")
+upgradeEnabled2 := aaMainUI.Add("CheckBox", "x1070 y155 w15 h15", "")
+upgradeEnabled3 := aaMainUI.Add("CheckBox", "x1070 y205 w15 h15", "")
+upgradeEnabled4 := aaMainUI.Add("CheckBox", "x1070 y255 w15 h15", "")
+upgradeEnabled5 := aaMainUI.Add("CheckBox", "x1070 y305 w15 h15", "")
+upgradeEnabled6 := aaMainUI.Add("CheckBox", "x1070 y355 w15 h15", "")
 
 aaMainUI.SetFont("s8 c" uiTheme[6])
 
