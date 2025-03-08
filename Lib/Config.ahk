@@ -99,6 +99,7 @@ readInSettings() {
             }
         }
         AddToLog("✅ Configuration settings loaded successfully!")
+        LoadCardLocal()
     } 
 }
 
@@ -188,6 +189,7 @@ SaveSettings(*) {
         
         FileAppend(content, settingsFile)
         AddToLog("✅ Configuration settings saved successfully!")
+        SaveCardLocal()
     }
 }
 

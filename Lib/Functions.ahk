@@ -317,3 +317,38 @@ ChooseDropdownItemByText(dropDown, text) {
     }
     return false
 }
+
+CardSelector() {
+    AddToLog("Picking card in priority order")
+    if (ok := FindText(&X, &Y, 200, 239, 276, 270, 0, 0, UnitExistence)) {
+        FixClick(329, 184) ; close upg menu
+        sleep 100
+    }
+
+    MouseMove(260, 280)
+    Sleep(200)
+
+    MouseMove(400, 280)
+    Sleep(200)
+
+    MouseMove(540, 280)
+    Sleep(200)
+
+    for index, priority in priorityOrder {
+        if (!textCards.Has(priority)) {															
+            continue
+        }
+        if (ok := FindText(&cardX, &cardY, 209, 203, 652, 404, 0.15, 0.15, textCards.Get(priority))) {
+            AddToLog(Format("Picked card: {}", priority))
+            FindText().Click(cardX, cardY, 0)
+            MouseMove 0, 10, 2, "R"
+            Click 2
+            sleep 1000
+            MouseMove 0, 120, 2, "R"
+            Click 2
+            sleep 1000
+            return
+        }
+    }
+    AddToLog("Failed to pick a card")
+}

@@ -62,15 +62,24 @@ ShibuyaAngle:="|<>*36$26.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzlzzzk7zztwzzwvjzz8DzzUx
 ShibuyaAngle2:="|<>*10$23.0D000zU01zs07zy0Tzz0zzy1zzw7zzwDzzszzzVzzyDzzsDzzUzzz1zzy3zzs0zzkFTz00Dy001s000k00008"
 KuinshiAngle:="|<>*59$30.000000A000000000U000000000000010000100041U0021U0033U00D7k01z7s01z7w03zDzUDzDzzzzTzzzzTzzzzDzzzzDzzzzDzzzzDzzzz7zzzz7zzzz3zzzz1zzzz0zzzw0Tzzs0DzzkU"
 
-;FindText Starter cards
+;Mist's FindText Cards
 CardsPopup:="|<>*36$22.zzzzTzwt3Y3cAU4aGNGMNZ9VaIkD3P0wBbzza"
 CardsPopup2:="|<>*68$54.zzzzzzzzzzhyzzzzzzUBwzTzzvzUBwzDzztzD94C4Ak0VD84604001D8QD96111U0070D003k10b4DA8VzzzzzzzzzU"
-ExplodingCard:="|<>*26$41.zzzzzzzzzzzzzz0zzszzY1zzlzy8zzzXrwEQE1630UQ42A210wMUFUWDkF0W1410UMUkA3RVlXkzzzTzzzzzyzzzz"
-ThriceCard:="|<>*28$39.zzzzzzw03zXzzU0TyTzzXXzzzjwQ20EETbU0221wwMA3UDbX1UQ3wwMAEETbr/r73zzzzzzw"
+
+;Ryn's FindText Cards
+AdditionalCardPopup:="|<>*117$83.zzzxzTzzzzzzzzbyT1iTzzsTzzbyDwyKBzzz0TzzDwDlswDTtyBzywNkQ2000M1sz010VYM0004k1ly02030W10W803XsUMW604214MEDXF0l65t0U20kkT0E1k0Dn1U61nkzVkHkEzzzzzzzzzzzzzzk"
 ChampionCard:="|<>*9$40.zzzzzzzkXzzzzw0DzzzzlczzzzyDUM00UMy0U001XskE9UX6X10a2A0AU2M1sAn19UDzzzzzXzzzzzyDU"
+DrowsyCard:="|<>*32$50.zzzzzzzzzVzzzzzzzk7zzzzzzwEzzzzzzz70EH90tzlk4022YTwQ6AU48Dz61W83V3zk4Q78UFzy3bVnQCTzzzzzzz7zzzzzzznzzzzzzzwzs"
+DodgeCard:="|<>*58$44.zzzzzzzzVzznzzzk7zwzzzwEzzDzzz78A211zlm10UEDwQ62303z610UE1zk630UETy3ksA47zzzzyHzzzzzzUzzzzzzwTzs"
+ExplodingCard:="|<>*26$41.zzzzzzzzzzzzzz0zzszzY1zzlzy8zzzXrwEQE1630UQ42A210wMUFUWDkF0W1410UMUkA3RVlXkzzzTzzzzzyzzzz"
+FastCard:="|<>*40$27.zzzzy1zzrUDzwwTzvXUs48A3051UF4AwS8lbns4ACzZVlzzzzw"
 ImmunityCard:="|<>*33$38.zzzzzzwzzzzzyDzzzzzXzzzzzs040FU60000M0UH1A6384kH90m1A4m0Aqn/AkLDzzzzzy"
+QuakeCard:="|<>*36$39.zzzzzzzVzzwTzk7zzXzy8TzwTzXmAU2EQyFY023XmA40UCQN0U43k10U0ET0A62G3zzzzzzzzzzzzzU"
+RegenCard:="|<>*40$36.zzzzzzkTzzzzUDzzzzWCzzjzX8A221U04200U00U0AU08U2AX8A22ArAC73QzzzbzzzzwDzzzzzTzzU"
 RevitalizeCard:="|<>*20$37.zzzzzzUzzwPzUDzzNzl7TzwTsm2QU40006E2000E8a800QAH438CC8E/a7biADzzzzzzzzzzzzU"
-QuakeCard:="|<>*36$37.zzzzzzzzzzzzwDzzXzs3zzlzwEzzszySFY0G3T8m011bYM810HX840UM0UE08C0MA4Y7zzzzzzU"
+ShieldedCard:="|<>*47$53.zzzzzzzzzslszXszyDUXvz7lzwS97ziDXjswC144M461w4080k843y0k014017q1U0W80WD0X11W11UT3iL3633Uzzzzzzzzzk"
+StrongCard:="|<>*28$40.zzzzzzz7jzzzzsAzzzzz4lzrzzwC04430s80E043sH6A62ClAMUM8sA9kNY3lsjXiMTzzzzztzzzzzzbzzzzzzy"
+ThriceCard:="|<>*28$39.zzzzzzw03zXzzU0TyTzzXXzzzjwQ20EETbU0221wwMA3UDbX1UQ3wwMAEETbr/r73zzzzzzw"
 
 ;Portals
 SelectOneReward:="|<>*108$211.zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzXzXzzrzzzzzzzTzsylzzv7zzzzzzzzzzbzzUzlzznzzzzzzzDzsSMzztXzzzzzzzzzznzzWTszzszzzzzzzXzwT4TzwFzzzzzzzzzztzzsw4MA0D10kT160w4701Uw04463kEH9010VDw60A207U087U30S03U0EC00210s804U0U2XzU040DDX1U3X1YyAbtX07aA600QM2021W8TzM0W17Xl0k3l4WD4HwFU7l630USA30F0l67z0kMUkEw4N1w613kNy0m3s31kMD71mA0Q00TkMAEQQT3AUz3UlwAzWN1y9YsA7nUtj1D12Tzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzs"
@@ -91,3 +100,19 @@ shibuyaWinterAngle3:="|<>*85$117.zzzzzzzzzzzzzzzzzzy7zzzzzzzzzzzzzzzzzzyzzzzzzzz
 sandPortal:="|<>*75$24.zzzzzzzzzzzzwTztsTztss1VyG49tE41wMYXzzzzzzzzU"
 
 ShibuyaStationBackupAngle:="|<>*101$89.03zy00000003zz007zw00000007zy00Dzs0000000Dzw00Tzk0000000TzsDrzzU0000000zzzU1zy00000001zzU03zw00000007zz00Dzs0000000Dzy00Tzk0000000Tzw00zzU0000000zzs01zz00000001zzk03zy00000003zzU07zw00000007zy00Dzs0000000Dzw00Tzk0000000Tzs00zz00000000zzk01zy00000001zzU07zw00000003zz00Dzs00000007zy00Tzk0000000Tzw00zzU0000000zzs01zz00000001zzk03zy00000003zzU07zw00000007zz00Dzs0000000Dzy00TzU0000000Tzw01zz00000000zzk03zy00000001zzU07zw00000003zz00Dzs00000007zy00Tzk0000000Dzw00zzU0000000Tzs01zz00000001zzk03zy00000003zzU07zw00000007zz00Dzs0000000Dzy00zzU0000000Tzw01zz00000000zzs03zy00000001zzk07zw00000003zzU0Dzs00000007zz00Tzk0000000Dzw00zzU0000000Tzs01zz00000000zzk03zy00000001zzU0Dzw00000007zz00zzk0000000Dzy0E" ;148, 86, 274, 156
+
+
+global textCards := Map(
+    "Regen", RegenCard,
+    "Thrice", ThriceCard,
+    "Exploding", ExplodingCard,
+    "Fast", FastCard,
+    "Champion", ChampionCard,
+    "Immunity", ImmunityCard,
+    "Revitalize", RevitalizeCard,
+    "Drowsy", DrowsyCard,
+    "Strong", StrongCard,
+    "Shielded", ShieldedCard,
+    "Dodge", DodgeCard,
+    "Quake", QuakeCard
+)

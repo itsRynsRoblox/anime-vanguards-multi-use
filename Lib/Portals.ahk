@@ -166,8 +166,6 @@ CheckPortals(portalSet) {
     ]
     
     portals := (portalSet = PlanetNamekPortal) ? namekPortals : shibuyaPortals
-
-    AddToLog(portalSet)
     
     for i, portal in portals {
         MouseMove(portal.x, portal.y, 1)
@@ -176,12 +174,15 @@ CheckPortals(portalSet) {
         Sleep 500
         
         if (ok := FindText(&X, &Y, portal.search.x1, portal.search.y1, portal.search.x2, portal.search.y2, 0, 0, portalSet)) {
+            AddToLog("Attemping to claim portal...")
             FixClick(portal.x, 338) ; Select Portal
             Sleep 1000
             FixClick(345, 315) ; Confirm Portal
             Sleep 500
             FixClick(400, 300) ; Cancel Success
             Sleep 500
+            SendInput("x") 
+            Sleep(500)
             return MonitorStage()
         }
     }

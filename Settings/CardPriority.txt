@@ -1,0 +1,13 @@
+[CardPriority]
+Card2=Regen
+Card3=Thrice
+Card4=Exploding
+Card5=Fast
+Card6=Champion
+Card7=Immunity
+Card8=Revitalize
+Card9=Drowsy
+Card10=Strong
+Card11=Shielded
+Card12=Dodge
+Card13=Quake

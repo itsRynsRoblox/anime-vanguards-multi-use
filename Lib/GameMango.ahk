@@ -13,12 +13,11 @@ Hotkey(F3Key, (*) => Reload())
 Hotkey(F4Key, (*) => TogglePause())
 
 F5::{
-    FixMapCameraAngle("Shibuya Aftermath")
-    HandleMapMovement("Shibuya Aftermath")
+
 }
 
 F6::{
-    TrySandPortals(false)
+
 }
 
 
@@ -109,19 +108,52 @@ PlacingUnits(untilSuccessful := true) {
 
                 ; If untilSuccessful is false, try once and move on
                 if (!untilSuccessful) {
-                    if PlaceUnit(point.x, point.y, slotNum) {
-                        successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
-                        placedCounts[slotNum] += 1
-                        AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
-                        CheckAbility()
-                        FixClick(700, 560) ; Move Click
+                    if (placedCounts[slotNum] < placements) {
+                        if PlaceUnit(point.x, point.y, slotNum) {
+                            successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
+                            placedCounts[slotNum] += 1
+                            AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
+                            CheckAbility()
+                            FixClick(700, 560) ; Move Click
+                            if (UpgradeDuringPlacementBox.Value) {
+                                AttemptUpgrade()
+                            }
+                        }
+                    }
+                }
+                ; If untilSuccessful is true, keep trying the same point until it works
+                else {
+                    while (placedCounts[slotNum] < placements) {
+                        if PlaceUnit(point.x, point.y, slotNum) {
+                            successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
+                            placedCounts[slotNum] += 1
+                            AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
+                            CheckAbility()
+                            FixClick(700, 560) ; Move Click
+                            if (UpgradeDuringPlacementBox.Value) {
+                                AttemptUpgrade()
+                            }
+                            break ; Move to the next placement spot
+                        }
+
                         if (UpgradeDuringPlacementBox.Value) {
                             AttemptUpgrade()
                         }
-                        break
-                    }
-                    if (UpgradeDuringPlacementBox.Value) {
-                        AttemptUpgrade()
+
+                        if (ModeDropdown.Text = "Portal") {
+                            if CheckPortalRewards() {
+                                successfulCoordinates := []
+                                maxedCoordinates := []
+                                return MonitorStage()
+                            }
+                        }
+
+                        if CheckForRewards()
+                            return MonitorStage()
+
+                        Reconnect()
+                        CheckEndAndRoute()
+                        Sleep(500) ; Prevents spamming clicks too fast
                     }
                 }
 
@@ -135,40 +167,6 @@ PlacingUnits(untilSuccessful := true) {
 
                 if CheckForRewards()
                     return MonitorStage()
-
-                ; If untilSuccessful is true, keep trying the same point until it works
-                while (placedCounts[slotNum] < placements) {
-                    if PlaceUnit(point.x, point.y, slotNum) {
-                        successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
-                        placedCounts[slotNum] += 1
-                        AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
-                        CheckAbility()
-                        FixClick(700, 560) ; Move Click
-                        if (UpgradeDuringPlacementBox.Value) {
-                            AttemptUpgrade()
-                        }
-                        break ; Move to the next placement spot
-                    }
-
-                    if (UpgradeDuringPlacementBox.Value) {
-                        AttemptUpgrade()
-                    }
-
-                    if (ModeDropdown.Text = "Portal") {
-                        if CheckPortalRewards() {
-                            successfulCoordinates := []
-                            maxedCoordinates := []
-                            return MonitorStage()
-                        }
-                    }
-
-                    if CheckForRewards()
-                        return MonitorStage()
-
-                    Reconnect()
-                    CheckEndAndRoute()
-                    Sleep(500) ; Prevents spamming clicks too fast
-                }
             }
         }
     }
@@ -176,6 +174,8 @@ PlacingUnits(untilSuccessful := true) {
     AddToLog("All units placed to requested amounts")
     UpgradeUnits()
 }
+
+
 
 AttemptUpgrade() {
     global successfulCoordinates, maxedCoordinates, PriorityUpgrade, debugMessages
@@ -1352,6 +1352,14 @@ RestartStage() {
     ; Wait for loading
     CheckLoaded()
 
+    CheckForCardSelection()
+    if (ModeDropdown.Text = "Story") {
+        if (StoryActDropdown.Text = "Paragon") {
+            Sleep(1000)
+            CheckForCardSelection()
+        }
+    }
+
     ; Do initial setup and map-specific movement during vote timer
     BasicSetup()
 
@@ -1372,7 +1380,7 @@ RestartStage() {
     StartedGame()
 
     ; Begin unit placement and management
-    PlacingUnits(false)
+    PlacingUnits(PlacementPatternDropdown.Text == "Custom")
     
     ; Monitor stage progress
     MonitorStage()
@@ -1437,7 +1445,7 @@ RestartStageCustom() {
     StartedGame()
 
     Sleep (2000)
-    HandleStarterCards()
+    CheckForCardSelection()
     
     ; Begin unit placement and management
     PlacingUnits(true)
@@ -1569,9 +1577,13 @@ RestartMatch() {
     Sleep (1000)
     FixClick(345, 310) ;click yes
     Sleep (1000)
-    if (mode = "Legend") {
-        Sleep(2000)  ; Wait for cards to appear
-        HandleStarterCards()
+    Sleep(2000)
+    CheckForCardSelection()
+    if (ModeDropdown.Text = "Story") {
+        if (StoryActDropdown.Text = "Paragon") {
+            Sleep(1000)
+            CheckForCardSelection()
+        }
     }
     Sleep (2000)
     FixClick(400, 300) ;click cancel
@@ -1716,9 +1728,7 @@ CheckLoaded() {
         if (ok := FindText(&X, &Y, 322, 110, 483, 170, 0, 0, VoteStart) or (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2)) or PixelGetColor(300, 15) = 0x0F9C24 or PixelGetColor(300, 15) = 0x15DE33)) {
             AddToLog("Successfully Loaded In")
             Sleep(1000)
-            if (mode = "Legend") {
-                HandleStarterCards()
-            }
+            CheckForCardSelection()
             break
         }
 
@@ -1795,7 +1805,6 @@ GetNavKeys() {
 }
 
 UseCustomPoints() {
-    AddToLog("Using Custom")
     global savedCoords  ; Access the global saved coordinates
     points := []
 
@@ -2210,6 +2219,24 @@ IdentifyCard(x1, y1, x2, y2) {
     else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ImmunityCard)) {
         return "Immunity"
     }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, RegenCard)) {
+        return "Regen"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, DodgeCard)) {
+        return "Dodge"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, FastCard)) {
+        return "Fast"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, DrowsyCard)) {
+        return "Drowsy"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, StrongCard)) {
+        return "Strong"
+    }
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ShieldedCard)) {
+        return "Shielded"
+    }
     
     return "Unknown"
 }
@@ -2236,14 +2263,11 @@ StartPortal() {
         }
 
         AddToLog("Creating " selectedPortal)
-       /* FixClick(206, 255)  ; Click On Portal
-        Sleep (1500)
-        FixClick(310, 303)  ; Click On Use
-        Sleep (1500)
-        FixClick(366, 300)  ; Click On Create
-        Sleep (1500)
-        FixClick(366, 300) ; Exit Message
-        Sleep (1500)
-        FixClick(552, 469) ; Start Portal
-        Sleep (1500)*/
+}
+
+CheckForCardSelection() {
+    AddToLog("Checking for cards....")
+    if (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, AdditionalCardPopup)))) {
+        CardSelector()
+    }
 }

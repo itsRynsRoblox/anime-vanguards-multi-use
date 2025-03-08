@@ -6,7 +6,7 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "1.2"
+global currentVersion := "1.2.4"
 ; Basic Application Info
 global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion
@@ -177,6 +177,11 @@ ShowSettingsGUI(*) {
     SettingsGUI.Add("Text", "x20 y30 c" uiTheme[1], "Navigation Key")
     global UINavBox := SettingsGUI.Add("Edit", "x20 y50 w20 h20 c" uiTheme[6], "\")
 
+    SettingsGUI.Add("GroupBox", "x160 y10 w115 h70 c" uiTheme[1], "Card Priority")
+    PriorityPickerButton := SettingsGUI.Add("Button", "x170 y50 w95 h20", "Edit")
+    PriorityPickerButton.OnEvent("Click", (*) => OpenPriorityPicker())
+
+
     ; Save buttons
     webhookSaveBtn := SettingsGUI.Add("Button", "x460 y135 w120 h25", "Save Webhook")
     webhookSaveBtn.OnEvent("Click", (*) => SaveWebhookSettings())
@@ -247,20 +252,16 @@ ShowCardSettingsGUI(*) {
     
     ; Create dropdown lists 
     CardSettingsGUI.Add("Text", "x40 y110 w30 h20 c" uiTheme[1], "1st:")
-    settingsPri1 := CardSettingsGUI.Add("DropDownList", "x70 y107 w100 h180", 
-        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri1 := CardSettingsGUI.Add("DropDownList", "x70 y107 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
     
     CardSettingsGUI.Add("Text", "x205 y110 w30 h20 c" uiTheme[1], "2nd:")
-    settingsPri2 := CardSettingsGUI.Add("DropDownList", "x235 y107 w100 h180", 
-        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri2 := CardSettingsGUI.Add("DropDownList", "x235 y107 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
     
     CardSettingsGUI.Add("Text", "x40 y145 w30 h20 c" uiTheme[1], "3rd:")
-    settingsPri3 := CardSettingsGUI.Add("DropDownList", "x70 y142 w100 h180", 
-        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri3 := CardSettingsGUI.Add("DropDownList", "x70 y142 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
     
     CardSettingsGUI.Add("Text", "x205 y145 w30 h20 c" uiTheme[1], "4th:")
-    settingsPri4 := CardSettingsGUI.Add("DropDownList", "x235 y142 w100 h180", 
-        ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri4 := CardSettingsGUI.Add("DropDownList", "x235 y142 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
     
     ; Load saved priorities from file
     savedPriorities := ["Thrice", "Champion", "Revitalize", "Exploding"]  ; Default values
@@ -351,10 +352,10 @@ aaMainUI.SetFont("s9")
 global MatchMaking := aaMainUI.Add("Checkbox", "x1143 y476 cffffff Checked", "Matchmaking")
 global NextLevelBox := aaMainUI.Add("Checkbox", "x900 y451 cffffff Checked", "Next Level")
 global ReturnLobbyBox := aaMainUI.Add("Checkbox", "x1015 y451 cffffff Checked", "Return To Lobby")
-global AutoAbilityBox := aaMainUI.Add("CheckBox", "x1150 y476 cffffff Checked", "Auto Ability")
-global UpgradeDuringPlacementBox := aaMainUI.Add("Checkbox", "x1150 y451 cffffff Checked", "Upgrade During Placement")
+global UpgradeDuringPlacementBox := aaMainUI.Add("Checkbox", "x1150 y476 cffffff Checked", "Upgrade During Placement") ; x1150 y451
 global UINavToggle := aaMainUI.Add("CheckBox", "x900 y476 cffffff Checked", "UI Navigation")
-global PriorityUpgrade := aaMainUI.Add("CheckBox", "x1015 y476 cffffff", "Priority Upgrade")
+global AutoAbilityBox := aaMainUI.Add("CheckBox", "x1040 y476 cffffff Checked", "Auto Ability")
+global PriorityUpgrade := aaMainUI.Add("CheckBox", "x900 y476 cffffff", "Priority Upgrade")
 PlacementPatternText := aaMainUI.Add("Text", "x1032 y390 w115 h20", "Placement Type")
 global PlacementPatternDropdown := aaMainUI.Add("DropDownList", "x1035 y410 w100 h180 Choose2 +Center", ["Circle", "Custom", "Grid", "Random"])
 PlaceSpeedText := aaMainUI.Add("Text", "x1193 y390 w115 h20", "Placement Speed")
@@ -382,9 +383,9 @@ fixCameraText := aaMainUI.Add("Text", "x520 y642 w120 h20 +Left", "Fix Setup")
 fixCameraButton := aaMainUI.Add("Button", "x510 y662 w80 h20", "Setup")
 fixCameraButton.OnEvent("Click", (*) => BasicSetup())
 
-CardSettingsText := aaMainUI.Add("Text", "x682 y642 w100 h20 +Left", "Starter Cards")
+CardSettingsText := aaMainUI.Add("Text", "x682 y642 w100 h20 +Left", "Card Priority")
 global CardSettingsBtn := aaMainUI.Add("Button", "x685 y662 w80 h20", "Edit Cards")
-CardSettingsBtn.OnEvent("Click", ShowCardSettingsGUI)
+CardSettingsBtn.OnEvent("Click", (*) => OpenPriorityPicker())
 
 GithubButton.OnEvent("Click", (*) => OpenGithub())
 DiscordButton.OnEvent("Click", (*) => OpenDiscord())
@@ -404,6 +405,7 @@ global PortalDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose
 global PortalMapDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Namek", "Shibuya"])
 global ConfirmButton := aaMainUI.Add("Button", "x1218 y53 w80 h25", "Confirm")
 
+UINavToggle.Visible := false
 StoryDropdown.Visible := false
 StoryActDropdown.Visible := false
 LegendDropDown.Visible := false
@@ -666,30 +668,31 @@ UpdateTooltip() {
     global waitingForClick
     if waitingForClick {
         MouseGetPos &x, &y
-        ToolTip "Press shift anywhere to save coordinates...", x + 10, y + 10  ; Offset tooltip slightly
+        ToolTip "Click anywhere to save coordinates...", x + 10, y + 10  ; Offset tooltip slightly
     } else {
         ToolTip()  ; Hide tooltip when not waiting
         SetTimer UpdateTooltip, 0  ; Stop the timer
     }
 }
 
-~LShift:: 
+~LButton::
 {
-    global waitingForClick, savedCoords  
+    global waitingForClick, savedCoords
     if waitingForClick {
+        ; Wait for the button press and get the position when the mouse button is clicked
         MouseGetPos &x, &y
         waitingForClick := false
         SetTimer UpdateTooltip, 0  ; Stop updating tooltip immediately
 
         if !IsSet(savedCoords)  ; Ensure savedCoords is initialized
             savedCoords := []
-        savedCoords.Push({x: x, y: y})  ; Store as an object
+        savedCoords.Push({x: x, y: y - 25})  ; Store as an object
 
         ToolTip("Coordinates added: " x ", " y, x + 10, y + 10)  ; Show tooltip
         AddToLog("📌 Saved Coordinates → X: " x ", Y: " y)
 
         ; Ensure tooltip disappears properly by resetting and manually clearing it
-        SetTimer ClearToolTip, -2000
+        SetTimer ClearToolTip, -1200
     }
 }
 
