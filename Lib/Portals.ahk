@@ -87,7 +87,7 @@ TryShibuyaPortals(inGame := false) {
                         return
                     } else {
                         FixClick(345, 314) ; Click Yes
-                        Sleep (1500)
+                        Sleep (6500)
                         return RestartStage()
                     }
                 }

@@ -822,10 +822,12 @@ StartStory(map, act) {
     
     ; Scroll if needed for act
     if (StoryAct.scrolls > 0) {
-        AddToLog("Scrolling down " StoryAct.scrolls " for " act)
+        AddToLog("Scrolling down " StoryAct.scrolls " times for " act)
         MouseMove(300, 240)
-        SendInput("{WheelDown}")
-        Sleep(250)
+        loop StoryAct.scrolls {
+            SendInput("{WheelDown}")
+            Sleep(250)
+        }
     }
     Sleep(1000)
     
@@ -1007,6 +1009,7 @@ GetStoryAct(act) {
         case "Act 5": return {x: 300, y: 290, scrolls: 1}
         case "Act 6": return {x: 300, y: 340, scrolls: 1}
         case "Infinity": return {x: 300, y: 390, scrolls: 1}
+        case "Paragon": return {x: 300, y: 390, scrolls: 5}
     }
 }
 
@@ -1464,10 +1467,10 @@ FixMapCameraAngle(mapName) {
     ; First check if the camera angle is already correct
     if (IsCorrectAngle(mapName)) {
         AddToLog("Camera angle is correct for " mapName)
-        if (!ModeDropdown.Text = "Portal") {
-            RestartMatch()
-        } else {
+        if (ModeDropdown.Text = "Portal") {
             SellCameraUnit()
+        } else {
+            RestartMatch()
         }
         return
     }
@@ -1493,10 +1496,10 @@ FixMapCameraAngle(mapName) {
         ; Check if angle is now fixed
         if (IsCorrectAngle(mapName)) {
             AddToLog("Camera angle fixed with spectator")
-            if (!ModeDropdown.Text = "Portal") {
-                RestartMatch()
-            } else {
+            if (ModeDropdown.Text = "Portal") {
                 SellCameraUnit()
+            } else {
+                RestartMatch()
             }
             return
         }
