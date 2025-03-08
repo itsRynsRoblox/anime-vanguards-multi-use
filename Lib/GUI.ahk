@@ -6,7 +6,7 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "1.0"
+global currentVersion := "1.2"
 ; Basic Application Info
 global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion

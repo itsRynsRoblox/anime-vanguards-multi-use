@@ -4,17 +4,18 @@ global CurrentPortal := ""  ; Global variable to store the portal name
 
 CheckPortalRewards() {
     Loop {
-        if (ok := FindText(&X, &Y, 310, 225, 550, 250, 0, 0, SelectOneReward)) {
+        if (ok := FindText(&X, &Y, 290, 213, 515, 231, 0, 0, SelectOneReward)) {
             AddToLog("Rewards Found - Checking for Portals")
-            Sleep 15000
-            CheckPortals(CurrentPortal)
+            Sleep (1500)
+            CheckPortals(PlanetNamekPortal)
+            break
         } else {
             Reconnect()
         }
     }
 }
 
-TryNamekPortals() {
+TryNamekPortals(inGame := false) {
     AddToLog("Searching for Namak Portals...")
     xOffsets := [200, 280, 360, 440, 520, 600]
     yOffsets := [255, 325, 395]
@@ -27,27 +28,34 @@ TryNamekPortals() {
             Sleep 500
 
             if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, PlanetNamekPortal)) {
-                AddToLog("Found Namak Portal...")
+                AddToLog("Found Namak Portal, attempting to start...")
                 FixClick(x - 75, y - 100)
                 Sleep 500
-                FixClick(x, y - 60)
-                Sleep(500)
-                FixClick(366, 300)  ; Click On Create
-                Sleep (1500)
-                FixClick(366, 300) ; Exit Message
-                Sleep (1500)
-                FixClick(552, 469) ; Start Portal
-                Sleep (1500)
-                return
+                if (!inGame) {
+                    FixClick(x, y - 60)
+                    Sleep(500)
+                    FixClick(366, 300)  ; Click On Create
+                    Sleep (1500)
+                    FixClick(366, 300) ; Exit Message
+                    Sleep (1500)
+                    FixClick(552, 469) ; Start Portal
+                    Sleep (1500)
+                    return
+                } else {
+                    FixClick(345, 314) ; Click Yes
+                    Sleep (1500)
+                    return RestartStage()
+                }
             }
         }
     }
 
     Reconnect()
     AddToLog("No portal in Namek, going to Shibuya")
+    TryShibuyaPortals(inGame)
 }
 
-TryShibuyaPortals() {
+TryShibuyaPortals(inGame := false) {
     xOffsets := [200, 280, 360, 440, 520, 600]
     yOffsets := [255, 325, 395]
 
@@ -58,33 +66,49 @@ TryShibuyaPortals() {
             MouseMove(x + 5, y, 1)
             Sleep 500
 
-            if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, PlanetNamekPortal)) {
+            if (ok := FindText(&X, &Y, 334, 292, 708, 459, 0, 0, ShibuyaAftermath)) {
                 FixClick(x - 75, y - 100)
                 Sleep 500
-                FixClick(x, y - 60)
-                return
+                if (!inGame) {
+                    FixClick(x, y - 60)
+                    Sleep(500)
+                    FixClick(366, 300)  ; Click On Create
+                    Sleep (1500)
+                    FixClick(366, 300) ; Exit Message
+                    Sleep (1500)
+                    FixClick(552, 469) ; Start Portal
+                    Sleep (1500)
+                    return
+                } else {
+                    FixClick(345, 314) ; Click Yes
+                    Sleep (1500)
+                    return RestartStage()
+                }
             }
         }
     }
 
     Reconnect()
-    AddToLog("No portal in Namek, going to Shibuya")
+    AddToLog("No portal in Shibuya, going to Namak")
+    TryNamekPortals(inGame)
 }
 
 CheckPortals(portalSet) {
     namekPortals := [
-        {x: 296, y: 284, search: {x1: 334, y1: 292, x2: 500, y2: 380}},
-        {x: 404, y: 284, search: {x1: 500, y1: 292, x2: 600, y2: 420}},
-        {x: 506, y: 284, search: {x1: 600, y1: 292, x2: 708, y2: 459}}
+        {x: 296, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}},
+        {x: 404, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}},
+        {x: 506, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}}
     ]
     
     shibuyaPortals := [
-        {x: 300, y: 284, search: {x1: 320, y1: 280, x2: 480, y2: 370}},
-        {x: 410, y: 284, search: {x1: 480, y1: 280, x2: 590, y2: 420}},
-        {x: 510, y: 284, search: {x1: 590, y1: 280, x2: 700, y2: 450}}
+        {x: 300, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}},
+        {x: 410, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}},
+        {x: 510, y: 284, search: {x1: 334, y1: 292, x2: 708, y2: 459}}
     ]
     
-    portals := (portalSet = PlanetNamek) ? namekPortals : shibuyaPortals
+    portals := (portalSet = PlanetNamekPortal) ? namekPortals : shibuyaPortals
+
+    AddToLog(portalSet)
     
     for i, portal in portals {
         MouseMove(portal.x, portal.y, 1)

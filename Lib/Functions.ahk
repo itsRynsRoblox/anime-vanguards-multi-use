@@ -86,6 +86,10 @@ OpenDiscordLink() {
         LegendActDropdown.Visible := true
         mode := "Legend"
     } else if (selected = "Portal") {
+        if (!portalEnabled) {
+            AddToLog("⚠️ Portal isn't ready yet.")
+            return
+        }
         PortalDropDown.Visible := true
         PortalJoinDropdown.Visible := true
         mode := "Portal"

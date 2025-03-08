@@ -9,7 +9,7 @@ CheckForUpdates()
 Hotkey(F1Key, (*) => moveRobloxWindow())
 Hotkey(F2Key, (*) => StartMacro())
 Hotkey(F3Key, (*) => Reload())
-Hotkey(F4Key, (*) => TryNamekPortals())
+Hotkey(F4Key, (*) => HandlePortalEnd())
 ;Hotkey(F4Key, (*) => TogglePause())
 
 
@@ -112,6 +112,13 @@ PlacingUnits(untilSuccessful := true) {
                     continue
                 }
 
+                if (ModeDropdown.Text = "Portal") {
+                    CheckPortalRewards()
+                }
+
+                if CheckForRewards()
+                    return MonitorStage()
+
                 ; If untilSuccessful is true, keep trying the same point until it works
                 while (placedCounts[slotNum] < placements) {
                     if PlaceUnit(point.x, point.y, slotNum) {
@@ -128,6 +135,10 @@ PlacingUnits(untilSuccessful := true) {
 
                     if (UpgradeDuringPlacementBox.Value) {
                         AttemptUpgrade()
+                    }
+
+                    if (ModeDropdown.Text = "Portal") {
+                        CheckPortalRewards()
                     }
 
                     if CheckForRewards()
@@ -206,6 +217,14 @@ AttemptUpgrade() {
                     }
                     UpgradeUnit(coord.x, coord.y)
 
+                    if (ModeDropdown.Text = "Portal") {
+                        if CheckPortalRewards() {
+                            successfulCoordinates := []
+                            maxedCoordinates := []
+                            return MonitorStage()
+                        }
+                    }
+
                     if CheckForRewards() {
                         AddToLog("Stage ended during upgrades, proceeding to results")
                         successfulCoordinates := []
@@ -252,7 +271,13 @@ AttemptUpgrade() {
                 AddToLog("Upgrading Unit " coord.slot " at (" coord.x ", " coord.y ")")
             }
             UpgradeUnit(coord.x, coord.y)
-
+            if (ModeDropdown.Text = "Portal") {
+                if CheckPortalRewards() {
+                    successfulCoordinates := []
+                    maxedCoordinates := []
+                    return MonitorStage()
+                }
+            }
             if CheckForRewards() {
                 AddToLog("Stage ended during upgrades, proceeding to results")
                 successfulCoordinates := []
@@ -347,6 +372,13 @@ UpgradeUnits() {
                                     return
                                 }
 
+                                if (ModeDropdown.Text = "Portal") {
+                                    if CheckPortalRewards() {
+                                        successfulCoordinates := []
+                                        return MonitorStage()
+                                    }
+                                }
+
                                 if MaxUpgrade() {
                                     upgradedCount[coord.slot]++
                                     AddToLog("Max upgrade reached for Unit " coord.slot " (" upgradedCount[coord.slot] "/" totalUnits[coord.slot] ")")
@@ -384,6 +416,13 @@ UpgradeUnits() {
 
             for index, coord in successfulCoordinates {
                 UpgradeUnit(coord.x, coord.y)
+
+                if (ModeDropdown.Text = "Portal") {
+                    if CheckPortalRewards() {
+                        successfulCoordinates := []
+                        return MonitorStage()
+                    }
+                }
 
                 if CheckForRewards() {
                     AddToLog("Stage ended during upgrades, proceeding to results")
@@ -597,20 +636,55 @@ MonitorStage() {
             ClickUntilGone(0, 0, 300, 190, 360, 250, UnitExit, -4, -35)
         }
 
-        if (ok := FindText(&X, &Y, 215, 205, 350, 221, 0, 0, VictoryText)) {
-            AddToLog("Victory detected - Stage Length: " stageLength)
-            Wins += 1
-            SendWebhookWithTime(true, stageLength)
-            return MonitorEndScreen()
-        }
-        else if (ok := FindText(&X, &Y, 205, 195, 363, 222, 0, 0, DefeatText)) {
-            AddToLog("Defeat detected - Stage Length: " stageLength)
-            loss += 1
-            SendWebhookWithTime(false, stageLength)
-            return MonitorEndScreen()
-        }
+            ; Check for Victory or Defeat
+            if (ok := FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2) or (ok:=FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2))) {
+                AddToLog("Victory detected - Stage Length: " stageLength)
+                Wins += 1
+                SendWebhookWithTime(true, stageLength)
+                if (ModeDropdown.Text = "Portal") {
+                    return HandlePortalEnd()
+                } else {
+                    return MonitorEndScreen()
+                }
+            }
+            else if (ok := FindText(&X, &Y, 210, 190, 350, 225, 0, 0, DefeatText1) or (ok:=FindText(&X, &Y, 210, 190, 350, 225, 0, 0, DefeatText2))) {
+                AddToLog("Defeat detected - Stage Length: " stageLength)
+                loss += 1
+                SendWebhookWithTime(false, stageLength)
+                return MonitorEndScreen()
+            }
 
         Reconnect()
+    }
+}
+
+HandlePortalEnd() {
+    selectedPortal := PortalDropdown.Text
+
+    Loop {
+        Sleep(3000)  
+        
+        FixClick(700, 560)
+
+        if (ok := FindText(&X, &Y, 300, 190, 360, 250, 0, 0, UnitExit)) {
+            ClickUntilGone(0, 0, 300, 190, 360, 250, UnitExit, -4, -35)
+        }
+
+        if (ok := FindText(&X, &Y, 125, 443, 680, 474, 0, 0, ReturnToLobby)) {
+            AddToLog("Found Lobby Text - starting new portal")
+            Sleep(2000)
+            FixClick(215, 420) ;Select New Portal
+            Sleep(1500)
+            FixClick(205, 195) ; Click search
+            Sleep(1500)
+            SendInput(selectedPortal)
+            Sleep(1500)
+            TryNamekPortals(true)
+            return RestartStage()
+        }
+        
+        Reconnect()
+        CheckEndAndRoute()
     }
 }
 
@@ -1817,7 +1891,8 @@ GenerateSpiralPoints(rectX := 4, rectY := 123, rectWidth := 795, rectHeight := 4
 CheckEndAndRoute() {
     if (ok := FindText(&X, &Y, 125, 443, 680, 474, 0, 0, ReturnToLobby)) {
         AddToLog("Found end screen")
-        return MonitorEndScreen()
+        return MonitorStage()
+        ;return MonitorEndScreen()
     }
     return false
 }
