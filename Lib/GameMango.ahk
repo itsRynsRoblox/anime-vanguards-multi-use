@@ -3,14 +3,24 @@
 global macroStartTime := A_TickCount
 global stageStartTime := A_TickCount
 global completedMovements := Map()
+global detectedAngle := ""
 
 LoadKeybindSettings()  ; Load saved keybinds
 CheckForUpdates()
 Hotkey(F1Key, (*) => moveRobloxWindow())
 Hotkey(F2Key, (*) => StartMacro())
 Hotkey(F3Key, (*) => Reload())
-Hotkey(F4Key, (*) => HandlePortalEnd())
-;Hotkey(F4Key, (*) => TogglePause())
+Hotkey(F4Key, (*) => TogglePause())
+
+F5::{
+    FixMapCameraAngle("Shibuya Aftermath")
+    HandleMapMovement("Shibuya Aftermath")
+}
+
+F6::{
+    TrySandPortals(false)
+}
+
 
 
 StartMacro(*) {
@@ -105,15 +115,22 @@ PlacingUnits(untilSuccessful := true) {
                         AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
                         CheckAbility()
                         FixClick(700, 560) ; Move Click
+                        if (UpgradeDuringPlacementBox.Value) {
+                            AttemptUpgrade()
+                        }
+                        break
                     }
                     if (UpgradeDuringPlacementBox.Value) {
                         AttemptUpgrade()
                     }
-                    continue
                 }
 
                 if (ModeDropdown.Text = "Portal") {
-                    CheckPortalRewards()
+                    if CheckPortalRewards() {
+                        successfulCoordinates := []
+                        maxedCoordinates := []
+                        return MonitorStage()
+                    }
                 }
 
                 if CheckForRewards()
@@ -138,7 +155,11 @@ PlacingUnits(untilSuccessful := true) {
                     }
 
                     if (ModeDropdown.Text = "Portal") {
-                        CheckPortalRewards()
+                        if CheckPortalRewards() {
+                            successfulCoordinates := []
+                            maxedCoordinates := []
+                            return MonitorStage()
+                        }
                     }
 
                     if CheckForRewards()
@@ -1147,28 +1168,15 @@ CloseChat() {
     }
 }
 
-BasicSetup(replay := false) {
-    if (!replay) {
-        SendInput("{Tab}") ; Closes Player leaderboard
-        Sleep 300
-        FixClick(564, 72) ; Closes Player leaderboard
-        Sleep 300
-        CloseChat()
-        Sleep 1500
-    }
-
-    Sleep 1500
-    if (!replay) {
-        Zoom()
-        Sleep 1500
-        TpSpawn()
-        Sleep (1500)
-    }
-    Sleep 300
-}
-
-FixCamera() {
-
+BasicSetup() {
+    SendInput("{Tab}") ; Closes Player leaderboard
+    Sleep (300)
+    FixClick(564, 72) ; Closes Player leaderboard
+    Sleep (300)
+    CloseChat()
+    Sleep (300)
+    Zoom()
+    Sleep (300)
 }
 
 DetectMap() {
@@ -1219,6 +1227,7 @@ DetectMap() {
 }
 
 HandleMapMovement(MapName) {
+    global detectedAngle
     ; Check if this map needs movement
     if (RequiresMovement(MapName)) {
         AddToLog("Executing Movement for: " MapName)
@@ -1238,13 +1247,15 @@ HandleMapMovement(MapName) {
                 MoveForGoldenCastle()
             case "Blood-Red Chamber":
                 MoveForBloodRedChamber()
+            case "Shibuya Aftermath":
+                MoveForShibuyaAftermatchWinter(detectedAngle)
         }
     }
 }
 
 RequiresMovement(MapName) {
     ; Array of maps that need movement
-    static mapsWithMovement := ["Sand Village", "Double Dungeon", "Spirit Society", "Spider Forest", "Golden Castle", "Track Of World", "Blood-Red Chamber"]
+    static mapsWithMovement := ["Sand Village", "Double Dungeon", "Spirit Society", "Spider Forest", "Golden Castle", "Track Of World", "Blood-Red Chamber", "Shibuya Aftermath"]
     
     ; Check if current map is in the array
     for map in mapsWithMovement {
@@ -1316,6 +1327,18 @@ MoveForBloodRedChamber() {
     Sleep (1000)
 }
 
+MoveForShibuyaAftermatchWinter(angle := "") {
+    if (angle = "1") {
+        FixClick(334, 146, "Right")
+        Sleep (1500)
+    }
+    else if (angle = "3") {
+        FixClick(625, 456, "Right")
+        Sleep (1500)
+    }
+
+}
+
 RestartStage() {
     global completedMovements
     currentMap := DetectMap()
@@ -1349,7 +1372,58 @@ RestartStage() {
     StartedGame()
 
     ; Begin unit placement and management
-    PlacingUnits()
+    PlacingUnits(false)
+    
+    ; Monitor stage progress
+    MonitorStage()
+}
+
+RestartStageNew() {
+    global completedMovements, lastMap
+    currentMap := DetectMap()
+
+    ; Use the last known valid map if the detection fails
+    if (currentMap = "no map found" && IsSet(lastMap)) {
+        currentMap := lastMap
+    }
+
+    ; Reset movement completion if this is a new map
+    if (!completedMovements.Has(currentMap)) {
+        completedMovements := Map()  ; Clear all previous entries
+        completedMovements[currentMap] := false  ; Set current map to false
+    }
+    
+    ; Wait for loading
+    CheckLoaded()
+
+    ; Do initial setup and map-specific movement during vote timer
+    BasicSetup()
+
+    ; Wait for game to actually start to fix camera movement
+    StartedGame()
+
+    ; Only fix camera if the map has changed
+    if (currentMap != lastMap) {
+        FixMapCameraAngle(currentMap)
+    }
+
+    if (currentMap != "no map found" && !completedMovements[currentMap]) {
+        HandleMapMovement(currentMap)
+        completedMovements[currentMap] := true  ; Mark this map as completed
+    } else {
+        Sleep(1000)
+    }
+
+    ; Wait for game to actually start to start placing units
+    StartedGame()
+
+    ; Only update lastMap if it's a valid map
+    if (currentMap != "no map found") {
+        lastMap := currentMap
+    }
+
+    ; Begin unit placement and management
+    PlacingUnits(false)
     
     ; Monitor stage progress
     MonitorStage()
@@ -1361,6 +1435,9 @@ RestartStageCustom() {
     
     ; Wait for game to actually start
     StartedGame()
+
+    Sleep (2000)
+    HandleStarterCards()
     
     ; Begin unit placement and management
     PlacingUnits(true)
@@ -1379,7 +1456,11 @@ FixMapCameraAngle(mapName) {
     ; First check if the camera angle is already correct
     if (IsCorrectAngle(mapName)) {
         AddToLog("Camera angle is correct for " mapName)
-        RestartMatch()
+        if (!ModeDropdown.Text = "Portal") {
+            RestartMatch()
+        } else {
+            SellCameraUnit()
+        }
         return
     }
     
@@ -1404,19 +1485,34 @@ FixMapCameraAngle(mapName) {
         ; Check if angle is now fixed
         if (IsCorrectAngle(mapName)) {
             AddToLog("Camera angle fixed with spectator")
-            RestartMatch()
+            if (!ModeDropdown.Text = "Portal") {
+                RestartMatch()
+            } else {
+                SellCameraUnit()
+            }
             return
         }
     }
 }
 
+SellCameraUnit() {
+    AddToLog("Selling Camera Unit...")
+    SendInput("x")
+    Sleep(500)
+}
+
 IsCorrectAngle(mapName) {
+    global detectedAngle
     currentRaidAct := RaidActDropdown.Text
     ; Check camera angle for each map
     switch mapName {
         case "Planet Namek":
-            return (FindText(&X, &Y, 610, 195, 649, 233, 0.20, 0.20, namekAngle) or 
-                   FindText(&X, &Y, 710, 465, 763, 516, 0.20, 0.20, namekAngle2)) ? true : false
+            if (ModeDropdown.Text = "Portal") {
+                if (PortalDropdown.Text = "Winter Portal") {
+                    return (FindText(&X, &Y, 574, 109, 745, 172, 0.20, 0.20, namekWinterAngle) or FindText(&X, &Y, 597, 192, 653, 231, 0.20, 0.20, namekWinterAngle2)) ? true : false
+                }
+            }
+            return (FindText(&X, &Y, 610, 195, 649, 233, 0.20, 0.20, namekAngle) or  FindText(&X, &Y, 710, 465, 763, 516, 0.20, 0.20, namekAngle2)) ? true : false
             
         case "Sand Village":
             return FindText(&X, &Y, 360, 170, 425, 220, 0.20, 0.20, SandAngle) ? true : false
@@ -1435,8 +1531,21 @@ IsCorrectAngle(mapName) {
         }
 
         case "Shibuya Aftermath":
-            return (FindText(&X, &Y, 395, 455, 434, 494, 0.20, 0.20, ShibuyaAngle) or 
-                   FindText(&X, &Y, 60, 380, 119, 415, 0.20, 0.20, ShibuyaAngle2)) ? true : false
+            if (ModeDropdown.Text = "Portal" && PortalDropdown.Text = "Winter Portal") {
+                if (FindText(&X, &Y, 350, 187, 397, 244, 0.20, 0.20, shibuyaWinterAngle)) {
+                    detectedAngle := "1"
+                    return true
+                }
+                if (FindText(&X, &Y, 373, 428, 424, 478, 0.20, 0.20, shibuyaWinterAngle2)) {
+                    detectedAngle := "2"
+                    return true
+                }
+                if (FindText(&X, &Y, 656, 461, 777, 585, 0.20, 0.20, shibuyaWinterAngle3)) {
+                    detectedAngle := "3"
+                    return true
+                }
+            }
+            return (FindText(&X, &Y, 395, 455, 434, 494, 0.20, 0.20, ShibuyaAngle) or FindText(&X, &Y, 60, 380, 119, 415, 0.20, 0.20, ShibuyaAngle2)) ? true : false
 
         case "Golden Castle":
             return FindText(&X, &Y, 490, 470, 549, 534, 0.20, 0.20, GoldenAngle) ? true : false
@@ -1891,8 +2000,7 @@ GenerateSpiralPoints(rectX := 4, rectY := 123, rectWidth := 795, rectHeight := 4
 CheckEndAndRoute() {
     if (ok := FindText(&X, &Y, 125, 443, 680, 474, 0, 0, ReturnToLobby)) {
         AddToLog("Found end screen")
-        return MonitorStage()
-        ;return MonitorEndScreen()
+        return MonitorEndScreen()
     }
     return false
 }
@@ -1918,6 +2026,7 @@ PlacementSpeed() {
 }
 
 PlaceUnitForAngle() {
+    global successfulCoordinates
     ; Try placing a unit using random points
     AddToLog("Attempting to place a unit for angle fix")
     
@@ -1932,7 +2041,15 @@ PlaceUnitForAngle() {
     for point in placementPoints {
         SendInput("1")
         Sleep 50
-        FixClick(point.x, point.y)
+        if (ModeDropdown.Text = "Portal") {
+            If (PortalMapDropdown.Text = "Planet Namak") {
+                FixClick(427, 315)
+            } else {
+                FixClick(point.x, point.y)
+            }
+        } else {
+            FixClick(point.x, point.y)
+        }
         Sleep 50
         SendInput("q")
         Sleep 300
@@ -2099,7 +2216,6 @@ IdentifyCard(x1, y1, x2, y2) {
 
 StartPortal() {
     selectedPortal := PortalDropdown.Text
-    joinType := PortalJoinDropdown.Text
 
         ; Click items
         FixClick(30, 255)
@@ -2113,7 +2229,11 @@ StartPortal() {
         SendInput(selectedPortal)
         Sleep(1500)
 
-        TryNamekPortals()
+        if (PortalMapDropdown.Text = "Namek") {
+            TryNamekPortals()
+        } else {
+            TryShibuyaPortals()
+        }
 
         AddToLog("Creating " selectedPortal)
        /* FixClick(206, 255)  ; Click On Portal

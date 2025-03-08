@@ -3,9 +3,9 @@ Mode=
 
 Enabled1=1
 Enabled2=1
-Enabled3=0
-Enabled4=0
-Enabled5=0
+Enabled3=1
+Enabled4=1
+Enabled5=1
 Enabled6=0
 
 Placement1=1

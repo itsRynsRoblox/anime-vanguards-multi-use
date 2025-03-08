@@ -7,16 +7,15 @@ CheckPortalRewards() {
         if (ok := FindText(&X, &Y, 290, 213, 515, 231, 0, 0, SelectOneReward)) {
             AddToLog("Rewards Found - Checking for Portals")
             Sleep (1500)
-            CheckPortals(PlanetNamekPortal)
-            break
+            return CheckPortals(PlanetNamekPortal)
         } else {
-            Reconnect()
+            return false
         }
     }
 }
 
 TryNamekPortals(inGame := false) {
-    AddToLog("Searching for Namak Portals...")
+    AddToLog("Searching for Namek Portals...")
     xOffsets := [200, 280, 360, 440, 520, 600]
     yOffsets := [255, 325, 395]
 
@@ -26,36 +25,40 @@ TryNamekPortals(inGame := false) {
             Sleep 500
             MouseMove(x + 5, y, 1)
             Sleep 500
-
-            if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, PlanetNamekPortal)) {
-                AddToLog("Found Namak Portal, attempting to start...")
-                FixClick(x - 75, y - 100)
-                Sleep 500
-                if (!inGame) {
-                    FixClick(x, y - 60)
-                    Sleep(500)
-                    FixClick(366, 300)  ; Click On Create
-                    Sleep (1500)
-                    FixClick(366, 300) ; Exit Message
-                    Sleep (1500)
-                    FixClick(552, 469) ; Start Portal
-                    Sleep (1500)
-                    return
-                } else {
-                    FixClick(345, 314) ; Click Yes
-                    Sleep (1500)
-                    return RestartStage()
+            if (ok := PixelSearch(&foundX, &foundY, 260, 280, 825, 510, GetPortalColor(), 1)) {
+                if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, PlanetNamekPortal)) {
+                    AddToLog("Found Namek Portal, attempting to start...")
+                    FixClick(x - 75, y - 100)
+                    Sleep 500
+                    if (!inGame) {
+                        FixClick(x, y - 60)
+                        Sleep(500)
+                        FixClick(366, 300)  ; Click On Create
+                        Sleep (1500)
+                        FixClick(366, 300) ; Exit Message
+                        Sleep (1500)
+                        FixClick(552, 469) ; Start Portal
+                        Sleep (1500)
+                        FixClick(551, 435) ; Start lower tier portal
+                        Sleep (1500)
+                        return
+                    } else {
+                        FixClick(345, 314) ; Click Yes
+                        Sleep (1500)
+                        return RestartStage()
+                    }
                 }
             }
         }
     }
 
     Reconnect()
-    AddToLog("No portal in Namek, going to Shibuya")
+    AddToLog("No portal for Namek, searching for Shibuya")
     TryShibuyaPortals(inGame)
 }
 
 TryShibuyaPortals(inGame := false) {
+    AddToLog("Searching for Shibuya Portals...")
     xOffsets := [200, 280, 360, 440, 520, 600]
     yOffsets := [255, 325, 395]
 
@@ -65,32 +68,88 @@ TryShibuyaPortals(inGame := false) {
             Sleep 500
             MouseMove(x + 5, y, 1)
             Sleep 500
-
-            if (ok := FindText(&X, &Y, 334, 292, 708, 459, 0, 0, ShibuyaAftermath)) {
-                FixClick(x - 75, y - 100)
-                Sleep 500
-                if (!inGame) {
-                    FixClick(x, y - 60)
-                    Sleep(500)
-                    FixClick(366, 300)  ; Click On Create
-                    Sleep (1500)
-                    FixClick(366, 300) ; Exit Message
-                    Sleep (1500)
-                    FixClick(552, 469) ; Start Portal
-                    Sleep (1500)
-                    return
-                } else {
-                    FixClick(345, 314) ; Click Yes
-                    Sleep (1500)
-                    return RestartStage()
+            if (ok := PixelSearch(&foundX, &foundY, 260, 280, 825, 510, GetPortalColor(), 1)) {
+                if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, ShibuyaPortal)) {
+                    AddToLog("Found Shibuya Portal, attempting to start...")
+                    FixClick(x - 75, y - 100)
+                    Sleep 500
+                    if (!inGame) {
+                        FixClick(x, y - 60)
+                        Sleep(500)
+                        FixClick(366, 300)  ; Click On Create
+                        Sleep (1500)
+                        FixClick(366, 300) ; Exit Message
+                        Sleep (1500)
+                        FixClick(552, 469) ; Start Portal
+                        Sleep (1500)
+                        FixClick(551, 435) ; Start lower tier portal
+                        Sleep (1500)
+                        return
+                    } else {
+                        FixClick(345, 314) ; Click Yes
+                        Sleep (1500)
+                        return RestartStage()
+                    }
                 }
             }
         }
     }
 
     Reconnect()
-    AddToLog("No portal in Shibuya, going to Namak")
+    AddToLog("No portal for Shibuya found, searching for Namek")
     TryNamekPortals(inGame)
+}
+
+TrySandPortals(inGame := false) {
+    AddToLog("Searching for Sand Village Portals...")
+    xOffsets := [200, 280, 360, 440, 520, 600]
+    yOffsets := [255, 325, 395]
+
+    for y in yOffsets {
+        for x in xOffsets {
+            MouseMove(x, y, 1)
+            Sleep 500
+            MouseMove(x + 5, y, 1)
+            Sleep 500
+            if (ok := PixelSearch(&foundX, &foundY, 260, 280, 825, 510, GetPortalColor(), 1)) {
+                if (ok := FindText(&X, &Y, 260, 280, 825, 510, 0, 0, sandPortal)) {
+                    AddToLog("Found Sand Portal, attempting to start...")
+                    FixClick(x - 75, y - 100)
+                    Sleep 500
+                    if (!inGame) {
+                        FixClick(x, y - 50)
+                        Sleep(500)
+                        FixClick(366, 300)  ; Click On Create
+                        Sleep (1500)
+                        FixClick(366, 300) ; Exit Message
+                        Sleep (1500)
+                        FixClick(552, 469) ; Start Portal
+                        Sleep (1500)
+                        FixClick(551, 435) ; Start lower tier portal
+                        Sleep (1500)
+                        return
+                    } else {
+                        FixClick(345, 314) ; Click Yes
+                        Sleep (1500)
+                        return RestartStage()
+                    }
+                }
+            }
+        }
+    }
+
+    Reconnect()
+    AddToLog("No portal for Shibuya found, searching for Namek")
+    TryNamekPortals(inGame)
+}
+
+GetPortalColor() {
+    If (PortalDropdown.Text = "Winter Portal") {
+        return 0x6B8787
+    }
+    If (PortalDropdown.Text = "Love Portal") {
+        return 0xECBDF7
+    }
 }
 
 CheckPortals(portalSet) {
@@ -129,7 +188,7 @@ CheckPortals(portalSet) {
     
     ; Swap portal sets if no portal is found
     if (portalSet = PlanetNamek) {
-        CheckPortals(ShibuyaAftermath)
+        CheckPortals(ShibuyaAftermathPortalLobby)
     } else {
         CheckPortals(PlanetNamek)
     }

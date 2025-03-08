@@ -6,4 +6,4 @@ global storyEnabled := true
 
 global raidEnabled := true
 
-global portalEnabled := false
+global portalEnabled := true

@@ -63,7 +63,7 @@ OpenDiscordLink() {
     RaidDropdown.Visible := false
     RaidActDropdown.Visible := false
     PortalDropDown.Visible := false
-    PortalJoinDropdown.Visible := false
+    PortalMapDropdown.Visible := false
     
     if (selected = "Story") {
         if (!storyEnabled) {
@@ -91,7 +91,7 @@ OpenDiscordLink() {
             return
         }
         PortalDropDown.Visible := true
-        PortalJoinDropdown.Visible := true
+        PortalMapDropdown.Visible := true
         mode := "Portal"
     } else if (ModeDropdown.Text = "Custom") {
         global savedCoords
@@ -154,11 +154,11 @@ OnConfirmClick(*) {
     }
     ; For Portal, check if both Portal and Join Type are selected
     else if (ModeDropdown.Text = "Portal") {
-    if (PortalDropdown.Text = "" || PortalJoinDropdown.Text = "") {
-        AddToLog("Please select both Portal and Join Type before confirming")
+    if (PortalDropdown.Text = "" || PortalMapDropdown.Text = "") {
+        AddToLog("Please select both Portal and Portal Map before confirming")
         return
     }
-    AddToLog("Selected " PortalDropdown.Text " - " PortalJoinDropdown.Text)
+    AddToLog("Selected " PortalDropdown.Text " - " PortalMapDropdown.Text)
     } 
     else if (ModeDropdown.Text = "Custom") {
         AddToLog("Selected " ModeDropdown.Text)
@@ -182,7 +182,7 @@ OnConfirmClick(*) {
     LegendActDropdown.Visible := false
     LegendDropdown.Visible := false
     PortalDropdown.Visible := false
-    PortalJoinDropdown.Visible := false
+    PortalMapDropdown.Visible := false
     RaidDropdown.Visible := false
     RaidActDropdown.Visible := false
     ConfirmButton.Visible := false
