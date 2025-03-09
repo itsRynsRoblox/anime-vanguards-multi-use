@@ -17,7 +17,7 @@ F5::{
 }
 
 F6::{
-    DetectWorldlineMap()
+    FixMapCameraAngle("Underground Church")
 }
 
 
@@ -332,11 +332,24 @@ AttemptUpgrade() {
 }
 
 CheckForRewards() {
-    ; Check for rewards text
-    if (ok := FindText(&X, &Y, 245, 341, 320, 357, 0, 0, Rewards)) {
+    return FindText(&X, &Y, 245, 341, 320, 357, 0, 0, Rewards)
+}
+
+CheckForGameOver() {
+    if (CheckForRewards() || CheckForWin() || CheckForLoss()) {
         return true
     }
     return false
+}
+
+CheckForWin() {
+    return FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText1) 
+        || FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2)
+}
+
+CheckForLoss() {
+    return FindText(&X, &Y, 210, 190, 350, 225, 0, 0, DefeatText1) 
+        || FindText(&X, &Y, 210, 190, 350, 225, 0, 0, DefeatText2)
 }
 
 
@@ -721,7 +734,7 @@ MonitorStage() {
         }
 
             ; Check for Victory or Defeat
-            if (ok := FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2) or (ok:=FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2))) {
+            if (ok := FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText1) or (ok:=FindText(&X, &Y, 210, 190, 350, 225, 0, 0, VictoryText2))) {
                 AddToLog("Victory detected - Stage Length: " stageLength)
                 Wins += 1
                 SendWebhookWithTime(true, stageLength)
@@ -1319,7 +1332,7 @@ HandleMapMovement(MapName) {
             case "Double Dungeon":
                 MoveForDoubleDungeon()
             case "Spirit Society":
-                MoveForGoldenCastle()
+                MoveForSpiritSociety()
             case "Spider Forest":
                 MoveForSpiderForest()
             case "Track Of World":
@@ -1330,6 +1343,8 @@ HandleMapMovement(MapName) {
                 MoveForBloodRedChamber()
             case "Shibuya Aftermath":
                 MoveForShibuyaAftermatchWinter(detectedAngle)
+            case "Kuinshi Palace":
+                MoveForSpiritSociety()    
         }
     }
 }
@@ -1411,13 +1426,21 @@ MoveForBloodRedChamber() {
 MoveForShibuyaAftermatchWinter(angle := "") {
     if (angle = "1") {
         FixClick(334, 146, "Right")
-        Sleep (1500)
+        Sleep (2000)
     }
     else if (angle = "3") {
         FixClick(625, 456, "Right")
-        Sleep (1500)
+        Sleep (2000)
     }
+    else if (angle = "4") {
+        FixClick(128, 145, "Right")
+        Sleep (2000)
+    }
+}
 
+MoveForSpiritSociety() {
+    FixClick(563, 355, "Right")
+    Sleep (1500)
 }
 
 RestartStage() {
@@ -1564,9 +1587,9 @@ FixMapCameraAngle(mapName) {
         
         ; Check for disconnect
         Reconnect()
-        
-        ; Check for game end
-        if (CheckForRewards()) {
+
+        ; Check for Victory/Defeat/Rewards Screen
+        if (CheckForGameOver()) {
             AddToLog("Game ended during camera angle fix")
             return MonitorStage()
         }
@@ -1601,7 +1624,7 @@ IsCorrectAngle(mapName) {
                     return (FindText(&X, &Y, 574, 109, 745, 172, 0.20, 0.20, namekWinterAngle) or FindText(&X, &Y, 597, 192, 653, 231, 0.20, 0.20, namekWinterAngle2)) ? true : false
                 }
             }
-            return (FindText(&X, &Y, 610, 195, 649, 233, 0.20, 0.20, namekAngle) or  FindText(&X, &Y, 710, 465, 763, 516, 0.20, 0.20, namekAngle2)) ? true : false
+            return (FindText(&X, &Y, 610, 195, 649, 233, 0.20, 0.20, namekAngle) or (FindText(&X, &Y, 710, 465, 763, 516, 0.20, 0.20, namekAngle2) or (FindText(&X, &Y, 603, 207, 648, 240, 0.20, 0.20, NamekWorldlinesDarkAngle)))) ? true : false
             
         case "Sand Village":
             return FindText(&X, &Y, 360, 170, 425, 220, 0.20, 0.20, SandAngle) ? true : false
@@ -1634,13 +1657,20 @@ IsCorrectAngle(mapName) {
                     return true
                 }
             }
-            return (FindText(&X, &Y, 395, 455, 434, 494, 0.20, 0.20, ShibuyaAngle) or FindText(&X, &Y, 60, 380, 119, 415, 0.20, 0.20, ShibuyaAngle2)) ? true : false
+            if (ModeDropdown.Text = "Worldlines") {
+                if (FindText(&X, &Y, 741, 159, 797, 205, 0.20, 0.20, ShibuyaAftermathWorldlineAngle)) {
+                    detectedAngle := "4"
+                    return true
+                }
+                return FindText(&X, &Y, 506, 466, 551, 514, 0.20, 0.20, ShibutaAftermathWorldlineAngle2) ? true : false
+            }
+            return FindText(&X, &Y, 395, 455, 434, 494, 0.20, 0.20, ShibuyaAngle) or FindText(&X, &Y, 60, 380, 119, 415, 0.20, 0.20, ShibuyaAngle2) ? true : false
 
         case "Golden Castle":
-            return FindText(&X, &Y, 490, 470, 549, 534, 0.20, 0.20, GoldenAngle) ? true : false
+            return FindText(&X, &Y, 490, 470, 549, 534, 0.20, 0.20, GoldenAngle) or FindText(&X, &Y, 331, 78, 393, 136, 0.20, 0.20, GoldenCastleWorldlineAngle) ? true : false
 
         case "Kuinshi Palace":
-            return FindText(&X, &Y, 340, 80, 414, 145, 0.20, 0.20, KuinshiAngle) ? true : false
+            return FindText(&X, &Y, 340, 80, 414, 145, 0.20, 0.20, KuinshiAngle) or FindText(&X, &Y, 235, 99, 366, 167, 0.20, 0.20, KuinshiWorldlineAngle) ? true : false
             
         case "Double Dungeon", "Shibuya Station", "Underground Church", "Blood-Red Chamber":
             return true
