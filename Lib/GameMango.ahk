@@ -13,7 +13,7 @@ Hotkey(F3Key, (*) => Reload())
 Hotkey(F4Key, (*) => TogglePause())
 
 F5::{
-
+    CheckForWorldineCards()
 }
 
 F6::{
@@ -568,6 +568,57 @@ RaidMode() {
     RestartStage()
 }
 
+WorldlineMode() {
+    ; Execute the movement pattern
+    AddToLog("Moving to position for Worldlines...")
+    WorldlineMovement()
+    
+    ; Start stage
+    while !(ok:=FindText(&X, &Y, 145, 155, 317, 191, 0, 0, Worldlines)) {
+        WorldlineMovement()
+    }
+
+    AddToLog("Starting Worldlines...")
+    StartWorldlines()
+    
+    RestartStage()
+}
+
+StartWorldlines() {
+    FixClick(614, 437)
+    Sleep (1500)
+}
+
+WorldlineMovement() {
+    Reconnect()
+    FixClick(33, 315) ; click play
+    Sleep 2500
+    FixClick(365, 337) ; click teleport
+    Sleep 1000
+	FixClick(365, 337) ; click teleport
+    Sleep 1000
+	FixClick(365, 337) ; click teleport
+    Sleep 2000
+    SendInput ("{w up}")  
+    Sleep 100  
+    SendInput ("{w down}")
+    Sleep 5500
+    SendInput ("{w up}")
+    KeyWait "s" ; Wait for "s" to be fully processed
+
+
+    SendInput("{a up}") ; Ensure key is released
+    Sleep 100
+    SendInput ("{a down}")
+    Sleep 1200
+    SendInput ("{a up}")
+    KeyWait "a" ; Wait for "d" to be fully processed
+    FixClick(564, 200) ; Close Areas
+    Sleep (1500)
+    SendInput("e")
+    Sleep(1000)
+}
+
 MonitorEndScreen() {
     global mode, StoryDropdown, StoryActDropdown, ReturnLobbyBox, MatchMaking
 
@@ -609,6 +660,17 @@ MonitorEndScreen() {
                     ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, -150, -35)
                     return RestartStage()
                 }
+            }
+            else if (mode = "Worldlines") {
+                AddToLog("Handling Worldlines mode end")
+                    if (NextLevelBox.Value && lastResult = "win") {
+                        AddToLog("Next level")
+                        ClickUntilGone(0, 0, 215, 205, 350, 221, VictoryText, 150, 200)
+                    } else {
+                        AddToLog("Replay level")
+                        ClickUntilGone(0, 0, 205, 187, 418, 259, FailedText, -4, 200)
+                    }
+                    return RestartStage()
             }
             else {
                 AddToLog("Handling end case")
@@ -1775,6 +1837,9 @@ StartSelectedMode() {
     else if (ModeDropdown.Text = "Portal") {
         PortalMode()
     }
+    else if (ModeDropdown.Text = "Worldlines") {
+        WorldlineMode()
+    }
     else if (ModeDropdown.Text = "Custom") {
         CustomMode()
     }
@@ -2110,13 +2175,13 @@ SpectatorAngleFix() {
     Sleep(2000)
 }
 
-HandleStarterCards() {
-    AddToLog("Checking for starter cards...")
+CheckForWorldineCards() {
+    AddToLog("Checking for Worldline cards...")
     
     ; Read priorities directly from file to ensure we have the latest values
     priorities := []
-    if FileExist("Settings\CardPriorities.txt") {
-        fileContent := FileRead("Settings\CardPriorities.txt", "UTF-8")
+    if FileExist("Settings\WorldlineCardPriorities.txt") {
+        fileContent := FileRead("Settings\WorldlineCardPriorities.txt", "UTF-8")
         lines := StrSplit(fileContent, "`n")
         
         ; Use saved priorities
@@ -2127,9 +2192,9 @@ HandleStarterCards() {
     } else {
         ; If priorities aren't in the dropdowns or file, use defaults
         try {
-            priorities := [CardPriority1.Text, CardPriority2.Text, CardPriority3.Text, CardPriority4.Text]
+            priorities := [CardPriority1.Text, CardPriority2.Text, CardPriority3.Text]
         } catch {
-            priorities := ["Revitalize", "Champion", "Thrice", "Immunity"]
+            priorities := ["Damage", "Cooldown", "Range"]
             AddToLog("Using default card priorities")
         }
     }
@@ -2137,8 +2202,8 @@ HandleStarterCards() {
     ; Wait for the cards to appear (try for 5 seconds)
     Loop 5 {
         ; Look for "Click to vote" text at the bottom of the cards
-        if (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2))) {
-            AddToLog("Found starter cards selection screen")
+        if (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, AdditionalCardPopup)))) {
+            AddToLog("Found Worldlines card selection screen")
             Sleep(1500)  ; Give time for cards to fully appear
             
             ; Move mouse over each card before identifying (helps with tooltips)
@@ -2204,41 +2269,14 @@ HandleStarterCards() {
 ; Function to identify a card
 IdentifyCard(x1, y1, x2, y2) {
     ; Use FindText to identify the card within the given region
-    if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ThriceCard)) {
-        return "Thrice"
+    if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, DamageCard)) {
+        return "Damage"
     }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ChampionCard)) {
-        return "Champion"
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, CooldownCard)) {
+        return "Cooldown"
     }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, RevitalizeCard)) {
-        return "Revitalize"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ExplodingCard)) {
-        return "Exploding"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, QuakeCard)) {
-        return "Quake"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ImmunityCard)) {
-        return "Immunity"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, RegenCard)) {
-        return "Regen"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, DodgeCard)) {
-        return "Dodge"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, FastCard)) {
-        return "Fast"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, DrowsyCard)) {
-        return "Drowsy"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, StrongCard)) {
-        return "Strong"
-    }
-    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, ShieldedCard)) {
-        return "Shielded"
+    else if (FindText(&CardX, &CardY, x1, y1, x2, y2, 0.15, 0.15, RangeCard)) {
+        return "Range"
     }
     
     return "Unknown"

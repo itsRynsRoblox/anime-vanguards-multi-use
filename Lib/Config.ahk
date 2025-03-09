@@ -295,40 +295,37 @@ LoadKeybindSettings() {
 
 ; Dedicated save function for card priorities
 SaveCardPriorities(*) {
-    global settingsPri1, settingsPri2, settingsPri3, settingsPri4
+    global settingsPri1, settingsPri2, settingsPri3
     
     AddToLog("Saving card priorities...")
     
     ; Save values directly to file
-    if FileExist("Settings\CardPriorities.txt")
-        FileDelete("Settings\CardPriorities.txt")
+    if FileExist("Settings\WorldlineCardPriorities.txt")
+        FileDelete("Settings\WorldlineCardPriorities.txt")
     
     ; Get values from settings GUI
     pri1Value := settingsPri1.Text
     pri2Value := settingsPri2.Text
     pri3Value := settingsPri3.Text
-    pri4Value := settingsPri4.Text
     
     ; Write to file
     FileAppend(pri1Value . "`n" . 
               pri2Value . "`n" . 
-              pri3Value . "`n" . 
-              pri4Value, "Settings\CardPriorities.txt", "UTF-8")
+              pri3Value, "Settings\WorldlineCardPriorities.txt", "UTF-8")
     
     AddToLog("Card priorities saved: " . pri1Value . ", " . 
               pri2Value . ", " . 
-              pri3Value . ", " . 
-              pri4Value)
+              pri3Value)
     
     AddToLog("Card priorities saved successfully!")
 }
 
 ; Function to load card settings
 LoadCardPriorities() {
-    global CardPriority1, CardPriority2, CardPriority3, CardPriority4
+    global CardPriority1, CardPriority2, CardPriority3
     
-    if FileExist("Settings\CardPriorities.txt") {
-        fileContent := FileRead("Settings\CardPriorities.txt", "UTF-8")
+    if FileExist("Settings\WorldlineCardPriorities.txt") {
+        fileContent := FileRead("Settings\WorldlineCardPriorities.txt", "UTF-8")
         lines := StrSplit(fileContent, "`n")
         
         if (lines.Length >= 1 && lines[1] != "")
@@ -337,8 +334,6 @@ LoadCardPriorities() {
             CardPriority2.Text := lines[2]
         if (lines.Length >= 3 && lines[3] != "")
             CardPriority3.Text := lines[3]
-        if (lines.Length >= 4 && lines[4] != "")
-            CardPriority4.Text := lines[4]
         
         AddToLog("Card priorities loaded from settings")
     }

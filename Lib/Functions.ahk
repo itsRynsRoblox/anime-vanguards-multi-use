@@ -93,6 +93,12 @@ OpenDiscordLink() {
         PortalDropDown.Visible := true
         PortalMapDropdown.Visible := true
         mode := "Portal"
+    } else if (selected = "Worldlines") {
+        if (!worldlinesEnabled) {
+            AddToLog("⚠️ Worldlines isn't ready yet.")
+            return
+        }
+        mode := "Worldlines"
     } else if (ModeDropdown.Text = "Custom") {
         global savedCoords
         if (!IsSet(savedCoords) || savedCoords.Length = 0) {
@@ -159,6 +165,10 @@ OnConfirmClick(*) {
         return
     }
     AddToLog("Selected " PortalDropdown.Text " - " PortalMapDropdown.Text)
+    }
+    else if (ModeDropdown.Text = "Worldlines") {
+        AddToLog("Selected Worldlines")
+        NextLevelBox.Visible := true
     } 
     else if (ModeDropdown.Text = "Custom") {
         AddToLog("Selected " ModeDropdown.Text)

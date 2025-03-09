@@ -7,3 +7,5 @@ global storyEnabled := true
 global raidEnabled := true
 
 global portalEnabled := true
+
+global worldlinesEnabled := true

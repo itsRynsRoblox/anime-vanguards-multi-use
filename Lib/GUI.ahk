@@ -6,7 +6,7 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "1.2.5"
+global currentVersion := "1.3"
 ; Basic Application Info
 global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion
@@ -230,7 +230,7 @@ ShowCardSettingsGUI(*) {
     
     cardSettingsGuiOpen := true
     CardSettingsGUI := Gui("-MinimizeBox +Owner" aaMainUIHwnd)
-    CardSettingsGUI.Title := "Legend Card Settings"
+    CardSettingsGUI.Title := "Worldline Card Settings"
     CardSettingsGUI.OnEvent("Close", OnCardSettingsClose)
     CardSettingsGUI.BackColor := uiTheme[2]
     
@@ -241,7 +241,7 @@ ShowCardSettingsGUI(*) {
     
     ; Add title and explanation
     CardSettingsGUI.SetFont("s12 Bold c" uiTheme[1], "Verdana")
-    CardSettingsGUI.Add("Text", "x20 y10 w350 c" uiTheme[1], "Legend Card Priority Settings")
+    CardSettingsGUI.Add("Text", "x20 y10 w350 c" uiTheme[1], "Worldlines Priority Settings")
     
     CardSettingsGUI.SetFont("s9 c" uiTheme[1], "Verdana")
     CardSettingsGUI.Add("Text", "x20 y40 w350 c" uiTheme[1], "Select starter cards in order of preference.")
@@ -252,22 +252,19 @@ ShowCardSettingsGUI(*) {
     
     ; Create dropdown lists 
     CardSettingsGUI.Add("Text", "x40 y110 w30 h20 c" uiTheme[1], "1st:")
-    settingsPri1 := CardSettingsGUI.Add("DropDownList", "x70 y107 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri1 := CardSettingsGUI.Add("DropDownList", "x70 y107 w100 h180", ["Damage", "Cooldown", "Range"])
     
     CardSettingsGUI.Add("Text", "x205 y110 w30 h20 c" uiTheme[1], "2nd:")
-    settingsPri2 := CardSettingsGUI.Add("DropDownList", "x235 y107 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri2 := CardSettingsGUI.Add("DropDownList", "x235 y107 w100 h180", ["Damage", "Cooldown", "Range"])
     
     CardSettingsGUI.Add("Text", "x40 y145 w30 h20 c" uiTheme[1], "3rd:")
-    settingsPri3 := CardSettingsGUI.Add("DropDownList", "x70 y142 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
-    
-    CardSettingsGUI.Add("Text", "x205 y145 w30 h20 c" uiTheme[1], "4th:")
-    settingsPri4 := CardSettingsGUI.Add("DropDownList", "x235 y142 w100 h180", ["Thrice", "Champion", "Revitalize", "Exploding", "Quake", "Immunity"])
+    settingsPri3 := CardSettingsGUI.Add("DropDownList", "x70 y142 w100 h180", ["Damage", "Cooldown", "Range"])
     
     ; Load saved priorities from file
-    savedPriorities := ["Thrice", "Champion", "Revitalize", "Exploding"]  ; Default values
+    savedPriorities := ["Damage", "Cooldown", "Range"]  ; Default values
     
-    if FileExist("Settings\CardPriorities.txt") {
-        fileContent := FileRead("Settings\CardPriorities.txt", "UTF-8")
+    if FileExist("Settings\WorldlineCardPriorities.txt") {
+        fileContent := FileRead("Settings\WorldlineCardPriorities.txt", "UTF-8")
         lines := StrSplit(fileContent, "`n")
         
         if (lines.Length >= 1 && lines[1] != "")
@@ -276,8 +273,6 @@ ShowCardSettingsGUI(*) {
             savedPriorities[2] := lines[2]
         if (lines.Length >= 3 && lines[3] != "")
             savedPriorities[3] := lines[3]
-        if (lines.Length >= 4 && lines[4] != "")
-            savedPriorities[4] := lines[4]
     }
     
     ; Set the values in the dropdowns
@@ -285,7 +280,6 @@ ShowCardSettingsGUI(*) {
         settingsPri1.Text := savedPriorities[1]
         settingsPri2.Text := savedPriorities[2]
         settingsPri3.Text := savedPriorities[3]
-        settingsPri4.Text := savedPriorities[4]
     } catch {
         AddToLog("Warning: Failed to set dropdown values from saved priorities")
         
@@ -293,7 +287,6 @@ ShowCardSettingsGUI(*) {
         settingsPri1.Choose(GetIndexForValue(settingsPri1, savedPriorities[1]))
         settingsPri2.Choose(GetIndexForValue(settingsPri2, savedPriorities[2]))
         settingsPri3.Choose(GetIndexForValue(settingsPri3, savedPriorities[3]))
-        settingsPri4.Choose(GetIndexForValue(settingsPri4, savedPriorities[4]))
     }
     
     ; Save button with dedicated function - smaller size
@@ -385,7 +378,7 @@ fixCameraButton.OnEvent("Click", (*) => BasicSetup())
 
 CardSettingsText := aaMainUI.Add("Text", "x682 y642 w100 h20 +Left", "Card Priority")
 global CardSettingsBtn := aaMainUI.Add("Button", "x685 y662 w80 h20", "Edit Cards")
-CardSettingsBtn.OnEvent("Click", (*) => OpenPriorityPicker())
+CardSettingsBtn.OnEvent("Click", (*) => OpenCardsByMode())
 
 GithubButton.OnEvent("Click", (*) => OpenGithub())
 DiscordButton.OnEvent("Click", (*) => OpenDiscord())
@@ -394,7 +387,7 @@ DiscordButton.OnEvent("Click", (*) => OpenDiscord())
 ;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT;--------------MODE SELECT
 global modeSelectionGroup := aaMainUI.Add("GroupBox", "x808 y38 w500 h45 Background" uiTheme[2], "Mode Select")
 aaMainUI.SetFont("s10 c" uiTheme[6])
-global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Legend", "Portal","Raid", "Custom"])
+global ModeDropdown := aaMainUI.Add("DropDownList", "x818 y53 w140 h180 Choose0 +Center", ["Story", "Legend", "Portal", "Raid", "Worldlines", "Custom"])
 global StoryDropdown := aaMainUI.Add("DropDownList", "x968 y53 w150 h180 Choose0 +Center", ["Planet Namek", "Sand Village", "Double Dungeon", "Shibuya Station", "Underground Church", "Spirit Society"])
 global StoryActDropdown := aaMainUI.Add("DropDownList", "x1128 y53 w80 h180 Choose0 +Center", ["Act 1", "Act 2", "Act 3", "Act 4", "Act 5", "Act 6", "Infinity", "Paragon"])
 global LegendDropDown := aaMainUI.Add("DropDownlist", "x968 y53 w150 h180 Choose0 +Center", ["Sand Village", "Double Dungeon", "Shibuya Aftermath", "Golden Castle", "Kuinshi Palace"])
@@ -722,4 +715,11 @@ OnCardSettingsClose(*) {
         CardSettingsGUI.Destroy()
         CardSettingsGUI := ""
     }
+}
+
+OpenCardsByMode() {
+    if (ModeDropdown.Text = "Worldlines") {
+        return ShowCardSettingsGUI()
+    }
+    return OpenPriorityPicker()
 }
