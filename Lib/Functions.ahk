@@ -146,7 +146,7 @@ OnConfirmClick(*) {
             return
         }
         AddToLog("Selected " StoryDropdown.Text " - " StoryActDropdown.Text)
-        ReturnLobbyBox.Visible := (StoryActDropdown.Text = "Infinity")
+        ;ReturnLobbyBox.Visible := (StoryActDropdown.Text = "Infinity")
         NextLevelBox.Visible := (StoryActDropdown.Text != "Infinity")
     }
     ; For Raid mode, check if both Raid and RaidAct are selected
@@ -156,7 +156,7 @@ OnConfirmClick(*) {
             return
         }
         AddToLog("Selected " RaidDropdown.Text " - " RaidActDropdown.Text)
-        ReturnLobbyBox.Visible := true
+        ;ReturnLobbyBox.Visible := true
     }
     ; For Portal, check if both Portal and Join Type are selected
     else if (ModeDropdown.Text = "Portal") {
@@ -361,4 +361,36 @@ CardSelector() {
         }
     }
     AddToLog("Failed to pick a card")
+}
+
+DualClickUntilGone(pattern1, pattern2) {
+    ; Keep going until neither pattern is found
+    loop {
+        pattern1Found := false
+        pattern2Found := false
+        
+        ; Check if pattern 1 exists
+        if (ok1 := FindText(&X, &Y, pattern1[1], pattern1[2], pattern1[3], pattern1[4], 0, 0, pattern1[5]) || 
+            (pattern1[8] && FindText(&X, &Y, pattern1[1], pattern1[2], pattern1[3], pattern1[4], 0, 0, pattern1[8]))) {
+            FixClick(X + pattern1[6], Y + pattern1[7])
+            Sleep(1000)
+            pattern1Found := true
+        }
+        
+        ; Check if pattern 2 exists
+        if (ok2 := FindText(&X, &Y, pattern2[1], pattern2[2], pattern2[3], pattern2[4], 0, 0, pattern2[5]) || 
+            (pattern2[8] && FindText(&X, &Y, pattern2[1], pattern2[2], pattern2[3], pattern2[4], 0, 0, pattern2[8]))) {
+            FixClick(X + pattern2[6], Y + pattern2[7])
+            Sleep(1000)
+            pattern2Found := true
+        }
+        
+        ; If neither pattern was found, we're done
+        if (!pattern1Found && !pattern2Found)
+            break
+
+        Reconnect()
+    }
+    
+    return true
 }

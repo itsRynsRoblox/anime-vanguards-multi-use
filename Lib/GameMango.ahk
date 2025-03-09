@@ -13,11 +13,11 @@ Hotkey(F3Key, (*) => Reload())
 Hotkey(F4Key, (*) => TogglePause())
 
 F5::{
-    CheckForWorldineCards()
+    MonitorStage()
 }
 
 F6::{
-
+    DetectWorldlineMap()
 }
 
 
@@ -113,12 +113,14 @@ PlacingUnits(untilSuccessful := true) {
                             successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
                             placedCounts[slotNum] += 1
                             AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
+                            CheckForCardSelection()
                             CheckAbility()
                             FixClick(700, 560) ; Move Click
                             if (UpgradeDuringPlacementBox.Value) {
                                 AttemptUpgrade()
                             }
                         }
+                        CheckForCardSelection()
                     }
                 }
                 ; If untilSuccessful is true, keep trying the same point until it works
@@ -128,6 +130,7 @@ PlacingUnits(untilSuccessful := true) {
                             successfulCoordinates.Push({x: point.x, y: point.y, slot: slotNum})
                             placedCounts[slotNum] += 1
                             AddToLog("Placed Unit " slotNum " (" placedCounts[slotNum] "/" placements ")")
+                            CheckForCardSelection()
                             CheckAbility()
                             FixClick(700, 560) ; Move Click
                             if (UpgradeDuringPlacementBox.Value) {
@@ -135,6 +138,8 @@ PlacingUnits(untilSuccessful := true) {
                             }
                             break ; Move to the next placement spot
                         }
+
+                        CheckForCardSelection()
 
                         if (UpgradeDuringPlacementBox.Value) {
                             AttemptUpgrade()
@@ -558,15 +563,14 @@ RaidMode() {
     }
 
     AddToLog("Starting " currentRaidMap " - " currentRaidAct)
-    if (UINavToggle.Value) {
-        StartRaid(currentRaidMap, currentRaidAct)
-    } else {
-        StartRaidNoUI(currentRaidMap, currentRaidAct)
-    }
-    ; Handle play mode selection
+    StartRaid(currentRaidMap, currentRaidAct)
+
+    ; Start Game
     PlayHere()
+
     RestartStage()
 }
+
 
 WorldlineMode() {
     ; Execute the movement pattern
@@ -623,10 +627,13 @@ MonitorEndScreen() {
     global mode, StoryDropdown, StoryActDropdown, ReturnLobbyBox, MatchMaking
 
     Loop {
-        Sleep(3000)  
-        
-        FixClick(700, 560) ; Move Click
-        FixClick(700, 560) ; Move Click
+        Sleep(3000) 
+
+        FixClick(570, 580)
+
+        if (ok := FindText(&X, &Y, 265, 240, 295, 260, 0, 0, UnitExit)) {
+            ClickUntilGone(0, 0, 265, 240, 295, 260, UnitExit, -4, -35)
+        }
 
         ; Now handle each mode
         if (ok := FindText(&X, &Y, 223, 339, 402, 389, 0, 0, EndScreen)) {
@@ -635,54 +642,48 @@ MonitorEndScreen() {
 
             if (mode = "Story") {
                 AddToLog("Handling Story mode end")
-                if (StoryActDropdown.Text != "Infinity") {
-                    if (NextLevelBox.Value && lastResult = "win") {
-                        AddToLog("Next level")
-                        ClickUntilGone(0, 0, 215, 205, 350, 221, VictoryText, 150, 200)
-                    } else {
-                        AddToLog("Replay level")
-                        ClickUntilGone(0, 0, 205, 187, 418, 259, FailedText, -4, 200)
-                    }
+                if (NextLevelBox.Value && lastResult = "win") {
+                    AddToLog("Next level")
+                    ClickNextLevel()
                 } else {
-                    AddToLog("Story Infinity replay")
-                    ClickUntilGone(0, 0, 205, 187, 418, 259, FailedText, -4, 200)
+                    AddToLog("Replaying level")
+                    ClickReplay()
                 }
+                return RestartStage()
+            }
+            else if (mode = "Legend") {
+                AddToLog("Handling Legend mode end")
+                ; Always replay Legend stages
+                AddToLog("Replaying legend")
+                ClickReplay() ;Replay    
                 return RestartStage()
             }
             else if (mode = "Raid") {
                 AddToLog("Handling Raid end")
-                if (ReturnLobbyBox.Value) {
-                    AddToLog("Return to lobby")
-                    ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, 0, -35)
-                    return CheckLobby()
-                } else {
-                    AddToLog("Replay raid")
-                    ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, -150, -35)
-                    return RestartStage()
-                }
+                ; Always replay Raid stages
+                AddToLog("Replaying raid")
+                ClickReplay() ;Replay
+                return RestartStage()
             }
             else if (mode = "Worldlines") {
                 AddToLog("Handling Worldlines mode end")
-                    if (NextLevelBox.Value && lastResult = "win") {
-                        AddToLog("Next level")
-                        ClickUntilGone(0, 0, 215, 205, 350, 221, VictoryText, 150, 200)
-                    } else {
-                        AddToLog("Replay level")
-                        ClickUntilGone(0, 0, 205, 187, 418, 259, FailedText, -4, 200)
-                    }
-                    return RestartStage()
+                ClickReturnLobby()
+                /*if (NextLevelBox.Value && lastResult = "win") {
+                    AddToLog("Next level")
+                    ClickNextLevel()
+                    Sleep(4500)
+                } else {
+                    AddToLog("Replaying level")
+                    ClickReplay()
+                }*/
+                return CheckLobby()
             }
             else {
-                AddToLog("Handling end case")
-                if (ReturnLobbyBox.Value) {
-                    AddToLog("Return to lobby enabled")
-                    ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, 0, -35)
-                    return CheckLobby()
-                } else {
-                    AddToLog("Replaying")
-                    ClickUntilGone(0, 0, 125, 443, 680, 474, ReturnToLobby, -150, -35)
-                    return RestartStageCustom()
-                }
+                AddToLog("Handling default case")
+                ; Default to replay
+                AddToLog("Replaying")
+                ClickReplay() ;Replay
+                return RestartStageCustom()
             }
         }
         Reconnect()
@@ -979,62 +980,50 @@ StartLegend(map, act) {
     return true
 }
 
-StartRaidNoUI(map, RaidActDropdown) {
-    FixClick(640, 70) ; Close Leaderboard
-    Sleep(500)
-    raidClickCoords := GetRaidClickCoords(map) ; Coords for Raid Map
-    FixClick(raidClickCoords.x, raidClickCoords.y) ; Choose Raid
-    Sleep 500
-    actClickCoords := GetRaidActClickCoords(RaidActDropdown) ; Coords for Raid
-    FixClick(actClickCoords.x, actClickCoords.y) ; Choose Raid Act
-    Sleep 500
-}
-
 StartChallenge() {
     FixClick(640, 70)
     Sleep(500)
 }
 
-StartRaid(map, RaidActDropdown) {
-    FixClick(640, 70) ; Closes Player leaderboard
-    Sleep(500)
-    navKeys := GetNavKeys()
-    for key in navKeys {
-        SendInput("{" key "}")
-    }
+StartRaid(map, act) {
+    AddToLog("Selecting map: " map " and act: " act)
+    
+    ; Navigate to map selection screen
+    FixClick(85, 245) ; Create Match
     Sleep(500)
 
-    leftArrows := 7 ; Go Over To Story
-    Loop leftArrows {
-        SendInput("{Left}")
-        Sleep(200)
+    ; Get Story map 
+    RaidMap := GetRaidMap(map)
+    
+    ; Scroll if needed
+    if (RaidMap.scrolls > 0) {
+        AddToLog("Scrolling down " RaidMap.scrolls " times for " map)
+        MouseMove(150, 190)
+        SendInput("{WheelDown}")
+        Sleep(250)
     }
-
-    downArrows := GetRaidDownArrows(map) ; Map selection down arrows
-    Loop downArrows {
-        SendInput("{Down}")
-        Sleep(200)
-    }
-
-    SendInput("{Enter}") ; Select storymode
-    Sleep(500)
-
-    SendInput("{Right}") ; Go to act selection
-    Sleep(1000)
-    SendInput("{Right}")
     Sleep(1000)
     
-    actArrows := GetRaidActDownArrows=(RaidActDropdown) ; Act selection down arrows
-    Loop actArrows {
-        SendInput("{Down}")
-        Sleep(200)
-    }
+    ; Click on the map
+    FixClick(RaidMap.x, RaidMap.y)
+    Sleep(1000)
     
-    SendInput("{Enter}") ; Select Act
-    Sleep(500)
-    for key in navKeys {
-        SendInput("{" key "}")
+    ; Get act details
+    RaidAct := GetRaidAct(act)
+    
+    ; Scroll if needed for act
+    if (RaidAct.scrolls > 0) {
+        AddToLog("Scrolling down " RaidAct.scrolls " times for " act)
+        MouseMove(300, 240)
+        SendInput("{WheelDown}")
+        Sleep(250)
     }
+    Sleep(1000)
+    
+    ; Click on the act
+    FixClick(RaidAct.x, RaidAct.y)
+    
+    return true
 }
 
 PlayHere() {
@@ -1286,6 +1275,33 @@ DetectMap() {
                 return mapName
             }
         }
+        Sleep 1000
+        Reconnect()
+    }
+}
+
+DetectWorldlineMap() {
+    AddToLog("Looking for Map Changes....")
+    startTime := A_TickCount
+    maxWait := 10000 ; Maximum wait time (10 seconds) to prevent infinite loop
+    Loop {
+        if (A_TickCount - startTime > maxWait) {
+            AddToLog("Map not detected or didn't change after 10 seconds...")
+            return "No map found"
+        }
+
+        mapPatterns := Map(
+            "Planet Namek", NamekWorldlines,
+            "Shibuya", ShibuyaWorldlines
+        )
+
+        for mapName, pattern in mapPatterns {
+            if (ok := FindText(&X, &Y, 217, 185, 628, 416, 0.20, 0.20, pattern)) {
+                AddToLog("Detected map: " mapName)
+                return mapName
+            }
+        }
+
         Sleep 1000
         Reconnect()
     }
@@ -1776,7 +1792,7 @@ UpgradeUnit(x, y) {
 CheckLobby() {
     loop {
         Sleep 1000
-        if (ok := FindText(&X, &Y, 1, 264, 53, 304, 0, 0, AreaText)) {
+        if (ok := FindText(&X, &Y, 742, 416, 794, 439, 0, 0, ProfileText)) {
             break
         }
         Reconnect()
@@ -2307,8 +2323,41 @@ StartPortal() {
 }
 
 CheckForCardSelection() {
-    AddToLog("Checking for cards....")
     if (ok := FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, CardsPopup2) or (FindText(&X, &Y, 365, 390, 442, 404, 0.10, 0.10, AdditionalCardPopup)))) {
-        CardSelector()
+        AddToLog("Checking for cards....")
+        if (ModeDropdown.Text = "Worldlines") {
+            CheckForWorldineCards()
+        }
+        if (ModeDropdown.Text = "Story") {
+            if (StoryActDropdown.Text = "Paragon") {
+                CardSelector()
+            }
+        }
+        if (ModeDropdown.Text = "Legend") {
+            CardSelector()
+        }
     }
+}
+
+ClickReturnLobby() {
+    DualClickUntilGone(
+        [550, 435, 685, 480, LobbyText, 0, -35, LobbyText2], ; Return to lobby
+        [352, 342, 453, 367, CancelButton, -4, -35, ""]      ; Cancel Button
+    )
+}
+
+; Click Replay button
+ClickReplay() {
+    DualClickUntilGone(
+        [550, 435, 685, 480, LobbyText, -70, -35, LobbyText2], ; Replay
+        [352, 342, 453, 367, CancelButton, -4, -35, ""]        ; Cancel Button
+    )
+}
+
+; Click Next Level button
+ClickNextLevel() {
+    DualClickUntilGone(
+        [550, 435, 685, 480, LobbyText, -400, -35, LobbyText2], ; Next Level
+        [352, 342, 453, 367, CancelButton, -4, -35, ""]         ; Cancel Button
+    )
 }
