@@ -6,7 +6,7 @@
 ;Update Checker
 global repoOwner := "itsRynsRoblox"
 global repoName := "anime-vanguards-multi-use"
-global currentVersion := "1.3.1"
+global currentVersion := "1.3.3"
 ; Basic Application Info
 global aaTitle := "Ryn's Anime Vanguards Macro "
 global version := "v" . currentVersion
@@ -49,6 +49,10 @@ global cardSettingsGUI := ""
 ;Custom Unit Placement
 global waitingForClick := false
 global savedCoords := []  ; Initialize an empty array to hold the coordinates
+;Auto Challenge
+global challengeStartTime := A_TickCount
+global inChallengeMode := false
+global firstStartup := true
 ;Gui creation
 global uiBorders := []
 global uiBackgrounds := []
@@ -348,6 +352,7 @@ global ReturnLobbyBox := aaMainUI.Add("Checkbox", "x1015 y451 cffffff Checked", 
 global UpgradeDuringPlacementBox := aaMainUI.Add("Checkbox", "x1150 y476 cffffff Checked", "Upgrade During Placement") ; x1150 y451
 global UINavToggle := aaMainUI.Add("CheckBox", "x900 y476 cffffff Checked", "UI Navigation")
 global AutoAbilityBox := aaMainUI.Add("CheckBox", "x1040 y476 cffffff Checked", "Auto Ability")
+global ChallengeBox := aaMainUI.Add("CheckBox", "x1150 y451 cffffff", "Auto Challenge")
 global PriorityUpgrade := aaMainUI.Add("CheckBox", "x900 y476 cffffff", "Priority Upgrade")
 PlacementPatternText := aaMainUI.Add("Text", "x1032 y390 w115 h20", "Placement Type")
 global PlacementPatternDropdown := aaMainUI.Add("DropDownList", "x1035 y410 w100 h180 Choose2 +Center", ["Circle", "Custom", "Grid", "Random"])

@@ -53,5 +53,8 @@ Ability=1
 [PriorityUpgrade]
 Upgrade=1
 
+[AutoChallenge]
+Challenge=1
+
 [SavedCoordinates]
 NoCoordinatesSaved

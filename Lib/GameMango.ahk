@@ -491,7 +491,7 @@ ChallengeMode() {
     AddToLog("Starting Challenge Mode")
     ChallengeMovement()
     
-    while !(ok:=FindText(&X, &Y, 27, 267, 132, 289, 0, 0, CreateMatch)) {
+    while !(ok:=FindText(&X, &Y, 57, 452, 127, 474, 0, 0, ChallengeStart)) {
         ChallengeMovement()
     }
 
@@ -637,7 +637,7 @@ WorldlineMovement() {
 }
 
 MonitorEndScreen() {
-    global mode, StoryDropdown, StoryActDropdown, ReturnLobbyBox, MatchMaking
+    global mode, StoryDropdown, StoryActDropdown, ReturnLobbyBox, MatchMaking, challengeStartTime, inChallengeMode
 
     Loop {
         Sleep(3000) 
@@ -650,8 +650,29 @@ MonitorEndScreen() {
 
         ; Now handle each mode
         if (ok := FindText(&X, &Y, 223, 339, 402, 389, 0, 0, EndScreen)) {
-            AddToLog("Found Lobby Text - Current Mode: " mode)
+            AddToLog("Found Lobby Text - Current Mode: " (inChallengeMode ? "Challenge" : mode))
             Sleep(2000)
+
+            ; Challenge mode logic first
+            if (inChallengeMode) {
+                 AddToLog("Challenge completed - returning to " mode " mode")
+                inChallengeMode := false
+                challengeStartTime := A_TickCount
+                ClickReturnLobby()
+                return CheckLobby()
+            }
+
+            ; Check if it's time for challenge mode
+            if (!inChallengeMode && ChallengeBox.Value) {
+                timeElapsed := A_TickCount - challengeStartTime
+                if (timeElapsed >= 1800000) {
+                    AddToLog("30 minutes passed - switching to Challenge mode")
+                    inChallengeMode := true
+                    challengeStartTime := A_TickCount
+                    ClickReturnLobby()
+                    return CheckLobby()
+                }
+            }
 
             if (mode = "Story") {
                 AddToLog("Handling Story mode end")
@@ -756,6 +777,7 @@ MonitorStage() {
 }
 
 HandlePortalEnd() {
+    global challengeStartTime, inChallengeMode
     selectedPortal := PortalDropdown.Text
 
     Loop {
@@ -768,6 +790,19 @@ HandlePortalEnd() {
         }
 
         if (ok := FindText(&X, &Y, 125, 443, 680, 474, 0, 0, ReturnToLobby)) {
+
+            ; Check if it's time for challenge mode
+            if (!inChallengeMode && ChallengeBox.Value) {
+                timeElapsed := A_TickCount - challengeStartTime
+                if (timeElapsed >= 1800000) {
+                    AddToLog("30 minutes passed - switching to Challenge mode")
+                    inChallengeMode := true
+                    challengeStartTime := A_TickCount
+                    ClickReturnLobby()
+                    return CheckLobby()
+                }
+            }
+
             AddToLog("Found Lobby Text - starting new portal")
             Sleep(2000)
             FixClick(215, 420) ;Select New Portal
@@ -827,29 +862,36 @@ StoryMovement() {
 }
 
 ChallengeMovement() {
-    ; Click Teleport
-    FixClick(75, 250)
-    sleep (1000)
-
-    ; Click Play/Portals
-    FixClick(280, 280)
-    sleep (1000)
-
-    ; Click search
-    FixClick(300, 178)
-    Sleep(1500)
-        
-    ; Type portal name
-    Send "Challenge"
-    Sleep(1500)
-
-    ; Click Portal
-    FixClick(196, 234)
+    Reconnect()
+    FixClick(33, 315) ; click play
+    Sleep 2500
+    FixClick(530, 270) ; click teleport
     Sleep 1000
+    FixClick(530, 270) ; click teleport
+    Sleep 1000
+    FixClick(530, 270) ; click teleport
+    Sleep 2000
 
-    ; Click Play
-    FixClick(240, 265)
-    sleep (1000)
+
+    SendInput ("{w up}")  
+    Sleep 100  
+    SendInput ("{w down}")
+    Sleep 5500
+    SendInput ("{w up}")
+    KeyWait "w" ; Wait for "s" to be fully processed
+
+
+    SendInput("{d up}") ; Ensure key is released
+    Sleep 100
+    SendInput ("{d down}")
+    Sleep 4500
+    SendInput ("{d up}")
+    KeyWait "d" ; Wait for "d" to be fully processed
+
+    Sleep (1000)
+    FixClick(368, 301) ; Click Create
+    Sleep (2000)
+    
 }
 
 RaidMovement() {
@@ -1863,6 +1905,7 @@ StartedGame() {
 }
 
 StartSelectedMode() {
+    global inChallengeMode, firstStartup, challengeStartTime
     FixClick(640, 70) ; Closes Player leaderboard
     sleep (500)
     FixClick(640, 73) ; Closes Player leaderboard
@@ -1871,7 +1914,22 @@ StartSelectedMode() {
     sleep (500)
     FixClick(565,200) ; Close Daily
     sleep (500)
-    if (ModeDropdown.Text = "Story") {
+    if (ChallengeBox.Value && firstStartup) {
+        AddToLog("Auto Challenge enabled - starting with challenge")
+        inChallengeMode := true
+        firstStartup := false
+        challengeStartTime := A_TickCount  ; Set initial challenge time
+        ChallengeMode()
+        return
+    }
+
+    ; If we're in challenge mode, do challenge
+    if (inChallengeMode) {
+        AddToLog("Starting Challenge Mode")
+        ChallengeMode()
+        return
+    } 
+    else if (ModeDropdown.Text = "Story") {
         StoryMode()
     }
     else if (ModeDropdown.Text = "Legend") {

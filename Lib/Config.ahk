@@ -19,7 +19,7 @@ readInSettings() {
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
-    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, PriorityUpgrade, AutoAbilityBox
+    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, PriorityUpgrade, AutoAbilityBox, ChallengeBox
     global savedCoords
 
     try {
@@ -95,6 +95,7 @@ readInSettings() {
                 case "Lobby": ReturnLobbyBox.Value := parts[2] ; Set the checkbox value
                 case "Navigate": UINavToggle.Value := parts[2] ; Set the checkbox value
                 case "Upgrade": PriorityUpgrade.Value := parts[2] ; Set the checkbox value
+                case "Challenge": ChallengeBox.Value := parts[2] ; Set the checkbox value
                 case "Ability": AutoAbilityBox.Value := parts[2] ; Set the checkbox value
             }
         }
@@ -110,7 +111,7 @@ SaveSettings(*) {
     global placement1, placement2, placement3, placement4, placement5, placement6
     global priority1, priority2, priority3, priority4, priority5, priority6
     global mode
-    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, AutoAbilityBox, PriorityUpgrade
+    global PlacementPatternDropdown, PlaceSpeed, MatchMaking, ReturnLobbyBox, UINavToggle, AutoAbilityBox, PriorityUpgrade, ChallengeBox
     global savedCoords
 
     try {
@@ -176,6 +177,9 @@ SaveSettings(*) {
 
         content .= "`n[PriorityUpgrade]"
         content .= "`nUpgrade=" PriorityUpgrade.Value "`n"
+
+        content .= "`n[AutoChallenge]"
+        content .= "`nChallenge=" ChallengeBox.Value "`n"
 
         ; Save the stored coordinates
         content .= "`n[SavedCoordinates]`n"
